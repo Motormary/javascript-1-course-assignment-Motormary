@@ -3,7 +3,7 @@ async function getAllProducts() {
     method: "GET",
   });
   const products = await response.json();
-  console.log(products);
+  console.log("All products:", products);
 }
 
 getAllProducts()
