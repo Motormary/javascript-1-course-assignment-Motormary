@@ -14,7 +14,22 @@ class ProductList extends HTMLElement {
   async connectedCallback() {
     const products = await getAllProducts();
 
-    const productList = products.map((product) => {
+    let valueFilter = ["Male"];
+
+    let key = ["gender"];
+
+    let sortedProducts = products;
+
+    if (valueFilter.length === key.length && valueFilter.length > 0) {
+      sortedProducts = products.filter(product => {
+        // Check if all key/value pairs match
+        return key.every((k, index) => product[k] === valueFilter[index]);
+      });
+    
+      console.log(sortedProducts);
+    }
+
+    const productList = sortedProducts.map((product) => {
       const sizes = product.sizes.join(" - ");
 
       return `
@@ -28,7 +43,7 @@ class ProductList extends HTMLElement {
             <p>${sizes}</p>
             <p>${product.gender}</p>
             <p>${product.baseColor}</p>
-            <p>Price: ${product.price}</p>
+            <p>Price: ${product.price},- NOK</p>
           </div>
           <button class="add" data-product-id="${product.id}">Add to cart</button>
         </div>
@@ -37,10 +52,9 @@ class ProductList extends HTMLElement {
 
     this.innerHTML = productList.join("");
 
-    const productClickArea = this.querySelectorAll("div.product")
+    const productClickArea = this.querySelectorAll("div.product");
 
     const addButtons = this.querySelectorAll("button.add");
-
 
     productClickArea.forEach((product) => {
       product.addEventListener("click", (event) => {
@@ -59,7 +73,6 @@ class ProductList extends HTMLElement {
         }
       });
     });
-
   }
 }
 
