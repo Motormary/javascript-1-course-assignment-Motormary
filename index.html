@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="Welcome">
-        <link rel="stylesheet" href="./css/styles.css">
-        <title>Home</title>
-        <!-- <link rel="icon" type="image/x-icon" href="/assets/images/"> -->
-      </head>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Welcome">
+    <link rel="stylesheet" href="./css/styles.css">
+    <title>Home</title>
+    <!-- <link rel="icon" type="image/x-icon" href="/assets/images/"> -->
+    <script type="module" src="./js/api/get-all-products.mjs"></script>
+    <script type="module" defer src="./js/components/product-list.mjs"></script>
+  </head>
 </head>
+
 <body>
   <Main>
-    <div id="productList">
-    </div>
+    <section id="list-of-products">
+      <h1>Our products</h1>
+      <product-list>
+      </product-list>
+    </section>
   </Main>
   <footer>
-    
+
   </footer>
 </body>
-<script src="./js/app.mjs"></script>
 
 </html>

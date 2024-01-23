@@ -5,7 +5,7 @@ body {
     color: white;
 }
 
-#productList {
+product-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 2rem;
@@ -18,17 +18,24 @@ body {
 }
 
 .product-image, 
-.product h2:hover {
+.product-container h2:hover {
     cursor: pointer;
 }
 
-.product {
+.product-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 300px;
+    padding: 1rem 2rem;
     border: solid 1px;
     border-radius: 10px;
-    padding: 1rem 2rem;
-    max-width: 300px;
     text-align: center;
     background-color: #555;
+}
+
+#list-of-products {
+    text-align: center;
 }
 
 
