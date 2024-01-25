@@ -1,5 +1,6 @@
 import getAllProducts from "./js/api/get-all-products.mjs";
 import createProductElements from "./js/components/products.mjs";
+import createFilterButtons from "./js/functions/create-filter-buttons.mjs";
 import setProductLoading from "./js/functions/loading.mjs";
 
 var products = null;
@@ -10,27 +11,32 @@ async function fetchProducts() {
   if (response) {
     setProductLoading(false);
     products = response;
-    response.map((object) => createProductElements(object));
+    createFilterButtons();
+    products.map((object) => createProductElements(object));
   }
 }
 
 fetchProducts();
 
-export function filterProducts() {
+export function filterProducts(keyValue, filterValue) {
+  const content = document.getElementById("list-of-products");
+  content.replaceChildren("");
 
-  let valueFilter = ["Male"];
+  if (keyValue && filterValue) {
+    let filter = [filterValue];
 
-  let key = ["gender"];
+    let key = [keyValue];
 
-  let sortedProducts = products;
+    let sortedProducts = products;
 
-  if (valueFilter.length === key.length && valueFilter.length > 0) {
-    sortedProducts = products.filter((product) => {
-      // Check if all key/value pairs match
-      return key.every((k, index) => product[k] === valueFilter[index]);
-    });
-
-    sortedProducts.map((object) => createProductElements(object))
+    if (filter.length === key.length && filter.length > 0) {
+      sortedProducts = products.filter((product) => {
+        // Check if all key/value pairs match
+        return key.every((k, index) => product[k] === filter[index]);
+      });
+      sortedProducts.map((object) => createProductElements(object));
+    }
+  } else {
+    products.map((object) => createProductElements(object));
   }
 }
-

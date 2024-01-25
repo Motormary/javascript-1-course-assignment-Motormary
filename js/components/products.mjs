@@ -4,7 +4,8 @@ function createProductElements(product) {
     return { success: false, message: "Error creating productlist." };
   const content = document.getElementById("list-of-products");
 
-  const sizes = product.sizes.join(" - ");
+  
+  const sizes = product ? product.sizes.join(" - ") : {product: { sizes: "XS" }};
 
   // Elements
   const product_container = document.createElement("div");

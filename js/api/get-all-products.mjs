@@ -8,9 +8,10 @@ async function getAllProducts() {
       method: "GET",
     });
 
-    const products = await response.json();
-
-    return products;
+    if (response) {
+      const products = await response.json();
+      return products;
+    }
   } catch (error) {
     console.error("Error fetching products:", error);
   }
