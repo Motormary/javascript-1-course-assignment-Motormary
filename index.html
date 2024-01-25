@@ -10,17 +10,20 @@
     <link rel="stylesheet" href="./css/styles.css">
     <title>Home</title>
     <!-- <link rel="icon" type="image/x-icon" href="/assets/images/"> -->
-    <script type="module" defer src="./js/components/product-list.mjs"></script>
+    <script type="module" src="app.mjs"></script>
+    <script type="module" src="js/functions/test.mjs"></script>
   </head>
 </head>
 
 <body>
   <Main>
-    <section id="list-of-products">
+    <section id="products-section">
       <h1>Our products</h1>
-      <product-list>
-      </product-list>
+      <div id="list-of-products" class="list-of-products">
+        <img id="loading-spinner" src="assets/svg/spinner.svg" alt="Loading...">
+      </div>
     </section>
+    <button class="getList">Get</button>
   </Main>
   <footer>
 

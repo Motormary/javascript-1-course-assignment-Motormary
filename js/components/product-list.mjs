@@ -13,6 +13,7 @@ class ProductList extends HTMLElement {
 
   async connectedCallback() {
     const products = await getAllProducts();
+    let productList = null
 
     let valueFilter = ["Male"];
 
@@ -26,10 +27,15 @@ class ProductList extends HTMLElement {
         return key.every((k, index) => product[k] === valueFilter[index]);
       });
     
-      console.log(sortedProducts);
     }
 
-    const productList = sortedProducts.map((product) => {
+
+    if (!products) {
+      productList = `
+      <img src="./assets/svg/spinner.svg" alt="Loading...">`
+    }
+
+    productList = sortedProducts.map((product) => {
       const sizes = product.sizes.join(" - ");
 
       return `
@@ -38,7 +44,7 @@ class ProductList extends HTMLElement {
             <h2>${product.title}</h2>
             <img src="${product.image}" class="product-image">
             <p>${product.description}</p>
-            </div>
+          </div>
           <div class="product-details">
             <p>${sizes}</p>
             <p>${product.gender}</p>
