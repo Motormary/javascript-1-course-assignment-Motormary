@@ -1,6 +1,6 @@
 import getAllProducts from "./js/api/get-all-products.mjs";
 import createProductElements from "./js/components/products.mjs";
-import createFilterButtons from "./js/functions/create-filter-buttons.mjs";
+import { colorFilter, genderFilter } from "./js/functions/create-filter-buttons.mjs";
 import setProductLoading from "./js/functions/loading.mjs";
 
 var products = null;
@@ -11,7 +11,8 @@ async function fetchProducts() {
   if (response) {
     setProductLoading(false);
     products = response;
-    createFilterButtons();
+    genderFilter();
+    colorFilter();
     products.map((object) => createProductElements(object));
   }
 }
