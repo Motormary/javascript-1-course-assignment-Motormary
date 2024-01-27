@@ -22,7 +22,7 @@ function createProductElements(product) {
 
   //Append
 
-  product_container.append(image_container, product_details);
+  product_container.append(image_container, product_details, product_button);
   image_container.append(product_title, product_image, product_description);
   product_details.append(
     product_sizes,
