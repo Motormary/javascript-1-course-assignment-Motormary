@@ -18,48 +18,52 @@ async function fetchProducts() {
     colorFilter();
     products.map((object) => createProductElements(object));
   }
+
+  // TODO
+  // setTimeout 10s, try again
 }
 
 fetchProducts();
 
-var key = [];
-var filter = [];
+var filters = {
+  keys: [],
+  values: [],
+};
 
-export function filterProducts(keyValue, filterValue) {
-  /**
-   * @description - Filters the product list depending on the key and filter value.
-   * If the keyValue is passed alone, the selected filter will be removed from the filter-list.
-   *
-   * @param {keyValue} - Key to filter
-   * @param {filterValue} - Value to filter
-   * @returns - Filtered product list
-   */
+function handleFilters(key, value) {
+  if (filters.keys.length > 0) {
+    filters.keys.find((current) => {
+      if (current === key) {
+        const index_of_key = filters.keys.indexOf(key);
+        filters.keys.splice(index_of_key, 1);
+        filters.values.splice(index_of_key, 1);
+      }
+    });
+  }
 
-  const content = document.getElementById("list-of-products");
-  content.replaceChildren("");
-
-  if (keyValue && filterValue) {
-    key.push(keyValue);
-    filter.push(filterValue);
-    console.log(
-      key.map((key) => "Key:" + key),
-      filter.map((key) => "filter:" + key)
-    );
-
-    let sortedProducts = products;
-
-    if (filter.length === key.length) {
-      sortedProducts = products.filter((product) => {
-        // Check if all key/value pairs match
-        return key.every((k, index) => product[k] === filter[index]);
-      });
-      sortedProducts.map((object) => createProductElements(object));
-    }
-  } else {
-    products.map((object) => createProductElements(object));
+  if (key && value) {
+    filters.keys.push(key);
+    filters.values.push(value);
   }
 }
 
+export function filterProducts(key, value) {
+  handleFilters(key, value);
+  const content = document.getElementById("list-of-products");
+  content.replaceChildren("");
 
+  let sortedProducts = products.filter((value) => {
+    if (filters.keys.length === filters.values.length) {
+      return filters.keys.every(
+        (k, index) => value[k] === filters.values[index]
+      );
+    } else {
+      return value;
+    }
+  });
 
-//handle filters
+  // TODO
+  // if (!sortedProducts) { create no items match your search } else
+
+  sortedProducts.map((object) => createProductElements(object));
+}
