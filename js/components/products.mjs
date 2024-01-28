@@ -10,8 +10,6 @@ function createProductElements(product) {
 
   /**
    * Static container to place new product inside
-   *
-   * A list of products
    */
   const content = document.getElementById("list-of-products");
 
@@ -22,8 +20,6 @@ function createProductElements(product) {
 
   /**
    * Create elements for product
-   *
-   * Sorted as is: HTML-format top-down
    */
   // Parent
   const product_container = document.createElement("div");
@@ -69,8 +65,6 @@ function createProductElements(product) {
   product_price.textContent = `Price: ${product.price},-`;
   product_button.textContent = "Add to Cart";
   product_button.setAttribute("data-product-id", product.id);
-
-  // Append the newly created product to the product list
 
   /**
    * Adds the product to the list

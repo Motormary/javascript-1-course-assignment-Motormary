@@ -1,4 +1,5 @@
 import { filterProducts } from "../../app.mjs";
+import { gender_data as gender, color_data as colors } from "../filter-data.mjs"
 
 const container = document.getElementById("products-section");
 const header = container.querySelector("h1");
@@ -17,23 +18,6 @@ header.after(filter_container);
  *
  *
  */
-
-const gender = {
-  key: "gender",
-  label: "Gender",
-  default: {
-    text: "All",
-    value: "",
-  },
-  male: {
-    text: "Men",
-    value: "Male",
-  },
-  female: {
-    text: "Women",
-    value: "Female",
-  },
-};
 
 export function genderFilter() {
   // Elements
@@ -80,25 +64,6 @@ export function genderFilter() {
  * Color filter
  *
  */
-
-const colors = {
-  key: "baseColor",
-  label: "Color",
-  default: {
-    text: "All",
-    value: "",
-  },
-  options: [
-    "Red",
-    "Orange",
-    "Green",
-    "Yellow",
-    "Blue",
-    "Purple",
-    "Black",
-    "Gray",
-  ],
-};
 
 export function colorFilter() {
   // Elements

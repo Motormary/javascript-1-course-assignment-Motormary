@@ -4,6 +4,7 @@ import {
   colorFilter,
   genderFilter,
 } from "./js/functions/create-filter-buttons.mjs";
+import emptySearchResult from "./js/functions/empty-search-result.mjs";
 import setProductLoading from "./js/functions/loading.mjs";
 
 var products = null;
@@ -62,8 +63,9 @@ export function filterProducts(key, value) {
     }
   });
 
-  // TODO
-  // if (!sortedProducts) { create no items match your search } else
-
-  sortedProducts.map((object) => createProductElements(object));
+  if (sortedProducts.length === 0) {
+    emptySearchResult();
+  } else {
+    sortedProducts.map((object) => createProductElements(object));
+  }
 }
