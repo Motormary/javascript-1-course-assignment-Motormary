@@ -71,8 +71,9 @@ function createProductElements(product) {
   product_button.setAttribute("data-product-id", product.id);
 
   // Append the newly created product to the product list
+
   /**
-   * @returns {HTMLDivElement} - Box containing product+info
+   * Adds the product to the list
    */
   content.appendChild(product_container);
 }

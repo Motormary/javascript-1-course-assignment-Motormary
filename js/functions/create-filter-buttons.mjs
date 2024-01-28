@@ -3,8 +3,24 @@ import { filterProducts } from "../../app.mjs";
 const container = document.getElementById("products-section");
 const header = container.querySelector("h1");
 
+/**
+ * Creates a container for the filter buttons and places it after the sections header.
+ */
+const filter_container = document.createElement("div");
+filter_container.className = "filter-container";
+header.after(filter_container);
+
+/**
+ *
+ *
+ * Gender filter
+ *
+ *
+ */
+
 const gender = {
   key: "gender",
+  label: "Gender",
   default: {
     text: "All",
     value: "",
@@ -20,8 +36,9 @@ const gender = {
 };
 
 export function genderFilter() {
-
   // Elements
+  const gender_btn_container = document.createElement("div");
+  const gender_btn_label = document.createElement("label");
   const gender_btn = document.createElement("select");
   const gender_option_default = document.createElement("option");
   const gender_option_male = document.createElement("option");
@@ -33,8 +50,11 @@ export function genderFilter() {
     gender_option_female,
     gender_option_male
   );
+  gender_btn_container.append(gender_btn_label, gender_btn);
 
   // Values
+  gender_btn_container.className = "filter-btn-container";
+  gender_btn_label.textContent = gender.label;
   gender_option_default.textContent = gender.default.text;
   gender_option_default.value = gender.default.value;
   gender_option_female.textContent = gender.female.text;
@@ -43,45 +63,75 @@ export function genderFilter() {
   gender_option_male.value = gender.male.value;
 
   // Events
-  gender_option_default.addEventListener("click", () => {
-    filterProducts();
-  });
-
-  gender_option_female.addEventListener("click", (event) => {
+  gender_btn.addEventListener("change", (event) => {
     const value = event.currentTarget.value;
-    filterProducts(gender.key, value);
+
+    if (!value) filterProducts(gender.key);
+    
+    filterProducts(gender.key, value)
   });
 
-  gender_option_male.addEventListener("click", (event) => {
-    const value = event.currentTarget.value;
-    filterProducts(gender.key, value);
-  });
-
-  header.after(gender_btn);
+  filter_container.appendChild(gender_btn_container);
 }
+
+/**
+ *
+ *
+ * Color filter
+ *
+ */
 
 const colors = {
-    key: "baseColor",
-    default: {
-        text: "All",
-        value: ""
-    },
-    options: ["Red", "Orange", "Green", "Yellow", "Blue", "Purple", "Black", "Gray"]
-}
+  key: "baseColor",
+  label: "Color",
+  default: {
+    text: "All",
+    value: "",
+  },
+  options: [
+    "Red",
+    "Orange",
+    "Green",
+    "Yellow",
+    "Blue",
+    "Purple",
+    "Black",
+    "Gray",
+  ],
+};
 
 export function colorFilter() {
-    const color_btn = document.createElement("select")
-    const color_option_default = document.createElement("option")
-    color_option_default.textContent = colors.default.text;
-    color_option_default.value = colors.default.value;
-    color_btn.appendChild(color_option_default)
+  // Elements
+  const color_btn_container = document.createElement("div");
+  const color_btn_label = document.createElement("label");
+  const color_btn = document.createElement("select");
+  const color_option_default = document.createElement("option");
 
-    colors.options.forEach(color => {
-        const color_option = document.createElement("option");
-        color_option.text = color;
-        color_option.value = color;
-        color_btn.appendChild(color_option);
-    });
+  // Values etc..
+  color_btn_container.className = "filter-btn-container";
+  color_btn_label.textContent = colors.label;
+  color_option_default.textContent = colors.default.text;
+  color_option_default.value = colors.default.value;
 
-    header.after(color_btn)
+  // Appending
+  color_btn.appendChild(color_option_default);
+  color_btn_container.append(color_btn_label, color_btn);
+
+  colors.options.forEach((color) => {
+    const color_option = document.createElement("option");
+    color_option.text = color;
+    color_option.value = color;
+    color_btn.appendChild(color_option);
+  });
+
+  // Events
+  color_btn.addEventListener("change", (event) => {
+    const value = event.currentTarget.value;
+
+    if (!value) filterProducts(colors.key);
+    
+    filterProducts(colors.key, value)
+  });
+
+  filter_container.appendChild(color_btn_container);
 }
