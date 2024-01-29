@@ -21,7 +21,7 @@ async function fetchProducts() {
   }
 
   // TODO
-  // setTimeout 10s, try again
+  // (!response)
 }
 
 fetchProducts();
@@ -66,7 +66,6 @@ export function filterProducts(key, value) {
   if (sortedProducts.length === 0) {
     emptySearchResult();
   } else {
-    console.log(sortedProducts)
     sortedProducts.map((object) => createProductElements(object));
   }
 }
