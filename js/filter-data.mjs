@@ -1,35 +1,41 @@
-export const gender_data = {
-  key: "gender",
-  label: "Gender",
-  default: {
-    text: "All",
-    value: "",
+export const filter_data = [
+  {
+    key: "gender",
+    label: "Gender",
+    default: {
+      text: "All",
+      value: "",
+    },
+    options: [
+      ["Men", "Male"],
+      ["Women", "Female"],
+    ],
   },
-  male: {
-    text: "Men",
-    value: "Male",
+  {
+    key: "baseColor",
+    label: "Color",
+    default: {
+      text: "All",
+      value: "",
+    },
+    options: [
+      ["Red", "Red"],
+      ["Orange", "Orange"],
+      ["Green", "Green"],
+      ["Yellow", "Yellow"],
+      ["Blue", "Blue"],
+      ["Purple", "Purple"],
+      ["Black", "Black"],
+      ["Gray", "Gray"],
+    ],
   },
-  female: {
-    text: "Women",
-    value: "Female",
+  {
+    key: "onSale",
+    label: "On sale",
+    default: {
+      text: "All",
+      value: "",
+    },
+    options: [["On Sale", true]],
   },
-};
-
-export const color_data = {
-  key: "baseColor",
-  label: "Color",
-  default: {
-    text: "All",
-    value: "",
-  },
-  options: [
-    "Red",
-    "Orange",
-    "Green",
-    "Yellow",
-    "Blue",
-    "Purple",
-    "Black",
-    "Gray",
-  ],
-};
+];

@@ -14,9 +14,10 @@ function createProductElements(product) {
   const content = document.getElementById("list-of-products");
 
   /**
-   * Joins the list of sizes neatly before passing it
+   * Formats
    */
   const sizes = product.sizes.join(" - ");
+  const formatted_gender = product.gender === "Female" ? "Women" : product.gender === "Male" ? "Men" : ""
 
   /**
    * Create elements for product
@@ -60,7 +61,7 @@ function createProductElements(product) {
   product_description.textContent = product.description;
   product_details.className = "product-details";
   product_sizes.textContent = sizes;
-  product_gender.textContent = product.gender;
+  product_gender.textContent = formatted_gender;
   product_color.textContent = product.baseColor;
   product_price.textContent = `Price: ${product.price},-`;
   product_button.textContent = "Add to Cart";
