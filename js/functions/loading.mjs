@@ -1,19 +1,20 @@
+import noResponse from "./no-response.mjs";
+
 function setProductLoading(isLoading) {
-  const container = document.getElementById("list-of-products");
+  const content = document.getElementById("list-of-products");
 
+  const loading = document.createElement("img");
+  loading.id = "loading-spinner";
+  loading.src = "/assets/svg/spinner.svg";
+  loading.alt = "Loading...";
   if (isLoading) {
-    const loading = document.createElement("img");
-    loading.id = "loading-spinner";
-    loading.src = "assets/svg/spinner.svg";
 
-    container.appendChild(loading);
+    content.appendChild(loading);
   } else {
     const loading = document.getElementById("loading-spinner");
-    
-    container.removeChild(loading);
-  }
 
-  //set timeout bla bla
+    content.removeChild(loading);
+  }
 }
 
 export default setProductLoading;

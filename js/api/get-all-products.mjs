@@ -8,7 +8,7 @@ async function getAllProducts() {
       method: "GET",
     });
 
-    if (response) {
+    if (response.status === 200) {
       const products = await response.json();
       return products;
     }
