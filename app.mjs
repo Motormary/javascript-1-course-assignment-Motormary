@@ -34,7 +34,6 @@ var filters = {
 function handleFilters(key, value) {
   if (filters.keys.length > 0) {
     const indexToRemove = filters.keys.indexOf(key);
-    console.log(indexToRemove !== -1);
     if (indexToRemove !== -1) {
       filters.keys.splice(indexToRemove, 1);
       filters.values.splice(indexToRemove, 1);
