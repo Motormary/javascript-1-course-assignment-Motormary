@@ -11,7 +11,7 @@ function handleProductClicked(event) {
 
     removeFilterEventListeners();
     removeProductEventListeners();
-    window.location.href(`/product.html?product=${product_id}`);
+    window.location.href = `/product.html?product=${product_id}`;
 }
 
 export default handleProductClicked;

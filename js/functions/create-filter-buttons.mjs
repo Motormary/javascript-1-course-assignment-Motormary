@@ -35,6 +35,7 @@ export function createFilterButtons(data) {
     btn_container.className = "filter-btn-container";
     btn_label.textContent = object.label;
     select_btn_default.textContent = object.default.text;
+    select_btn.className = "filter-btn"
     select_btn_default.value = object.default.value;
     select_btn.setAttribute("key", object.key)
 
