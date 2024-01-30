@@ -49,13 +49,16 @@ export function createFilterButtons(data) {
     });
 
     // ----
-    select_btn.addEventListener("change", (event) => {
+
+    function handleChange(event) {
       const value = event.currentTarget.value;
 
       if (!value) filterProducts(object.key);
 
       filterProducts(object.key, value);
-    });
+    }
+    
+    select_btn.addEventListener("change", (event) => handleChange(event));
 
     filter_container.appendChild(btn_container);
   });

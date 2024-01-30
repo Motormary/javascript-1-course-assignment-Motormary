@@ -17,7 +17,12 @@ function createProductElements(product) {
    * Formats
    */
   const sizes = product.sizes.join(" - ");
-  const formatted_gender = product.gender === "Female" ? "Women" : product.gender === "Male" ? "Men" : ""
+  const formatted_gender =
+    product.gender === "Female"
+      ? "Women"
+      : product.gender === "Male"
+      ? "Men"
+      : "";
 
   /**
    * Create elements for product
@@ -66,6 +71,12 @@ function createProductElements(product) {
   product_price.textContent = `Price: ${product.price},-`;
   product_button.textContent = "Add to Cart";
   product_button.setAttribute("data-product-id", product.id);
+  product_button.setAttribute("aria-selected", false);
+
+  /**
+   * Event
+   */
+  product_button.addEventListener("click", handleAddToCart);
 
   /**
    * Adds the product to the list
@@ -74,3 +85,44 @@ function createProductElements(product) {
 }
 
 export default createProductElements;
+
+export function handleRemoveFromCart(event) {
+  const product_id = event.currentTarget.getAttribute("data-product-id");
+  event.currentTarget.textContent = "Add to Cart";
+  event.currentTarget.className = "";
+  event.currentTarget.setAttribute("aria-selected", false);
+  console.log("REMOVED:", product_id);
+  // Remove from cart / local
+
+  event.currentTarget.removeEventListener("click", handleRemoveFromCart);
+  event.currentTarget.addEventListener("click", handleAddToCart);
+}
+
+export function handleAddToCart(event) {
+  const product_id = event.currentTarget.getAttribute("data-product-id");
+  event.currentTarget.textContent = "Remove";
+  event.currentTarget.className = "bg-green";
+  event.currentTarget.setAttribute("aria-selected", true);
+  console.log("ADDED:", product_id);
+  // Add to cart / local
+
+  event.currentTarget.removeEventListener("click", handleAddToCart);
+  event.currentTarget.addEventListener("click", handleRemoveFromCart);
+}
+
+export function removeProductEventListeners() {
+  const content = document.getElementById("list-of-products");
+  const buttons = content.querySelectorAll("button[data-product-id]");
+
+  buttons.forEach((button) => {
+    const check_value = button.getAttribute("aria-selected");
+
+    if (check_value === "false") {
+      button.removeEventListener("click", handleAddToCart);
+    } else {
+      button.removeEventListener("click", handleRemoveFromCart);
+    }
+  });
+
+  return
+}

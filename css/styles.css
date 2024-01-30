@@ -5,6 +5,10 @@ body {
   color: white;
 }
 
+.bg-green {
+  background-color: green;
+}
+
 #loading-spinner {
   max-width: 150px;
   margin-top: calc(50vh - 100px);

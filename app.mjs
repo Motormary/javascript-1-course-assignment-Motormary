@@ -1,5 +1,7 @@
 import getAllProducts from "./js/api/get-all-products.mjs";
-import createProductElements from "./js/components/products.mjs";
+import createProductElements, {
+  removeProductEventListeners,
+} from "./js/components/products.mjs";
 import { filter_data } from "./js/filter-data.mjs";
 import { createFilterButtons } from "./js/functions/create-filter-buttons.mjs";
 import emptySearchResult from "./js/functions/empty-search-result.mjs";
@@ -32,7 +34,7 @@ var filters = {
 function handleFilters(key, value) {
   if (filters.keys.length > 0) {
     const indexToRemove = filters.keys.indexOf(key);
-    console.log(indexToRemove !== -1)
+    console.log(indexToRemove !== -1);
     if (indexToRemove !== -1) {
       filters.keys.splice(indexToRemove, 1);
       filters.values.splice(indexToRemove, 1);
@@ -50,6 +52,7 @@ function handleFilters(key, value) {
 export function filterProducts(key, value) {
   handleFilters(key, value);
   const content = document.getElementById("list-of-products");
+  removeProductEventListeners();
   content.replaceChildren("");
 
   let sortedProducts = products.filter((value) => {
