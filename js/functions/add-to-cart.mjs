@@ -9,8 +9,18 @@ export function handleAddToCart(event) {
   event.currentTarget.textContent = "Remove from Cart";
   event.currentTarget.className = "bg-green";
   event.currentTarget.setAttribute("aria-selected", true);
-  console.log("ADDED:", product_id);
-  // Add to cart / local
+  const current_cart = localStorage.cart ? JSON.parse(localStorage.cart) : localStorage.cart
+  
+  console.log(product_id)
+  
+  var cart = []
+  if (current_cart) {
+    cart = [...current_cart, product_id]
+  } else {
+    cart = [product_id]
+  }
+  localStorage.cart = JSON.stringify(cart)
+  
 
   event.currentTarget.removeEventListener("click", handleAddToCart);
   event.currentTarget.addEventListener("click", handleRemoveFromCart);

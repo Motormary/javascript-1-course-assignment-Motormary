@@ -6,13 +6,22 @@ import { handleAddToCart } from "./add-to-cart.mjs";
  */
 
 export function handleRemoveFromCart(event) {
-    const product_id = event.currentTarget.getAttribute("data-product-id");
-    event.currentTarget.textContent = "Add to Cart";
-    event.currentTarget.className = "";
-    event.currentTarget.setAttribute("aria-selected", false);
-    console.log("REMOVED:", product_id);
-    // Remove from cart / local
-  
-    event.currentTarget.removeEventListener("click", handleRemoveFromCart);
-    event.currentTarget.addEventListener("click", handleAddToCart);
+  const product_id = event.currentTarget.getAttribute("data-product-id");
+  event.currentTarget.textContent = "Add to Cart";
+  event.currentTarget.className = "";
+  event.currentTarget.setAttribute("aria-selected", false);
+  var current_cart = JSON.parse(localStorage.cart);
+  if (current_cart) {
+    const index = current_cart.indexOf(product_id);
+    if (index !== -1) {
+      console.log("REMOVED:", product_id);
+      current_cart.splice(index, 1);
+      localStorage.cart = JSON.stringify(current_cart);
+    }
   }
+
+  // Remove from cart / local
+
+  event.currentTarget.removeEventListener("click", handleRemoveFromCart);
+  event.currentTarget.addEventListener("click", handleAddToCart);
+}

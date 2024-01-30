@@ -67,3 +67,8 @@ export function filterProducts(key, value) {
     sortedProducts.map((object) => createProductElements(object));
   }
 }
+
+
+let cart = localStorage.cart
+
+console.log("Cart:", cart)
