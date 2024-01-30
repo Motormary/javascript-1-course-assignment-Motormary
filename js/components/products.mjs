@@ -100,7 +100,7 @@ export function handleRemoveFromCart(event) {
 
 export function handleAddToCart(event) {
   const product_id = event.currentTarget.getAttribute("data-product-id");
-  event.currentTarget.textContent = "Remove";
+  event.currentTarget.textContent = "Remove from Cart";
   event.currentTarget.className = "bg-green";
   event.currentTarget.setAttribute("aria-selected", true);
   console.log("ADDED:", product_id);
