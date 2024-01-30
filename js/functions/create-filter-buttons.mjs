@@ -2,6 +2,7 @@ import { filterProducts } from "../../app.mjs";
 import {
   filter_data
 } from "../filter-data.mjs";
+import handleOnChange from "./filter-on-change.mjs";
 
 const container = document.getElementById("products-section");
 const header = container.querySelector("h1");
@@ -35,6 +36,7 @@ export function createFilterButtons(data) {
     btn_label.textContent = object.label;
     select_btn_default.textContent = object.default.text;
     select_btn_default.value = object.default.value;
+    select_btn.setAttribute("key", object.key)
 
     //----
     select_btn.appendChild(select_btn_default);
@@ -50,15 +52,9 @@ export function createFilterButtons(data) {
 
     // ----
 
-    function handleChange(event) {
-      const value = event.currentTarget.value;
 
-      if (!value) filterProducts(object.key);
-
-      filterProducts(object.key, value);
-    }
     
-    select_btn.addEventListener("change", (event) => handleChange(event));
+    select_btn.addEventListener("change", handleOnChange);
 
     filter_container.appendChild(btn_container);
   });

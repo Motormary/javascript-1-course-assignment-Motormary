@@ -1,12 +1,11 @@
 import getAllProducts from "./js/api/get-all-products.mjs";
-import createProductElements, {
-  removeProductEventListeners,
-} from "./js/components/products.mjs";
+import createProductElements from "./js/components/products.mjs";
 import { filter_data } from "./js/filter-data.mjs";
 import { createFilterButtons } from "./js/functions/create-filter-buttons.mjs";
 import emptySearchResult from "./js/functions/empty-search-result.mjs";
 import setProductLoading from "./js/functions/loading.mjs";
 import noResponse from "./js/functions/no-response.mjs";
+import { removeProductEventListeners } from "./js/functions/remove-all-product-listeners.mjs";
 
 var products = null;
 
@@ -49,8 +48,8 @@ function handleFilters(key, value) {
 }
 
 export function filterProducts(key, value) {
-  handleFilters(key, value);
   const content = document.getElementById("list-of-products");
+  handleFilters(key, value);
   removeProductEventListeners();
   content.replaceChildren("");
 
