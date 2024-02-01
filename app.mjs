@@ -1,10 +1,10 @@
 import getAllProducts from "./js/api/get-all-products.mjs";
-import createProductElements from "./js/components/products.mjs";
 import { filter_data } from "./js/filter-data.mjs";
 import { createFilterButtons } from "./js/functions/create-filter-buttons.mjs";
 import emptySearchResult from "./js/functions/empty-search-result.mjs";
 import setProductLoading from "./js/functions/loading.mjs";
 import noResponse from "./js/functions/no-response.mjs";
+import createProductElements from "./js/functions/product-list/products.mjs";
 import { removeProductEventListeners } from "./js/functions/remove-all-product-listeners.mjs";
 
 var products = null;
@@ -16,7 +16,7 @@ export async function fetchProducts() {
     setProductLoading(false);
     products = response;
     createFilterButtons(filter_data);
-    products.map((object) => createProductElements(object));
+    createProductElements(products);
   } else {
     setProductLoading(false);
     noResponse();
@@ -61,10 +61,10 @@ export function filterProducts(key, value) {
     }
   });
 
-  if (sortedProducts.length === 0) {
+  if (!sortedProducts.length) {
     emptySearchResult();
   } else {
-    sortedProducts.map((object) => createProductElements(object));
+    createProductElements(sortedProducts);
   }
 }
 

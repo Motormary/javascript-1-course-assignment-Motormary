@@ -4,7 +4,6 @@ import { handleRemoveFromCart } from "./remove-from-cart.mjs";
 
 /**
  * @description - Finds all the current products and it's buttons, then removes the event listeners.
- * Should called when filtering.
  */
 
 export function removeProductEventListeners() {
