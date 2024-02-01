@@ -11,8 +11,6 @@ export function handleAddToCart(event) {
   event.currentTarget.setAttribute("aria-selected", true);
   const current_cart = localStorage.cart ? JSON.parse(localStorage.cart) : localStorage.cart
   
-  console.log(product_id)
-  
   var cart = []
   if (current_cart) {
     cart = [...current_cart, product_id]

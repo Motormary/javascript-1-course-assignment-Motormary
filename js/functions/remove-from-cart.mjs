@@ -14,7 +14,6 @@ export function handleRemoveFromCart(event) {
   if (current_cart) {
     const index = current_cart.indexOf(product_id);
     if (index !== -1) {
-      console.log("REMOVED:", product_id);
       current_cart.splice(index, 1);
       localStorage.cart = JSON.stringify(current_cart);
     }
