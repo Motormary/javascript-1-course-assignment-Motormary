@@ -1,4 +1,5 @@
-import superFetch from "./js/api/get-all-products.mjs";
+import superFetch from "./js/api/super-fetch.mjs";
+import { URL_PRODUCTS } from "./js/api/urls.mjs";
 import { filter_data } from "./js/filter-data.mjs";
 import { createFilterButtons } from "./js/functions/create-filter-buttons.mjs";
 import emptySearchResult from "./js/functions/empty-search-result.mjs";
@@ -9,7 +10,6 @@ import { removeProductEventListeners } from "./js/functions/remove-all-product-l
 
 var products = null;
 
-const URL_PRODUCTS = "https://api.noroff.dev/api/v1/rainy-days"
 
 export async function fetchProducts() {
   const response = await superFetch(URL_PRODUCTS);
@@ -69,8 +69,3 @@ export function filterProducts(key, value) {
     createProductElements(sortedProducts);
   }
 }
-
-
-let cart = localStorage.cart
-
-console.log("Cart:", cart)

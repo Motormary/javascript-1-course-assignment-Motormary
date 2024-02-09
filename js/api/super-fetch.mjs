@@ -1,6 +1,6 @@
-async function superFetch(url) {
+async function superFetch(url, id) {
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${url}/${id ? id : ""}`, {
       method: "GET",
     });
 
