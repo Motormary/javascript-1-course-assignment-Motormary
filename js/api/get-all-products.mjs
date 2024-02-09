@@ -1,20 +1,16 @@
-/**
- * @returns {products} - A list of jackets from Rainy Days.
- */
-
-async function getAllProducts() {
+async function superFetch(url) {
   try {
-    const response = await fetch("https://api.noroff.dev/api/v1/rainy-days", {
+    const response = await fetch(url, {
       method: "GET",
     });
 
     if (response.status === 200) {
-      const products = await response.json();
-      return products;
+      const data = await response.json();
+      return data;
     }
   } catch (error) {
     console.error("Error fetching products:", error);
   }
 }
 
-export default getAllProducts;
+export default superFetch;

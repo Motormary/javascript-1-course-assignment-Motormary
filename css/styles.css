@@ -91,5 +91,8 @@ body {
   text-shadow: 0px 1px 1px black;
   color: greenyellow;
   transform: rotate(30deg);
+}
 
+.hidden {
+  display: none;
 }
