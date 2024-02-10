@@ -102,3 +102,13 @@ body {
   display: flex;
   justify-content: center;
 }
+
+
+.product1 {
+  display: flex;
+  gap: 2rem;
+}
+
+.current_image {
+  max-width: 400px;
+}
