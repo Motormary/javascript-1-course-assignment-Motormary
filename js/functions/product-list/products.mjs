@@ -1,6 +1,3 @@
-import { handleAddToCart } from "../cart/add-to-cart.mjs";
-import handleProductClicked from "./product-clicked.mjs";
-import { handleRemoveFromCart } from "../cart/remove-from-cart.mjs";
 import {
   createImageContainer,
   createOnSaleText,

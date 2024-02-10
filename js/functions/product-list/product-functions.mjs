@@ -1,5 +1,4 @@
 import { handleAddToCart } from "../cart/add-to-cart.mjs";
-import handleProductClicked from "./product-clicked.mjs";
 import { handleRemoveFromCart } from "../cart/remove-from-cart.mjs";
 
 export function formatSizes(sizes) {
@@ -44,10 +43,9 @@ export function createProductContainer() {
 }
 
 export function createImageContainer(id) {
-  const image_container = document.createElement("div");
+  const image_container = document.createElement("a");
   image_container.className = "product";
-  image_container.setAttribute("data-product-id", id);
-  image_container.addEventListener("click", handleProductClicked);
+  image_container.href = `/product.html?product=${id}`
 
   return image_container;
 }

@@ -1,5 +1,4 @@
 import { handleAddToCart } from "../cart/add-to-cart.mjs";
-import handleProductClicked from "./product-clicked.mjs";
 import { handleRemoveFromCart } from "../cart/remove-from-cart.mjs";
 
 /**
@@ -17,8 +16,8 @@ export function removeProductEventListeners() {
       button.removeEventListener("click", handleAddToCart);
     } else if (check_value === "true") {
       button.removeEventListener("click", handleRemoveFromCart);
-    } else {
-      button.removeEventListener("click", handleProductClicked);
-    }
+    } 
   });
 }
+
+// TODO: Check for dependencies and delete this file
