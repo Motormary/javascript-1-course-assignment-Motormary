@@ -1,6 +1,6 @@
-import { handleAddToCart } from "./add-to-cart.mjs";
+import { handleAddToCart } from "../cart/add-to-cart.mjs";
 import handleProductClicked from "./product-clicked.mjs";
-import { handleRemoveFromCart } from "./remove-from-cart.mjs";
+import { handleRemoveFromCart } from "../cart/remove-from-cart.mjs";
 
 /**
  * @description - Finds all the current products and it's buttons, then removes the event listeners.

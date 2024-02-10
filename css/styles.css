@@ -96,3 +96,9 @@ body {
 .hidden {
   display: none;
 }
+
+
+#view-product {
+  display: flex;
+  justify-content: center;
+}

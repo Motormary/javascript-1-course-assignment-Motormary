@@ -4,7 +4,7 @@
  */
 
 import { removeProductEventListeners } from "./remove-all-product-listeners.mjs";
-import removeFilterEventListeners from "./remove-filter-listeners.mjs";
+import removeFilterEventListeners from "../filter/remove-filter-listeners.mjs";
 
 function handleProductClicked(event) {
   const product_id = event.currentTarget.getAttribute("data-product-id");

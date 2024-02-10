@@ -1,12 +1,18 @@
 import superFetch from "./js/api/super-fetch.mjs";
 import { URL_PRODUCTS } from "./js/api/urls.mjs";
-import { filter_data } from "./js/filter-data.mjs";
-import { createFilterButtons } from "./js/functions/create-filter-buttons.mjs";
-import emptySearchResult from "./js/functions/empty-search-result.mjs";
+import { filter_data } from "./js/functions/filter/filter-data.mjs";
+import { createFilterButtons } from "./js/functions/filter/create-filter-buttons.mjs";
+import emptySearchResult from "./js/functions/product-list/empty-search-result.mjs";
 import setProductLoading from "./js/functions/loading.mjs";
 import noResponse from "./js/functions/no-response.mjs";
 import createProductElements from "./js/functions/product-list/products.mjs";
-import { removeProductEventListeners } from "./js/functions/remove-all-product-listeners.mjs";
+import { removeProductEventListeners } from "./js/functions/product-list/remove-all-product-listeners.mjs";
+
+const path = window.location.pathname
+
+if (path === "/") {
+  fetchProducts();
+}
 
 var products = null;
 
@@ -25,7 +31,6 @@ export async function fetchProducts() {
   }
 }
 
-fetchProducts();
 
 var filters = {
   keys: [],

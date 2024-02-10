@@ -3,9 +3,9 @@
  * @param {event} - Select onChange event 
  */
 
-import { filterProducts } from "../../app.mjs";
+import { filterProducts } from "../../../app.mjs";
 
-function handleOnChange(event) {
+function handleFilterOnChange(event) {
   const value = event.currentTarget.value;
   const key = event.currentTarget.getAttribute("key");
   console.log(key, value)
@@ -15,4 +15,4 @@ function handleOnChange(event) {
   filterProducts(key, value);
 }
 
-export default handleOnChange;
+export default handleFilterOnChange;

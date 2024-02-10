@@ -1,6 +1,6 @@
-import { handleAddToCart } from "../add-to-cart.mjs";
-import handleProductClicked from "../product-clicked.mjs";
-import { handleRemoveFromCart } from "../remove-from-cart.mjs";
+import { handleAddToCart } from "../cart/add-to-cart.mjs";
+import handleProductClicked from "./product-clicked.mjs";
+import { handleRemoveFromCart } from "../cart/remove-from-cart.mjs";
 
 export function formatSizes(sizes) {
   const formattedSizes = sizes.join(" - ");
