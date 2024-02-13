@@ -10,7 +10,7 @@ import { removeProductEventListeners } from "./js/functions/product-list/remove-
 
 const path = window.location.pathname
 
-if (path === "/") {
+if (path === "/" || "/index.html") {
   fetchProducts();
 }
 

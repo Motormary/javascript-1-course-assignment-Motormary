@@ -18,6 +18,11 @@ export function handleAddToCart(event) {
     cart = [product_id]
   }
   localStorage.cart = JSON.stringify(cart)
+
+  const updateCartEvent = new CustomEvent('updateCart', {
+    detail: { cartLength: cart.length }
+  });
+  window.dispatchEvent(updateCartEvent);
   
 
   event.currentTarget.removeEventListener("click", handleAddToCart);

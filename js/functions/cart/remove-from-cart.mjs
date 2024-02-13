@@ -19,7 +19,11 @@ export function handleRemoveFromCart(event) {
     }
   }
 
-  // Remove from cart / local
+  const updateCartEvent = new CustomEvent('updateCart', {
+    detail: { cartLength: cart.length }
+  });
+  window.dispatchEvent(updateCartEvent);
+  
 
   event.currentTarget.removeEventListener("click", handleRemoveFromCart);
   event.currentTarget.addEventListener("click", handleAddToCart);
