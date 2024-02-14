@@ -8,7 +8,7 @@ import { handleAddToCart } from "./add-to-cart.mjs";
 export function handleRemoveFromCart(event) {
   const product_id = event.currentTarget.getAttribute("data-product-id");
   event.currentTarget.textContent = "Add to Cart";
-  event.currentTarget.className = "";
+  event.currentTarget.classList.remove("bg-green")
   event.currentTarget.setAttribute("aria-selected", false);
   var current_cart = JSON.parse(localStorage.cart);
   if (current_cart) {
@@ -20,7 +20,7 @@ export function handleRemoveFromCart(event) {
   }
 
   const updateCartEvent = new CustomEvent('updateCart', {
-    detail: { cartLength: cart.length }
+    detail: { cartLength: cart?.length ? cart?.length : 0  }
   });
   window.dispatchEvent(updateCartEvent);
   

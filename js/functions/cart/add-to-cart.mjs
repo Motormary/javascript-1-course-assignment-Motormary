@@ -7,7 +7,7 @@ import { handleRemoveFromCart } from "./remove-from-cart.mjs";
 export function handleAddToCart(event) {
   const product_id = event.currentTarget.getAttribute("data-product-id");
   event.currentTarget.textContent = "Remove from Cart";
-  event.currentTarget.className = "bg-green";
+  event.currentTarget.classList.add("bg-green")
   event.currentTarget.setAttribute("aria-selected", true);
   const current_cart = localStorage.cart ? JSON.parse(localStorage.cart) : localStorage.cart
   

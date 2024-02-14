@@ -2,7 +2,7 @@ import { handleAddToCart } from "../cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../cart/remove-from-cart.mjs";
 
 export function formatSizes(sizes) {
-  const formattedSizes = sizes.join(" - ");
+  const formattedSizes = sizes.replaceAll(",", " - ")
 
   return formattedSizes;
 }
@@ -14,13 +14,7 @@ export function formatGenders(gender) {
   return formatted_gender;
 }
 
-export function checkCurrentCart(id) {
-  const current_cart = localStorage?.cart
-    ? JSON.parse(localStorage.cart).find((item) => item === id)
-    : false;
 
-  return current_cart;
-}
 
 export function createProductButton(id) {
   const current_cart = checkCurrentCart(id);
@@ -123,6 +117,7 @@ export function createProductPrice(price) {
 export function createAddToCart(id) {
   const add_btn = document.createElement("button");
   add_btn.textContent = "Add to Cart";
+  add_btn.classList.add("add_btn")
   add_btn.setAttribute("data-product-id", id);
   add_btn.setAttribute("aria-selected", false);
 
@@ -134,7 +129,7 @@ export function createAddToCart(id) {
 export function createRemoveFromCart(id) {
   const remove_btn = document.createElement("button");
   remove_btn.textContent = "Remove from Cart";
-  remove_btn.className = "bg-green";
+  remove_btn.classList.add("bg-green")
   remove_btn.setAttribute("data-product-id", id);
   remove_btn.setAttribute("aria-selected", true);
 

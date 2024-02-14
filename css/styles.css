@@ -2,8 +2,7 @@
 @import url("./nav.css");
 
 body {
-  background-color: #333;
-  color: white;
+  background-color: #dfdddd;
 }
 
 .bg-green {
@@ -20,10 +19,6 @@ body {
   100% {
     transform: rotate(360deg);
   }
-}
-
-#products-section {
-  text-align: center;
 }
 
 #list-of-products {
@@ -99,6 +94,8 @@ body {
 }
 
 
+/* --------- */
+
 #view-product {
   display: flex;
   justify-content: center;
@@ -113,3 +110,19 @@ body {
 .current_image {
   max-width: 400px;
 }
+
+
+/* -------------------------- */
+
+#products-section {
+ text-align: center; 
+}
+
+.product-list {
+  padding: 0 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  justify-items: center;
+  gap: 2rem;
+}
+

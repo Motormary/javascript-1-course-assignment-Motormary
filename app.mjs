@@ -8,7 +8,7 @@ import noResponse from "./js/functions/no-response.mjs";
 import createProductElements from "./js/functions/product-list/products.mjs";
 import { removeProductEventListeners } from "./js/functions/product-list/remove-all-product-listeners.mjs";
 
-const path = window.location.pathname
+const path = window.location.pathname;
 
 if (path === "/" || "/index.html") {
   fetchProducts();
@@ -16,21 +16,17 @@ if (path === "/" || "/index.html") {
 
 var products = null;
 
-
 export async function fetchProducts() {
   const response = await superFetch(URL_PRODUCTS);
 
   if (response) {
-    setProductLoading(false);
-    products = response;
-    createFilterButtons(filter_data);
-    createProductElements(products);
+    createProductList(response);
+    createFilterButtons(filter_data)
   } else {
     setProductLoading(false);
     noResponse();
   }
 }
-
 
 var filters = {
   keys: [],
@@ -73,4 +69,24 @@ export function filterProducts(key, value) {
   } else {
     createProductElements(sortedProducts);
   }
+}
+
+function createProductList(products) {
+  const container = document.querySelector("div.product-list");
+
+  products.forEach((product) => {
+    const card = document.createElement("product-card");
+
+    card.setAttribute("title", product.title);
+    card.setAttribute("image", product.image);
+    card.setAttribute("description", product.description);
+    card.setAttribute("sizes", product.sizes)
+    card.setAttribute("gender", product.gender)
+    card.setAttribute("onsale", product.onSale)
+    card.setAttribute("price", product.price);
+    card.setAttribute("colors", product.baseColor);
+    card.setAttribute("add_btn", product.id);
+
+    container.appendChild(card);
+  });
 }

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/nav.css">
     <title>Home</title>
     <!-- <link rel="icon" type="image/x-icon" href="/assets/images/"> -->
+    <script defer type="module" src="js/components/product-card.mjs"></script>
     <script defer type="module" src="app.mjs"></script>
     <script defer type="module" src="js/components/nav.mjs"></script>
   </head>
@@ -23,9 +24,7 @@
   <Main>
     <section id="products-section">
       <h1>Our products</h1>
-      <div id="list-of-products" class="list-of-products">
-        <img id="loading-spinner" src="assets/svg/spinner.svg" alt="Loading...">
-      </div>
+      <div class="product-list"></div>
     </section>
   </Main>
   <footer>

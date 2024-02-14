@@ -8,15 +8,14 @@ class CustomNav extends HTMLElement {
     container.className = "nav-content";
 
     const homeLink = document.createElement("a");
-    homeLink.className = "navlink"
+    homeLink.classList.add("nav-link");
     homeLink.href = "/";
     homeLink.textContent = "Home";
 
     const cartLink = document.createElement("a");
-    cartLink.className = "navlink"
+    cartLink.classList.add("nav-link", "cart");
     cartLink.href = "/cart.html";
     cartLink.textContent = "Cart";
-
 
     container.appendChild(homeLink);
     container.appendChild(cartLink);
@@ -25,19 +24,14 @@ class CustomNav extends HTMLElement {
 
     this.updateCartLength();
 
-    // Listen for changes in cart
     window.addEventListener("updateCart", this.updateCartLength.bind(this));
   }
 
   updateCartLength() {
-    // Get cart and update length
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartLength = cart.length;
+    const cartLength = cart?.length ? cart?.length : 0;
 
-    // Update cart length display
-    this.shadowRoot.querySelectorAll(
-      "a"
-    )[1].textContent = `Cart (${cartLength})`;
+    this.shadowRoot.querySelector("a.cart").textContent = `Cart (${cartLength})`;
   }
 }
 
