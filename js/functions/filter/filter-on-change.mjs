@@ -1,18 +1,16 @@
 /**
- * 
- * @param {event} - Select onChange event 
+ *
+ * @param {event} - Select onChange event
  */
 
-import { filterProducts } from "../../../app.mjs";
+import { getFilteredProducts } from "../../../app.mjs";
 
 function handleFilterOnChange(event) {
   const value = event.currentTarget.value;
   const key = event.currentTarget.getAttribute("key");
-  console.log(key, value)
+  console.log(key, value);
 
-  if (!value) filterProducts(key);
-
-  filterProducts(key, value);
+  getFilteredProducts()
 }
 
 export default handleFilterOnChange;

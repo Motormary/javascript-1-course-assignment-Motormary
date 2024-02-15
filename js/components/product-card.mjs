@@ -13,6 +13,7 @@ class ProductCard extends HTMLElement {
       "sizes",
       "add_btn",
       "colors",
+      "product-id",
     ];
   }
 
@@ -60,16 +61,27 @@ class ProductCard extends HTMLElement {
 
   connectedCallback() {
     //console.log("connected")
+    console.log(this.shadowRoot.querySelector(".image"))
   }
 
   disconnectedCallback() {
-    //console.log("disconnected");
+    const buttonElement = this.shadowRoot.querySelector("button.add_btn");
+    const imageElement = this.shadowRoot.querySelector(".image");
+    removeProductCardEventlisteners(buttonElement, imageElement);
+    console.log("disconnected");
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
     switch (name) {
       case "title": {
         this.shadowRoot.querySelector(".title").textContent = newValue;
+        break;
+      }
+      case "product-id": {
+        const imageElement = this.shadowRoot.querySelector(".image");
+        imageElement.setAttribute("product-id", newValue);
+        imageElement.addEventListener("click", redirectOnClickedImage);
+
         break;
       }
       case "image": {
@@ -118,6 +130,7 @@ class ProductCard extends HTMLElement {
 export function createProductCard(product) {
   const card = document.createElement("product-card");
 
+  card.setAttribute("product-id", product.id);
   card.setAttribute("title", product.title);
   card.setAttribute("image", product.image);
   card.setAttribute("description", product.description);
@@ -140,6 +153,18 @@ export function AddBtnEventListener(buttonElement, isProductInCart, newValue) {
     buttonElement.setAttribute("data-product-id", newValue);
     buttonElement.classList.add("bg-green");
   }
+}
+
+export function removeProductCardEventlisteners(buttonElement, imageElement) {
+  imageElement.removeEventListener("click", redirectOnClickedImage);
+  buttonElement.removeEventListener("click", handleAddToCart);
+  buttonElement.removeEventListener("click", handleRemoveFromCart);
+}
+
+export function redirectOnClickedImage(event) {
+  location.href = `/product.html?product=${event.target.getAttribute(
+    "product-id"
+  )}`;
 }
 
 export function checkCurrentCart(id) {
@@ -178,6 +203,7 @@ export function createStyle() {
       .card {
         position: relative;
         min-width: 250px;
+        max-width: 600px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -196,6 +222,9 @@ export function createStyle() {
         max-height: 250px;
         object-fit: contain;
         border-radius: 4px;
+      }
+      .image:hover {
+        cursor: pointer;
       }
       .onsale {
         position: absolute;

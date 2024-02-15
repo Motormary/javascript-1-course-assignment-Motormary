@@ -1,4 +1,3 @@
-import { filterProducts } from "../../../app.mjs";
 import { filter_data } from "./filter-data.mjs";
 import handleFilterOnChange from "./filter-on-change.mjs";
 
