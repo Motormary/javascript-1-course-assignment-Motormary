@@ -115,14 +115,21 @@ class ProductCard extends HTMLElement {
   }
 }
 
+export function createProductCard(product) {
+  const card = document.createElement("product-card");
 
+  card.setAttribute("title", product.title);
+  card.setAttribute("image", product.image);
+  card.setAttribute("description", product.description);
+  card.setAttribute("sizes", product.sizes);
+  card.setAttribute("gender", product.gender);
+  card.setAttribute("onsale", product.onSale);
+  card.setAttribute("price", product.price);
+  card.setAttribute("colors", product.baseColor);
+  card.setAttribute("add_btn", product.id);
 
-
-
-
-
-
-
+  return card;
+}
 
 export function AddBtnEventListener(buttonElement, isProductInCart, newValue) {
   if (!isProductInCart) {
@@ -179,6 +186,7 @@ export function createStyle() {
         padding: 1rem 2rem;
         border: 1px solid #ccc;
         border-radius: 8px;
+        text-align: center;
       }
       .card > * {
         margin: 0;

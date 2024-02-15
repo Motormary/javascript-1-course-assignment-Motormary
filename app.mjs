@@ -7,10 +7,10 @@ import setProductLoading from "./js/functions/loading.mjs";
 import noResponse from "./js/functions/no-response.mjs";
 import createProductElements from "./js/functions/product-list/products.mjs";
 import { removeProductEventListeners } from "./js/functions/product-list/remove-all-product-listeners.mjs";
+import { createProductCard } from "./js/components/product-card.mjs";
 
 const path = window.location.pathname;
-
-if (path === "/" || "/index.html") {
+if (path === "/" || path === "/index.html") {
   fetchProducts();
 }
 
@@ -21,7 +21,7 @@ export async function fetchProducts() {
 
   if (response) {
     createProductList(response);
-    createFilterButtons(filter_data)
+    createFilterButtons(filter_data);
   } else {
     setProductLoading(false);
     noResponse();
@@ -75,17 +75,7 @@ function createProductList(products) {
   const container = document.querySelector("div.product-list");
 
   products.forEach((product) => {
-    const card = document.createElement("product-card");
-
-    card.setAttribute("title", product.title);
-    card.setAttribute("image", product.image);
-    card.setAttribute("description", product.description);
-    card.setAttribute("sizes", product.sizes)
-    card.setAttribute("gender", product.gender)
-    card.setAttribute("onsale", product.onSale)
-    card.setAttribute("price", product.price);
-    card.setAttribute("colors", product.baseColor);
-    card.setAttribute("add_btn", product.id);
+    const card = createProductCard(product);
 
     container.appendChild(card);
   });

@@ -1,5 +1,6 @@
 import superFetch from "../api/super-fetch.mjs";
 import { URL_PRODUCTS } from "../api/urls.mjs";
+import { createProductCard } from "../components/product-card.mjs";
 import setProductLoading from "../functions/loading.mjs";
 import {
   createProductButton,
@@ -51,18 +52,13 @@ image.setAttribute("src", link)
 async function fetchProduct() {
   let params = new URLSearchParams(document.location.search);
   let id = params.get("product");
+  const docu = document.getElementById("view-product")
 
   const response = await superFetch(URL_PRODUCTS, id);
   if (response) {
-    setProductLoading(false);
-    setProductImage(response.image)
-    setProductName(response.title);
-    setProductDescription(response.description);
-    setProductSizes(response.sizes);
-    setProductColors(response.baseColor);
-    setProductGender(response.gender);
-    setProductPrice(response.price);
-    createProductPageBtn(id);
+    setProductLoading(false)
+    const card = createProductCard(response)
+    docu.appendChild(card)
   }
 }
 
