@@ -61,70 +61,36 @@ class ProductCard extends HTMLElement {
 
   connectedCallback() {
     //console.log("connected")
-    console.log(this.shadowRoot.querySelector(".image"))
+    setChildrenAttributes(this.shadowRoot, this);
   }
 
   disconnectedCallback() {
-    const buttonElement = this.shadowRoot.querySelector("button.add_btn");
-    const imageElement = this.shadowRoot.querySelector(".image");
-    removeProductCardEventlisteners(buttonElement, imageElement);
-    console.log("disconnected");
+    removeProductCardEventlisteners(this.shadowRoot);
+    //console.log("disconnected");
   }
+}
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    switch (name) {
-      case "title": {
-        this.shadowRoot.querySelector(".title").textContent = newValue;
-        break;
-      }
-      case "product-id": {
-        const imageElement = this.shadowRoot.querySelector(".image");
-        imageElement.setAttribute("product-id", newValue);
-        imageElement.addEventListener("click", redirectOnClickedImage);
+export function setChildrenAttributes(shadow, card) {
+  shadow.querySelector(".title").textContent = card.getAttribute("title");
+  shadow.querySelector(".description").textContent = card.getAttribute("description");
+  shadow.querySelector(".gender").textContent = formatGenders(card.getAttribute("gender"));
+  shadow.querySelector(".colors").textContent = card.getAttribute("colors");
+  shadow.querySelector(".sizes").textContent = formatSizes(card.getAttribute("sizes"));
+  shadow.querySelector(".onsale").textContent = card.getAttribute("onsale") === "true" ? "ON SALE!" : "";
+  shadow.querySelector(".price").textContent = card.getAttribute("price") + "$";
 
-        break;
-      }
-      case "image": {
-        this.shadowRoot.querySelector(".image").setAttribute("src", newValue);
-        break;
-      }
-      case "price": {
-        this.shadowRoot.querySelector(".price").textContent = newValue + "$";
-        break;
-      }
-      case "description": {
-        this.shadowRoot.querySelector(".description").textContent = newValue;
-        break;
-      }
-      case "gender": {
-        this.shadowRoot.querySelector(".gender").textContent =
-          formatGenders(newValue);
-        break;
-      }
-      case "onsale": {
-        if (newValue === "true") {
-          this.shadowRoot.querySelector(".onsale").textContent = "ON SALE!";
-        }
-        break;
-      }
-      case "sizes": {
-        this.shadowRoot.querySelector(".sizes").textContent =
-          formatSizes(newValue);
-        break;
-      }
-      case "colors": {
-        this.shadowRoot.querySelector(".colors").textContent = newValue;
-        break;
-      }
-      case "add_btn": {
-        const buttonElement = this.shadowRoot.querySelector(".add_btn");
-        const isProductInCart = checkCurrentCart(newValue);
-        buttonElement.textContent = getBtnTextContent(newValue);
-        AddBtnEventListener(buttonElement, isProductInCart, newValue);
-        break;
-      }
-    }
-  }
+  const productId = card.getAttribute("product-id");
+  
+  const imageElement = shadow.querySelector(".image");
+  imageElement.setAttribute("src", card.getAttribute("image"));
+  imageElement.setAttribute("product-id", productId);
+  imageElement.addEventListener("click", redirectOnClickedImage);
+
+  const buttonElement = shadow.querySelector(".add_btn");
+  buttonElement.setAttribute("product-id", productId);
+  const isProductInCart = checkCurrentCart(productId);
+  buttonElement.textContent = getBtnTextContent(productId);
+  AddBtnEventListener(buttonElement, isProductInCart);
 }
 
 export function createProductCard(product) {
@@ -144,18 +110,19 @@ export function createProductCard(product) {
   return card;
 }
 
-export function AddBtnEventListener(buttonElement, isProductInCart, newValue) {
+export function AddBtnEventListener(buttonElement, isProductInCart) {
+
   if (!isProductInCart) {
     buttonElement.addEventListener("click", handleAddToCart);
-    buttonElement.setAttribute("data-product-id", newValue);
   } else {
     buttonElement.addEventListener("click", handleRemoveFromCart);
-    buttonElement.setAttribute("data-product-id", newValue);
     buttonElement.classList.add("bg-green");
   }
 }
 
-export function removeProductCardEventlisteners(buttonElement, imageElement) {
+export function removeProductCardEventlisteners(shadow) {
+  const buttonElement = shadow.querySelector("button.add_btn");
+  const imageElement = shadow.querySelector(".image");
   imageElement.removeEventListener("click", redirectOnClickedImage);
   buttonElement.removeEventListener("click", handleAddToCart);
   buttonElement.removeEventListener("click", handleRemoveFromCart);
@@ -167,9 +134,9 @@ export function redirectOnClickedImage(event) {
   )}`;
 }
 
-export function checkCurrentCart(id) {
+export function checkCurrentCart(productId) {
   const cartContent = localStorage?.cart
-    ? JSON.parse(localStorage.cart).find((item) => item === id)
+    ? JSON.parse(localStorage.cart).find((item) => item === productId)
     : false;
 
   return cartContent;
@@ -252,77 +219,77 @@ export function createOnSaleText() {
   return onSaleElement;
 }
 
-function createCard() {
+export function createCard() {
   const cardContainer = document.createElement("div");
   cardContainer.classList.add("card");
 
   return cardContainer;
 }
 
-function createTitle() {
+export function createTitle() {
   const titleElement = document.createElement("h2");
   titleElement.classList.add("title");
 
   return titleElement;
 }
 
-function createImage() {
+export function createImage() {
   const imageElement = document.createElement("img");
   imageElement.classList.add("image");
 
   return imageElement;
 }
 
-function createDescription() {
+export function createDescription() {
   const descriptionElement = document.createElement("p");
   descriptionElement.classList.add("description");
 
   return descriptionElement;
 }
 
-function createGender() {
+export function createGender() {
   const genderElement = document.createElement("p");
   genderElement.classList.add("gender");
 
   return genderElement;
 }
 
-function createSizes() {
+export function createSizes() {
   const product_sizes = document.createElement("p");
   product_sizes.classList.add("sizes");
 
   return product_sizes;
 }
 
-function createOnSale() {
+export function createOnSale() {
   const onSaleElement = document.createElement("p");
   onSaleElement.classList.add("onsale");
 
   return onSaleElement;
 }
 
-function createButton() {
+export function createButton() {
   const buttonElement = document.createElement("button");
   buttonElement.classList.add("add_btn");
 
   return buttonElement;
 }
 
-function createPrice() {
+export function createPrice() {
   const priceElement = document.createElement("p");
   priceElement.classList.add("price");
 
   return priceElement;
 }
 
-function createColors() {
+export function createColors() {
   const colorsElement = document.createElement("p");
   colorsElement.classList.add("colors");
 
   return colorsElement;
 }
 
-function formatSizes(sizes) {
+export function formatSizes(sizes) {
   const formattedSizes = sizes.replaceAll(",", " - ");
 
   return formattedSizes;

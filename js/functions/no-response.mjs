@@ -1,7 +1,7 @@
 import { fetchProducts } from "../../app.mjs";
 import setProductLoading from "./loading.mjs";
 
-export default function noResponse() {
+export default function handleError() {
   const content = document.getElementById("products-section");
 
   const error_container = document.createElement("div");

@@ -1,14 +1,10 @@
 /**
- *
- * @param {event} - Select onChange event
+ *@description Calls the filter function onChange
  */
 
 import { getFilteredProducts } from "../../../app.mjs";
 
-function handleFilterOnChange(event) {
-  const value = event.currentTarget.value;
-  const key = event.currentTarget.getAttribute("key");
-  console.log(key, value);
+function handleFilterOnChange() {
 
   getFilteredProducts()
 }

@@ -6,7 +6,7 @@ import { handleRemoveFromCart } from "./remove-from-cart.mjs";
  */
 
 export function handleAddToCart(event) {
-  const productId = event.currentTarget.getAttribute("data-product-id");
+  const productId = event.currentTarget.getAttribute("product-id");
   checkAndAddToCart(productId);
   setButtonValues(event)
   updateNavBarCartIcon()

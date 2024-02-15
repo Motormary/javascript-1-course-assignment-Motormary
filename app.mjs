@@ -3,7 +3,7 @@ import { URL_PRODUCTS } from "./js/api/urls.mjs";
 import { filter_data } from "./js/functions/filter/filter-data.mjs";
 import { createFilterButtons } from "./js/functions/filter/create-filter-buttons.mjs";
 import setProductLoading from "./js/functions/loading.mjs";
-import noResponse from "./js/functions/no-response.mjs";
+import handleError from "./js/functions/no-response.mjs";
 import { createProductCard } from "./js/components/product-card.mjs";
 
 const path = window.location.pathname;
@@ -22,7 +22,7 @@ export async function fetchProducts() {
     getFilteredProducts();
   } else {
     setProductLoading(false);
-    noResponse();
+    handleError();
   }
 }
 
