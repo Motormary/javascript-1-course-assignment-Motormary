@@ -1,5 +1,6 @@
 import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
+import removeFilterEventListeners from "../functions/filter/remove-filter-listeners.mjs";
 
 class ProductCard extends HTMLElement {
   static get observedAttributes() {
@@ -129,6 +130,7 @@ export function removeProductCardEventlisteners(shadow) {
 }
 
 export function redirectOnClickedImage(event) {
+  removeFilterEventListeners()
   location.href = `/product.html?product=${event.target.getAttribute(
     "product-id"
   )}`;
