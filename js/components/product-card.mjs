@@ -2,6 +2,20 @@ import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
 
 class ProductCard extends HTMLElement {
+  static get observedAttributes() {
+    return [
+      "title",
+      "image",
+      "description",
+      "price",
+      "gender",
+      "onsale",
+      "sizes",
+      "add_btn",
+      "colors",
+    ];
+  }
+
   constructor() {
     super();
 
@@ -45,26 +59,11 @@ class ProductCard extends HTMLElement {
   }
 
   connectedCallback() {
-
+    //console.log("connected")
   }
 
   disconnectedCallback() {
-    console.log("disconnected");
-  }
-
-  static get observedAttributes() {
-    return [
-      "title",
-      "image",
-      "description",
-      "price",
-      "gender",
-      "onsale",
-      "sizes",
-      "add_btn",
-      "colors",
-      "aria-selected",
-    ];
+    //console.log("disconnected");
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -107,48 +106,57 @@ class ProductCard extends HTMLElement {
       }
       case "add_btn": {
         const buttonElement = this.shadowRoot.querySelector(".add_btn");
-        console.log(newValue)
+        const isProductInCart = checkCurrentCart(newValue);
         buttonElement.textContent = getBtnTextContent(newValue);
-
-        const current_cart = checkCurrentCart(newValue);
-        if (!current_cart) {
-          buttonElement.addEventListener("click", handleAddToCart);
-          buttonElement.setAttribute("aria-selected", false);
-        } else {
-          buttonElement.addEventListener("click", handleRemoveFromCart);
-          buttonElement.setAttribute("aria-selected", true);
-        }
+        AddBtnEventListener(buttonElement, isProductInCart, newValue);
         break;
       }
     }
   }
 }
 
+
+
+
+
+
+
+
+
+
+export function AddBtnEventListener(buttonElement, isProductInCart, newValue) {
+  if (!isProductInCart) {
+    buttonElement.addEventListener("click", handleAddToCart);
+    buttonElement.setAttribute("data-product-id", newValue);
+  } else {
+    buttonElement.addEventListener("click", handleRemoveFromCart);
+    buttonElement.setAttribute("data-product-id", newValue);
+    buttonElement.classList.add("bg-green");
+  }
+}
+
 export function checkCurrentCart(id) {
-  const current_cart = localStorage?.cart
-    ? JSON.parse(localStorage.cart).find((item) => console.log(item === id, item, id))
+  const cartContent = localStorage?.cart
+    ? JSON.parse(localStorage.cart).find((item) => item === id)
     : false;
 
-  return current_cart;
+  return cartContent;
 }
 
 export function getBtnTextContent(productId) {
-  const current_cart = checkCurrentCart(productId);
-  console.log(current_cart);
+  const isProductInCart = checkCurrentCart(productId);
 
-  if (!current_cart) {
-    console.log("returned")
+  if (!isProductInCart) {
     return "Add to Cart";
   } else {
-    console.log("returned")
     return "Remove from Cart";
   }
 }
 
 export function getBtnEventListener(productId) {
-  const current_cart = checkCurrentCart(productId);
+  const isProductInCart = checkCurrentCart(productId);
 
-  if (current_cart) {
+  if (isProductInCart) {
     return handleRemoveFromCart;
   } else {
     return handleAddToCart;
@@ -200,11 +208,11 @@ export function createStyle() {
 }
 
 export function createOnSaleText() {
-  const on_sale_text = document.createElement("p");
-  on_sale_text.textContent = "ON SALE!";
-  on_sale_text.className = "on-sale";
+  const onSaleElement = document.createElement("p");
+  onSaleElement.textContent = "ON SALE!";
+  onSaleElement.className = "on-sale";
 
-  return on_sale_text;
+  return onSaleElement;
 }
 
 function createCard() {
@@ -284,8 +292,14 @@ function formatSizes(sizes) {
 }
 
 export function formatGenders(gender) {
-  const formatted_gender =
+  const formattedGender =
     gender === "Female" ? "Women" : gender === "Male" ? "Men" : "Unisex";
 
-  return formatted_gender;
+  return formattedGender;
+}
+
+export function getCurrentCart() {
+  const current_cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  return current_cart;
 }

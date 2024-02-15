@@ -29,7 +29,8 @@ class CustomNav extends HTMLElement {
 
   updateCartLength() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const cartLength = cart?.length ? cart?.length : 0;
+    console.log(cart)
+    const cartLength = cart?.length
 
     this.shadowRoot.querySelector("a.cart").textContent = `Cart (${cartLength})`;
   }

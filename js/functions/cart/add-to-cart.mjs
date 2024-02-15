@@ -1,30 +1,44 @@
+import { getCurrentCart } from "../../components/product-card.mjs";
 import { handleRemoveFromCart } from "./remove-from-cart.mjs";
 /**
- * @param {product} - Product ID
- * @returns - Adds selected product to basket
+ * @param {event} - Click event containing product ID in "data-product-id"
+ * @returns - Adds selected product to cart
  */
 
 export function handleAddToCart(event) {
-  const product_id = event.currentTarget.getAttribute("data-product-id");
+  const productId = event.currentTarget.getAttribute("data-product-id");
+  checkAndAddToCart(productId);
+  setButtonValues(event)
+  updateNavBarCartIcon()
+
+}
+
+function setButtonValues(event) {
   event.currentTarget.textContent = "Remove from Cart";
-  event.currentTarget.classList.add("bg-green")
+  event.currentTarget.classList.add("bg-green");
   event.currentTarget.setAttribute("aria-selected", true);
-  const current_cart = localStorage.cart ? JSON.parse(localStorage.cart) : localStorage.cart
-  
-  var cart = []
-  if (current_cart) {
-    cart = [...current_cart, product_id]
-  } else {
-    cart = [product_id]
-  }
-  localStorage.cart = JSON.stringify(cart)
-
-  const updateCartEvent = new CustomEvent('updateCart', {
-    detail: { cartLength: cart.length }
-  });
-  window.dispatchEvent(updateCartEvent);
-  
-
   event.currentTarget.removeEventListener("click", handleAddToCart);
   event.currentTarget.addEventListener("click", handleRemoveFromCart);
+}
+
+function checkAndAddToCart(productId) {
+  const current_cart = getCurrentCart();
+
+  let newCart = [];
+  if (current_cart) {
+    newCart = [...current_cart, productId];
+  } else {
+    newCart = [productId];
+  }
+  localStorage.cart = JSON.stringify(newCart);
+}
+
+export function updateNavBarCartIcon() {
+  const current_cart = getCurrentCart();
+
+  const cartLength = current_cart ? current_cart.length : 0;
+  const updateCartEvent = new CustomEvent("updateCart", {
+    detail: { cartLength },
+  });
+  window.dispatchEvent(updateCartEvent);
 }
