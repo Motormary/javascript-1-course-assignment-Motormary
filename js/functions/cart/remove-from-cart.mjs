@@ -1,4 +1,5 @@
 import { getCurrentCart } from "../../components/product-card.mjs";
+import { createEmptyCart } from "../../pages/cart-page.mjs";
 import { handleAddToCart, updateNavBarCartIcon } from "./add-to-cart.mjs";
 
 /**
@@ -14,7 +15,11 @@ export function handleRemoveFromCart(event) {
   checkAndRemoveFromCart(productId);
   updateNavBarCartIcon();
 
-  if (path === "/cart.html") event.currentTarget.parentElement.remove()
+  if (path === "/cart.html") {
+    event.currentTarget.parentElement.remove()
+    const current_cart = getCurrentCart()
+    if (current_cart.length === 0) createEmptyCart()
+  }
   
 }
 

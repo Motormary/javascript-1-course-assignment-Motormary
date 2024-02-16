@@ -7,28 +7,35 @@ const path = window.location.pathname;
 class ProductCard extends HTMLElement {
   constructor() {
     super();
+  }
 
+  connectedCallback() {
     this.attachShadow({ mode: "open" });
 
     const cardContainer = createCard();
 
-    const titleElement = createTitle();
+    const titleElement = createTitle(this.getAttribute("title"));
 
-    const imageElement = createImage();
+    const imageElement = createImage(
+      this.getAttribute("image"),
+      this.getAttribute("product-id")
+    );
 
-    const descriptionElement = createDescription();
+    const descriptionElement = createDescription(
+      this.getAttribute("description")
+    );
 
-    const sizesElement = createSizes();
+    const sizesElement = createSizes(this.getAttribute("sizes"));
 
-    const colorsElement = createColors();
+    const colorsElement = createColors(this.getAttribute("colors"));
 
-    const genderElement = createGender();
+    const genderElement = createGender(this.getAttribute("gender"));
 
-    const onSaleElement = createOnSale();
+    const onSaleElement = createOnSale(this.getAttribute("onsale"));
 
-    const priceElement = createPrice();
+    const priceElement = createPrice(this.getAttribute("price"));
 
-    const buttonElement = createButton();
+    const buttonElement = createButton(this.getAttribute("product-id"));
 
     const style = createStyle();
 
@@ -45,11 +52,7 @@ class ProductCard extends HTMLElement {
     );
 
     this.shadowRoot.append(style, cardContainer);
-  }
-
-  connectedCallback() {
     // console.log("connected")
-    setChildrenAttributesAndEvents(this.shadowRoot, this);
   }
 
   disconnectedCallback() {
@@ -60,36 +63,6 @@ class ProductCard extends HTMLElement {
 customElements.define("product-card", ProductCard);
 
 /* -----------------------FUNCTIONS---------------------------- */
-
-function setChildrenAttributesAndEvents(shadow, card) {
-  shadow.querySelector(".title").textContent = card.getAttribute("title");
-  shadow.querySelector(".description").textContent =
-    card.getAttribute("description");
-  shadow.querySelector(".gender").textContent = formatGenders(
-    card.getAttribute("gender")
-  );
-  shadow.querySelector(".colors").textContent = card.getAttribute("colors");
-  shadow.querySelector(".sizes").textContent = formatSizes(
-    card.getAttribute("sizes")
-  );
-  shadow.querySelector(".onsale").textContent =
-    card.getAttribute("onsale") === "true" ? "ON SALE!" : "";
-  shadow.querySelector(".price").textContent = card.getAttribute("price") + "$";
-
-  const productId = card.getAttribute("product-id");
-
-  const imageElement = shadow.querySelector(".image");
-  if (path !== "/product.html") imageElement.classList.add("hover")
-  imageElement.setAttribute("src", card.getAttribute("image"));
-  imageElement.setAttribute("product-id", productId);
-  imageElement.addEventListener("click", redirectOnClickedImage);
-
-  const buttonElement = shadow.querySelector(".add_btn");
-  buttonElement.setAttribute("product-id", productId);
-  const isProductInCart = checkCurrentCart(productId);
-  buttonElement.textContent = getBtnTextContent(productId);
-  AddBtnEventListener(buttonElement, isProductInCart);
-}
 
 export function createProductCard(product) {
   const card = document.createElement("product-card");
@@ -119,18 +92,9 @@ function AddBtnEventListener(buttonElement, isProductInCart) {
 
 function removeProductCardEventlisteners(shadow) {
   const buttonElement = shadow.querySelector("button.add_btn");
-  const imageElement = shadow.querySelector(".image");
-  imageElement.removeEventListener("click", redirectOnClickedImage);
-  buttonElement.removeEventListener("click", handleAddToCart);
-  buttonElement.removeEventListener("click", handleRemoveFromCart);
-}
-
-function redirectOnClickedImage(event) {
-  if (path !== "/product.html") {
-    removeFilterEventListeners();
-    location.href = `/product.html?product=${event.target.getAttribute(
-      "product-id"
-    )}`;
+  if (buttonElement) {
+    buttonElement.removeEventListener("click", handleAddToCart);
+    buttonElement.removeEventListener("click", handleRemoveFromCart);
   }
 }
 
@@ -234,7 +198,7 @@ export function createStyle() {
     .sizes {
       display: none;
     }
-    `
+    `;
   }
 
   return style;
@@ -247,64 +211,85 @@ function createCard() {
   return cardContainer;
 }
 
-function createTitle() {
+function createTitle(title) {
   const titleElement = document.createElement("h2");
+  titleElement.textContent = title;
   titleElement.classList.add("title");
 
   return titleElement;
 }
 
-function createImage() {
+function createImage(src, productId) {
+  const imageContainer = document.createElement("a");
+
   const imageElement = document.createElement("img");
+  imageElement.setAttribute("src", src);
+  imageElement.setAttribute("product-id", productId);
   imageElement.classList.add("image");
 
-  return imageElement;
+  if (path !== "/product.html") {
+    imageElement.classList.add("hover");
+    imageContainer.href = `/product.html?product=${productId}`;
+  }
+
+  imageContainer.appendChild(imageElement);
+  return imageContainer;
 }
 
-function createDescription() {
+function createDescription(description) {
   const descriptionElement = document.createElement("p");
+  descriptionElement.textContent = description;
   descriptionElement.classList.add("description");
 
   return descriptionElement;
 }
 
-function createGender() {
+function createGender(gender) {
   const genderElement = document.createElement("p");
+  genderElement.textContent = formatGenders(gender);
   genderElement.classList.add("gender");
 
   return genderElement;
 }
 
-function createSizes() {
-  const product_sizes = document.createElement("p");
-  product_sizes.classList.add("sizes");
+function createSizes(sizes) {
+  const sizesElement = document.createElement("p");
+  sizesElement.textContent = formatSizes(sizes);
+  sizesElement.classList.add("sizes");
 
-  return product_sizes;
+  return sizesElement;
 }
 
-function createOnSale() {
+function createOnSale(isOnSale) {
   const onSaleElement = document.createElement("p");
+  onSaleElement.textContent = isOnSale === "true" ? "ON SALE!" : "";
   onSaleElement.classList.add("onsale");
 
   return onSaleElement;
 }
 
-function createButton() {
+function createButton(productId) {
   const buttonElement = document.createElement("button");
-  buttonElement.classList.add("add_btn");
+  const isProductInCart = checkCurrentCart(productId);
 
+  buttonElement.classList.add("add_btn");
+  buttonElement.setAttribute("product-id", productId);
+  buttonElement.textContent = getBtnTextContent(productId);
+  AddBtnEventListener(buttonElement, isProductInCart);
   return buttonElement;
 }
 
-function createPrice() {
+function createPrice(price) {
   const priceElement = document.createElement("p");
+  priceElement.textContent = price + "$";
   priceElement.classList.add("price");
 
   return priceElement;
 }
 
-function createColors() {
+function createColors(color) {
   const colorsElement = document.createElement("p");
+  colorsElement.textContent = color;
   colorsElement.classList.add("colors");
 
   return colorsElement;
