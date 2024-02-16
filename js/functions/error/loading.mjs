@@ -1,5 +1,3 @@
-import handleError from "./no-response.mjs";
-
 function setProductLoading(isLoading) {
   const loading = document.getElementById("loading-spinner");
 

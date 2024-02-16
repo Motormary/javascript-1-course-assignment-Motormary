@@ -2,8 +2,8 @@ import superFetch from "./js/api/super-fetch.mjs";
 import { URL_PRODUCTS } from "./js/api/urls.mjs";
 import { filter_data } from "./js/functions/filter/filter-data.mjs";
 import { createFilterButtons } from "./js/functions/filter/create-filter-buttons.mjs";
-import setProductLoading from "./js/functions/loading.mjs";
-import handleError from "./js/functions/no-response.mjs";
+import setProductLoading from "./js/functions/error/loading.mjs";
+import handleNoResponse from "./js/functions/error/no-response.mjs";
 import { createProductCard } from "./js/components/product-card.mjs";
 import emptySearchResult from "./js/functions/filter/empty-search-result.mjs";
 
@@ -12,6 +12,8 @@ if (path === "/" || path === "/index.html") {
   fetchProducts();
   createFilterButtons(filter_data);
 }
+
+const container = document.querySelector("div.product-list");
 
 let products = []
 
@@ -23,12 +25,12 @@ export async function fetchProducts() {
     getFilteredProducts();
   } else {
     setProductLoading(false);
-    handleError();
+    const error = handleNoResponse();
+    container.appendChild(error)
   }
 }
 
 function createProductList(products) {
-  const container = document.querySelector("div.product-list");
 
   removeCurrentProductList();
 
@@ -40,10 +42,10 @@ function createProductList(products) {
 }
 
 export function getFilteredProducts() {
-  const filterKeysAndValues = Array.from(
-    document.querySelectorAll(".filter-btn")
+  const filterKeysAndValues = Array.from( 
+    document.querySelectorAll(".filter-btn") 
   )
-    .map((button) => ({ key: button.getAttribute("key"), value: button.value }))
+    .map((button) => ({ key: button.getAttribute("key"), value: button.value })) 
     .filter(({ value }) => value);
 
   const filteredProducts = products.filter((product) => {
@@ -64,6 +66,5 @@ export function getFilteredProducts() {
 }
 
 function removeCurrentProductList() {
-  const container = document.querySelector("div.product-list");
   container.replaceChildren("");
 }

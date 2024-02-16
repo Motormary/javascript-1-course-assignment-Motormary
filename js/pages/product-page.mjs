@@ -1,7 +1,8 @@
 import superFetch from "../api/super-fetch.mjs";
 import { URL_PRODUCTS } from "../api/urls.mjs";
 import { createProductCard } from "../components/product-card.mjs";
-import setProductLoading from "../functions/loading.mjs";
+import setProductLoading from "../functions/error/loading.mjs";
+import handleNoResponse from "../functions/error/no-response.mjs";
 
 const path = window.location.pathname;
 
@@ -19,6 +20,10 @@ async function fetchProduct() {
     setProductLoading(false)
     const card = createProductCard(response)
     container.appendChild(card)
+  } else {
+    setProductLoading(false);
+    const error = handleNoResponse();
+    container.appendChild(error)
   }
 }
 
