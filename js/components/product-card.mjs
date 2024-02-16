@@ -2,22 +2,9 @@ import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
 import removeFilterEventListeners from "../functions/filter/remove-filter-listeners.mjs";
 
-class ProductCard extends HTMLElement {
-  static get observedAttributes() {
-    return [
-      "title",
-      "image",
-      "description",
-      "price",
-      "gender",
-      "onsale",
-      "sizes",
-      "add_btn",
-      "colors",
-      "product-id",
-    ];
-  }
+const path = window.location.pathname;
 
+class ProductCard extends HTMLElement {
   constructor() {
     super();
 
@@ -62,7 +49,7 @@ class ProductCard extends HTMLElement {
 
   connectedCallback() {
     //console.log("connected")
-    setChildrenAttributes(this.shadowRoot, this);
+    setChildrenAttributesAndEvents(this.shadowRoot, this);
   }
 
   disconnectedCallback() {
@@ -70,19 +57,27 @@ class ProductCard extends HTMLElement {
     //console.log("disconnected");
   }
 }
+customElements.define("product-card", ProductCard);
 
-export function setChildrenAttributes(shadow, card) {
+function setChildrenAttributesAndEvents(shadow, card) {
   shadow.querySelector(".title").textContent = card.getAttribute("title");
-  shadow.querySelector(".description").textContent = card.getAttribute("description");
-  shadow.querySelector(".gender").textContent = formatGenders(card.getAttribute("gender"));
+  shadow.querySelector(".description").textContent =
+    card.getAttribute("description");
+  shadow.querySelector(".gender").textContent = formatGenders(
+    card.getAttribute("gender")
+  );
   shadow.querySelector(".colors").textContent = card.getAttribute("colors");
-  shadow.querySelector(".sizes").textContent = formatSizes(card.getAttribute("sizes"));
-  shadow.querySelector(".onsale").textContent = card.getAttribute("onsale") === "true" ? "ON SALE!" : "";
+  shadow.querySelector(".sizes").textContent = formatSizes(
+    card.getAttribute("sizes")
+  );
+  shadow.querySelector(".onsale").textContent =
+    card.getAttribute("onsale") === "true" ? "ON SALE!" : "";
   shadow.querySelector(".price").textContent = card.getAttribute("price") + "$";
 
   const productId = card.getAttribute("product-id");
-  
+
   const imageElement = shadow.querySelector(".image");
+  if (path !== "/product.html") imageElement.classList.add("hover")
   imageElement.setAttribute("src", card.getAttribute("image"));
   imageElement.setAttribute("product-id", productId);
   imageElement.addEventListener("click", redirectOnClickedImage);
@@ -111,8 +106,7 @@ export function createProductCard(product) {
   return card;
 }
 
-export function AddBtnEventListener(buttonElement, isProductInCart) {
-
+function AddBtnEventListener(buttonElement, isProductInCart) {
   if (!isProductInCart) {
     buttonElement.addEventListener("click", handleAddToCart);
   } else {
@@ -121,7 +115,7 @@ export function AddBtnEventListener(buttonElement, isProductInCart) {
   }
 }
 
-export function removeProductCardEventlisteners(shadow) {
+function removeProductCardEventlisteners(shadow) {
   const buttonElement = shadow.querySelector("button.add_btn");
   const imageElement = shadow.querySelector(".image");
   imageElement.removeEventListener("click", redirectOnClickedImage);
@@ -129,11 +123,13 @@ export function removeProductCardEventlisteners(shadow) {
   buttonElement.removeEventListener("click", handleRemoveFromCart);
 }
 
-export function redirectOnClickedImage(event) {
-  removeFilterEventListeners()
-  location.href = `/product.html?product=${event.target.getAttribute(
-    "product-id"
-  )}`;
+function redirectOnClickedImage(event) {
+  if (path !== "/product.html") {
+    removeFilterEventListeners();
+    location.href = `/product.html?product=${event.target.getAttribute(
+      "product-id"
+    )}`;
+  }
 }
 
 export function checkCurrentCart(productId) {
@@ -164,8 +160,6 @@ export function getBtnEventListener(productId) {
   }
 }
 
-customElements.define("product-card", ProductCard);
-
 export function createStyle() {
   const style = document.createElement("style");
   style.textContent = `
@@ -192,9 +186,6 @@ export function createStyle() {
         object-fit: contain;
         border-radius: 4px;
       }
-      .image:hover {
-        cursor: pointer;
-      }
       .onsale {
         position: absolute;
         top: 0px;
@@ -207,6 +198,9 @@ export function createStyle() {
       }
       .bg-green {
         background-color: greenyellow;
+      }
+      .hover:hover {
+        cursor: pointer;
       }
     `;
 
