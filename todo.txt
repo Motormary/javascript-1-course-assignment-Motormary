@@ -1,3 +1,5 @@
 1. Add nav to product page. ✅
-2. Create cart page.
+2. Create cart page. ✅
 3. Clean up css. ✅
+4. Create cart total element.
+5. Create checkout page.
