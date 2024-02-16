@@ -155,7 +155,8 @@ export function createStyle() {
       transform: rotate(30deg);
     }
     .bg-green {
-      background-color: greenyellow;
+      color: white;
+      background-color: green;
     }
     .hover:hover {
       cursor: pointer;
@@ -187,7 +188,8 @@ export function createStyle() {
       border-radius: 4px;
     }
     .bg-green {
-      background-color: greenyellow;
+      color: white;
+      background-color: green;
     }
     .hover:hover {
       cursor: pointer;

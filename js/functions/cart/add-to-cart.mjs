@@ -26,13 +26,11 @@ function setButtonValues(event) {
 function checkAndAddToCart(productId) {
   const current_cart = getCurrentCart();
 
-  let newCart = [];
   if (current_cart) {
-    newCart = [...current_cart, productId];
+    localStorage.cart = JSON.stringify([...current_cart, productId]);
   } else {
-    newCart = [productId];
+    localStorage.cart = JSON.stringify([productId]);
   }
-  localStorage.cart = JSON.stringify(newCart);
 }
 
 export function updateNavBarCartIcon() {

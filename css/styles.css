@@ -84,23 +84,30 @@ header {
   padding: 0 2rem;
 }
 
+.cart-list {
+  max-height: 37.25rem;
+  overflow: auto;
+  padding: 1rem 0;
+}
+
 
 /* ------- */
 
 #toast {
   visibility: hidden;
   min-width: 250px;
-  background-color: #24c53f;
+  background-color: green;
   color: #fff;
   font-size: 20px;
   text-align: center;
-  border: 1px solid black;
-  border-radius: 10px;
+  border: 1px solid #fff;
+  border-radius: 6px;
   padding: 1rem;
   position: fixed;
   z-index: 1;
   right: 1%;
   bottom: 30px;
+  box-shadow: 1px 1px 5px black;
   transition: transform 0.3s ease-in-out;
   transform: translateY(100%);
 }
