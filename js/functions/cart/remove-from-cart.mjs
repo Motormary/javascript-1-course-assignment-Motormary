@@ -1,5 +1,5 @@
 import { getCurrentCart } from "../../components/product-card.mjs";
-import { createEmptyCart } from "../../pages/cart-page.mjs";
+import { createEmptyCart, setFormTotalValue } from "../../pages/cart-page.mjs";
 import { handleAddToCart, updateNavBarCartIcon } from "./add-to-cart.mjs";
 
 /**
@@ -7,7 +7,7 @@ import { handleAddToCart, updateNavBarCartIcon } from "./add-to-cart.mjs";
  * @returns - Removes selected product from cart
  */
 
-const path = window.location.pathname
+const path = window.location.pathname;
 
 export function handleRemoveFromCart(event) {
   const productId = event.currentTarget.getAttribute("product-id");
@@ -16,11 +16,11 @@ export function handleRemoveFromCart(event) {
   updateNavBarCartIcon();
 
   if (path === "/cart.html") {
-    event.currentTarget.parentElement.remove()
-    const current_cart = getCurrentCart()
-    if (current_cart.length === 0) createEmptyCart()
+    event.currentTarget.parentElement.remove();
+    const current_cart = getCurrentCart();
+    setFormTotalValue();
+    if (current_cart.length === 0) createEmptyCart();
   }
-  
 }
 
 function setButtonValues(event) {
@@ -34,16 +34,11 @@ function setButtonValues(event) {
 function checkAndRemoveFromCart(productId) {
   const current_cart = getCurrentCart();
 
-  if (current_cart) {
-    const index = current_cart.indexOf(productId);
-    if (index !== -1) {
-      current_cart.splice(index, 1);
-      localStorage.cart = JSON.stringify(current_cart);
-      if (current_cart.length === 0) {
-        localStorage.removeItem("cart");
-      }
-    }
+  if (current_cart.length > 0) {
+    const updatedCart = current_cart.filter((item) => item.id !== productId);
+    localStorage.cart = JSON.stringify(updatedCart)
+  } else {
+    localStorage.removeItem("cart");
+
   }
 }
-
-

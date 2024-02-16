@@ -1,3 +1,5 @@
+import superFetch from "../../api/super-fetch.mjs";
+import { URL_PRODUCTS } from "../../api/urls.mjs";
 import { getCurrentCart } from "../../components/product-card.mjs";
 import { showToast } from "../toast.mjs";
 import { handleRemoveFromCart } from "./remove-from-cart.mjs";
@@ -10,7 +12,6 @@ export function handleAddToCart(event) {
   const productId = event.currentTarget.getAttribute("product-id");
   checkAndAddToCart(productId);
   setButtonValues(event)
-  updateNavBarCartIcon()
   showToast("Go to Cart", "/cart.html", 8000)
 
 }
@@ -23,14 +24,16 @@ function setButtonValues(event) {
   event.currentTarget.addEventListener("click", handleRemoveFromCart);
 }
 
-function checkAndAddToCart(productId) {
+async function checkAndAddToCart(productId) {
   const current_cart = getCurrentCart();
+  const product = await superFetch(URL_PRODUCTS, productId)
 
   if (current_cart) {
-    localStorage.cart = JSON.stringify([...current_cart, productId]);
+    localStorage.cart = JSON.stringify([...current_cart, product]);
   } else {
-    localStorage.cart = JSON.stringify([productId]);
+    localStorage.cart = JSON.stringify([product]);
   }
+  updateNavBarCartIcon()
 }
 
 export function updateNavBarCartIcon() {

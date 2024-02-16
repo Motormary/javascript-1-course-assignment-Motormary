@@ -81,7 +81,7 @@ header {
 #cart {
   display: flex;
   flex-direction: column;
-  padding: 0 2rem;
+  padding: 1rem 5rem;
 }
 
 .cart-list {
@@ -90,8 +90,19 @@ header {
   padding: 1rem 0;
 }
 
+#checkout {
+  display: flex;
+  justify-content: end;
+}
 
-/* ------- */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;  
+}
+
+
+/* ----TOAST---- */
 
 #toast {
   visibility: hidden;

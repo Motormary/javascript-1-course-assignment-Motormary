@@ -14,13 +14,24 @@
 </header>
 
 <body>
-    <section id="cart">
-        <h1>Cart</h1>
-        <img id="loading-spinner" src="assets/svg/spinner.svg" alt="Loading...">
-
-        <ul class="cart-list">
-        </ul>
-    </section>
+    <main>
+        <section id="cart">
+            <h1>Cart</h1>
+            <img id="loading-spinner" src="assets/svg/spinner.svg" alt="Loading...">
+            <ul class="cart-list">
+            </ul>
+            <div class="info-container">
+                <form id="checkout" action="/checkout.html" method="POST">
+                    <div class="form-container">
+                        <label for="total">Total:</label>
+                        <input type="text" id="total" name="total" readonly />
+                        <input type="hidden" id="items_in_cart" name="items_in_cart" />
+                        <button type="submit">Checkout</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
 </body>
 
 </html>

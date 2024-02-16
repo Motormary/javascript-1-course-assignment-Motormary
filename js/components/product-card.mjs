@@ -99,11 +99,12 @@ function removeProductCardEventlisteners(shadow) {
 }
 
 export function checkCurrentCart(productId) {
-  const cartContent = localStorage?.cart
-    ? JSON.parse(localStorage.cart).find((item) => item === productId)
-    : false;
+  const current_cart = getCurrentCart();
 
-  return cartContent;
+  if (current_cart) {
+    return current_cart.find((item) => item.id === productId);
+  }
+  return false;
 }
 
 function getBtnTextContent(productId) {
