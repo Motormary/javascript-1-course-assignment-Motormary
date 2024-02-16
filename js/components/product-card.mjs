@@ -59,7 +59,7 @@ class ProductCard extends HTMLElement {
 }
 customElements.define("product-card", ProductCard);
 
-/* --------------------------------------------------- */
+/* -----------------------FUNCTIONS---------------------------- */
 
 function setChildrenAttributesAndEvents(shadow, card) {
   shadow.querySelector(".title").textContent = card.getAttribute("title");
@@ -142,7 +142,7 @@ export function checkCurrentCart(productId) {
   return cartContent;
 }
 
-export function getBtnTextContent(productId) {
+function getBtnTextContent(productId) {
   const isProductInCart = checkCurrentCart(productId);
 
   if (!isProductInCart) {
@@ -152,135 +152,153 @@ export function getBtnTextContent(productId) {
   }
 }
 
-export function getBtnEventListener(productId) {
-  const isProductInCart = checkCurrentCart(productId);
-
-  if (isProductInCart) {
-    return handleRemoveFromCart;
-  } else {
-    return handleAddToCart;
-  }
-}
-
 export function createStyle() {
   const style = document.createElement("style");
-  style.textContent = `
-      .card {
-        position: relative;
-        min-width: 250px;
-        max-width: 600px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: 35rem;
-        background-color: #fff;
-        padding: 1rem 2rem;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        text-align: center;
-      }
-      .card > * {
-        margin: 0;
-      }
-      .image {
-        width: auto;
-        max-height: 250px;
-        object-fit: contain;
-        border-radius: 4px;
-      }
-      .onsale {
-        position: absolute;
-        top: 0px;
-        right: -40px;
-        font-size: 26px;
-        font-family: "helvetica";
-        font-weight: bold;
-        color: green;
-        transform: rotate(30deg);
-      }
-      .bg-green {
-        background-color: greenyellow;
-      }
-      .hover:hover {
-        cursor: pointer;
-      }
-    `;
+
+  if (path !== "/cart.html") {
+    style.textContent = `
+    .card {
+      position: relative;
+      min-width: 250px;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 35rem;
+      background-color: #fff;
+      padding: 1rem 2rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .card > * {
+      margin: 0;
+    }
+    .image {
+      width: auto;
+      max-height: 250px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .onsale {
+      position: absolute;
+      top: 0px;
+      right: -40px;
+      font-size: 26px;
+      font-family: "helvetica";
+      font-weight: bold;
+      color: green;
+      transform: rotate(30deg);
+    }
+    .bg-green {
+      background-color: greenyellow;
+    }
+    .hover:hover {
+      cursor: pointer;
+    }
+  `;
+  } else if (path === "/cart.html") {
+    style.textContent = `
+    .card {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #fff;
+      padding: 1rem 2rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+    .card > * {
+      flex: 1;
+    }
+    .image {
+      width: auto;
+      max-height: 100px;
+      object-fit: contain;
+      border-radius: 4px;
+    }
+    .bg-green {
+      background-color: greenyellow;
+    }
+    .description {
+      display: none;
+    }
+    .sizes {
+      display: none;
+    }
+    `
+  }
 
   return style;
 }
 
-export function createOnSaleText() {
-  const onSaleElement = document.createElement("p");
-  onSaleElement.textContent = "ON SALE!";
-  onSaleElement.className = "on-sale";
-
-  return onSaleElement;
-}
-
-export function createCard() {
+function createCard() {
   const cardContainer = document.createElement("div");
   cardContainer.classList.add("card");
 
   return cardContainer;
 }
 
-export function createTitle() {
+function createTitle() {
   const titleElement = document.createElement("h2");
   titleElement.classList.add("title");
 
   return titleElement;
 }
 
-export function createImage() {
+function createImage() {
   const imageElement = document.createElement("img");
   imageElement.classList.add("image");
 
   return imageElement;
 }
 
-export function createDescription() {
+function createDescription() {
   const descriptionElement = document.createElement("p");
   descriptionElement.classList.add("description");
 
   return descriptionElement;
 }
 
-export function createGender() {
+function createGender() {
   const genderElement = document.createElement("p");
   genderElement.classList.add("gender");
 
   return genderElement;
 }
 
-export function createSizes() {
+function createSizes() {
   const product_sizes = document.createElement("p");
   product_sizes.classList.add("sizes");
 
   return product_sizes;
 }
 
-export function createOnSale() {
+function createOnSale() {
   const onSaleElement = document.createElement("p");
   onSaleElement.classList.add("onsale");
 
   return onSaleElement;
 }
 
-export function createButton() {
+function createButton() {
   const buttonElement = document.createElement("button");
   buttonElement.classList.add("add_btn");
 
   return buttonElement;
 }
 
-export function createPrice() {
+function createPrice() {
   const priceElement = document.createElement("p");
   priceElement.classList.add("price");
 
   return priceElement;
 }
 
-export function createColors() {
+function createColors() {
   const colorsElement = document.createElement("p");
   colorsElement.classList.add("colors");
 

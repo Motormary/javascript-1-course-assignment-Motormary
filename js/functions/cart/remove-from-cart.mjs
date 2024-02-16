@@ -6,11 +6,15 @@ import { handleAddToCart, updateNavBarCartIcon } from "./add-to-cart.mjs";
  * @returns - Removes selected product from cart
  */
 
+const path = window.location.pathname
+
 export function handleRemoveFromCart(event) {
   const productId = event.currentTarget.getAttribute("product-id");
   setButtonValues(event);
   checkAndRemoveFromCart(productId);
   updateNavBarCartIcon();
+
+  if (path === "/cart.html") event.currentTarget.parentElement.remove()
   
 }
 
