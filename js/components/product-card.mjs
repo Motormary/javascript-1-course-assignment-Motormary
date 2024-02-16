@@ -202,6 +202,8 @@ export function createStyle() {
     .card {
       position: relative;
       display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
       justify-content: space-between;
       align-items: center;
       background-color: #fff;
@@ -222,6 +224,9 @@ export function createStyle() {
     }
     .bg-green {
       background-color: greenyellow;
+    }
+    .hover:hover {
+      cursor: pointer;
     }
     .description {
       display: none;
