@@ -1,4 +1,5 @@
 import { getCurrentCart } from "../../components/product-card.mjs";
+import { showToast } from "../toast.mjs";
 import { handleRemoveFromCart } from "./remove-from-cart.mjs";
 /**
  * @param {event} - Click event containing product ID in "data-product-id"
@@ -10,6 +11,7 @@ export function handleAddToCart(event) {
   checkAndAddToCart(productId);
   setButtonValues(event)
   updateNavBarCartIcon()
+  showToast("Go to Cart", "/cart.html", 8000)
 
 }
 

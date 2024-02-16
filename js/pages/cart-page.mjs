@@ -36,10 +36,12 @@ async function fetchCartItems() {
 
 function createCartItem(product) {
   const container = document.querySelector("ul.cart-list");
+  
+  const card = createProductCard(product);
 
   const listElement = document.createElement("li");
-  const card = createProductCard(product);
   listElement.style = "list-style: none;";
+  
   listElement.appendChild(card);
   container.appendChild(listElement);
 }
