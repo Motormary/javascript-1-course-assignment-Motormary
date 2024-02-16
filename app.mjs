@@ -5,6 +5,7 @@ import { createFilterButtons } from "./js/functions/filter/create-filter-buttons
 import setProductLoading from "./js/functions/loading.mjs";
 import handleError from "./js/functions/no-response.mjs";
 import { createProductCard } from "./js/components/product-card.mjs";
+import emptySearchResult from "./js/functions/filter/empty-search-result.mjs";
 
 const path = window.location.pathname;
 if (path === "/" || path === "/index.html") {
@@ -55,7 +56,11 @@ export function getFilteredProducts() {
     });
   });
 
-  createProductList(filteredProducts);
+  if (filteredProducts) createProductList(filteredProducts);
+  if (filteredProducts.length === 0) {
+    emptySearchResult()
+  }
+  
 }
 
 function removeCurrentProductList() {

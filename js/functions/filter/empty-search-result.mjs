@@ -1,4 +1,4 @@
-const content = document.getElementById("list-of-products");
+const content = document.querySelector(".product-list");
 
 
 export function emptySearchResult() {
