@@ -1,3 +1,5 @@
+import { getCurrentCart } from "./product-card.mjs";
+
 class CustomNav extends HTMLElement {
   constructor() {
     super();
@@ -20,7 +22,29 @@ class CustomNav extends HTMLElement {
     container.appendChild(homeLink);
     container.appendChild(cartLink);
 
-    this.shadowRoot.appendChild(container);
+    const style = document.createElement("style")
+    style.textContent = `
+    .nav-content {
+      box-sizing: border-box;
+      display: flex;
+      height: 5rem;
+      width: 100%;
+      max-width: 1920px;
+      padding: 0 3rem;
+      gap: 1rem;
+      align-items: center;
+      justify-content: right;
+      background-color: green;
+      color: #fff;
+    }
+    a {
+      text-decoration: none;
+      color: #fff;
+      font-size: 20px;
+    }
+    `
+
+    this.shadowRoot.append(style, container);
 
     this.updateCartLength();
 
@@ -28,11 +52,10 @@ class CustomNav extends HTMLElement {
   }
 
   updateCartLength() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    console.log(cart)
+    const cart = getCurrentCart()
     const cartLength = cart?.length
 
-    this.shadowRoot.querySelector("a.cart").textContent = `Cart (${cartLength})`;
+    this.shadowRoot.querySelector("a.cart").textContent = `Cart ${cartLength > 0 ? `(${cartLength})` : ""}`;
   }
 }
 

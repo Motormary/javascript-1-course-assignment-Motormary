@@ -48,16 +48,18 @@ class ProductCard extends HTMLElement {
   }
 
   connectedCallback() {
-    //console.log("connected")
+    // console.log("connected")
     setChildrenAttributesAndEvents(this.shadowRoot, this);
   }
 
   disconnectedCallback() {
     removeProductCardEventlisteners(this.shadowRoot);
-    //console.log("disconnected");
+    // console.log("disconnected");
   }
 }
 customElements.define("product-card", ProductCard);
+
+/* --------------------------------------------------- */
 
 function setChildrenAttributesAndEvents(shadow, card) {
   shadow.querySelector(".title").textContent = card.getAttribute("title");
