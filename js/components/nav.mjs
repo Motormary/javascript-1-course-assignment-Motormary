@@ -29,7 +29,6 @@ class CustomNav extends HTMLElement {
       display: flex;
       height: 5rem;
       width: 100%;
-      max-width: 1920px;
       padding: 0 3rem;
       gap: 1rem;
       align-items: center;
