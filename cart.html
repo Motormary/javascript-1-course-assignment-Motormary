@@ -21,7 +21,7 @@
             <ul class="cart-list">
             </ul>
             <div class="info-container">
-                <form id="checkout" action="/checkout.html" method="POST">
+                <form id="checkout" action="/checkout.html" method="GET"> <!-- GET because checkout can't handle POST yet -->
                     <div class="form-container">
                         <label for="total">Total:</label>
                         <input type="text" id="total" name="total" readonly />

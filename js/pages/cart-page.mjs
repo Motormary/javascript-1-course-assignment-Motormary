@@ -43,6 +43,7 @@ function createCartItem(product) {
 
 export function createEmptyCart() {
   const container = document.querySelector("ul.cart-list");
+  const checkoutForm = document.getElementById("checkout")
   const emptyContainer = document.createElement("div");
 
   const emptyCart = document.createElement("p");
@@ -53,11 +54,12 @@ export function createEmptyCart() {
   pls.href = "/";
 
   emptyCart.style = "font-size: 24px; color: black;";
-  emptyCart.textContent = "You have no items in the cart, ";
+  emptyCart.textContent = "You have no items in cart, ";
 
   emptyCart.appendChild(pls);
   emptyContainer.appendChild(emptyCart);
   container.replaceWith(emptyContainer);
+  checkoutForm.remove()
 }
 
 function setFormItemsIncart(products) {
