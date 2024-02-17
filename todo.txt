@@ -2,6 +2,6 @@
 2. Create cart page. ✅
 3. Clean up css. ✅
 3.5. Handle overflowing cart.✅
-3.75. Update cart.html to handle new localStorage
-4. Create cart total element.
+3.75. Update cart.html to handle new localStorage ✅
+4. Create cart total element. ✅
 5. Create checkout page.

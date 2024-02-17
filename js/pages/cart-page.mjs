@@ -12,25 +12,16 @@ const path = window.location.pathname;
 if (path === "/cart.html") {
   fetchCartItems();
 }
-let total = 0;
 
 async function fetchCartItems() {
-  const container = document.querySelector("ul.cart-list");
   const current_cart = getCurrentCart();
 
   if (current_cart.length > 0) {
     setProductLoading(false);
+    setFormTotalValue();
     setFormItemsIncart(current_cart);
-    current_cart.forEach(async (item) => {
-      const response = await superFetch(URL_PRODUCTS, item);
-      if (response) {
-        total += response.price;
-        createCartItem(response);
-        setFormTotalValue()
-      } else {
-        const error = handleNoResponse();
-        container.replaceWith(error);
-      }
+    current_cart.forEach((item) => {
+      createCartItem(item);
     });
   } else {
     setProductLoading(false);
@@ -70,12 +61,11 @@ export function createEmptyCart() {
 }
 
 function setFormItemsIncart(products) {
-  document.getElementById("items_in_cart").value = products;
+  document.getElementById("items_in_cart").value = JSON.stringify(products);
 }
 
-export function setFormTotalValue(removedValue) {
-  if (removedValue) {
-    total -= removedValue;
-  }
-  document.getElementById("total").value = total.toFixed(2);
+export function setFormTotalValue() {
+  const current_cart = getCurrentCart();
+  const total = current_cart.reduce((total, product) => total + product.price, 0);
+  document.getElementById("total").value = total;
 }
