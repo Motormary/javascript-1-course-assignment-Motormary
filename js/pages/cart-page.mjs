@@ -69,5 +69,5 @@ function setFormItemsIncart(products) {
 export function setFormTotalValue() {
   const current_cart = getCurrentCart();
   const total = current_cart.reduce((total, product) => total + product.price, 0);
-  document.getElementById("total").value = total;
+  document.getElementById("total").value = total.toFixed(2);
 }
