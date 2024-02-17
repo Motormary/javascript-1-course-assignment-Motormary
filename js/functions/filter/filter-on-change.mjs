@@ -2,11 +2,11 @@
  *@description Calls the filter function onChange
  */
 
-import { getFilteredProducts } from "../../../app.mjs";
+import { fetchProducts, getFilteredProducts } from "../../../app.mjs";
 
 function handleFilterOnChange() {
 
-  getFilteredProducts()
+  fetchProducts()
 }
 
 export default handleFilterOnChange;

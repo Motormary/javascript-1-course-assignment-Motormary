@@ -15,14 +15,12 @@ if (path === "/" || path === "/index.html") {
 
 const container = document.querySelector("div.product-list");
 
-let products = []
 
 export async function fetchProducts() {
   const response = await superFetch(URL_PRODUCTS);
 
   if (response) {
-    products = response
-    getFilteredProducts();
+    getFilteredProducts(response);
   } else {
     setProductLoading(false);
     const error = handleNoResponse();
@@ -41,7 +39,7 @@ function createProductList(products) {
   });
 }
 
-export function getFilteredProducts() {
+export function getFilteredProducts(products) {
   const filterKeysAndValues = Array.from( 
     document.querySelectorAll(".filter-btn") 
   )
