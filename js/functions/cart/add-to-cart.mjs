@@ -19,7 +19,7 @@ export function handleAddToCart(event) {
   const sizes = currentCard.querySelector(".sizes");
 
   checkAndAddToCart(productId, quantity);
-  setButtonValues(event);
+  // setButtonValues(event);
   showToast("Go to Cart", "/cart.html", 8000);
 }
 
@@ -34,15 +34,15 @@ function setButtonValues(event) {
 async function checkAndAddToCart(productId, quantity = "1") {
   const product = await superFetch(URL_PRODUCTS, productId);
   const current_cart = getCurrentCart();
-  const isProductInCart = checkCurrentCart();
+  const isProductInCart = checkCurrentCart(productId);
   const newProduct = { ...product, quantity: quantity, price: product.price * quantity };
 
   if (isProductInCart) {
-    updateProductInCart(product, quantity);
+    updateProductInCart(product, quantity); // Produt in cart, update object.
   } else if (!isProductInCart && current_cart) {
-    localStorage.cart = JSON.stringify([...current_cart, newProduct]);
+    localStorage.cart = JSON.stringify([...current_cart, newProduct]); // Product not in cart, add to cart.
   } else {
-    localStorage.cart = JSON.stringify([newProduct]);
+    localStorage.cart = JSON.stringify([newProduct]); // No cart, create cart and add product.
   }
 
   updateNavBarCartIcon();
@@ -50,14 +50,14 @@ async function checkAndAddToCart(productId, quantity = "1") {
 
 function updateProductInCart(product, quantity) {
   const current_cart = getCurrentCart();
-  const index = current_cart.indexOf(product.id);
+  const index = current_cart.findIndex((item) => item.id === product.id);
 
   current_cart[index] = {
     ...current_cart[index],
-    quantity: current_cart[index].quantity + quantity,
+    quantity: parseFloat(current_cart[index].quantity) + parseFloat(quantity),
   };
 
-  localStorage.cart = JSON.stringify([current_cart]);
+  localStorage.cart = JSON.stringify(current_cart);
 }
 
 function findSelectedRadioButton() {

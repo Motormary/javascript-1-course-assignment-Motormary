@@ -59,7 +59,7 @@ class ProductCard extends HTMLElement {
 
       inputElement.id = "quantity";
       inputElement.type = "number";
-      inputElement.value = quantity ? quantity : "1";
+      inputElement.value = quantity ? quantity : 1;
       inputElement.readOnly = true
       minusElement.textContent = "-";
       plusELement.textContent = "+";
@@ -109,8 +109,8 @@ customElements.define("product-card", ProductCard);
 
 /* -----------------------FUNCTIONS---------------------------- */
 
-function AddBtnEventListener(buttonElement, isProductInCart) {
-  if (!isProductInCart) {
+function AddBtnEventListener(buttonElement) {
+  if (path !== "/cart.html") {
     buttonElement.addEventListener("click", handleAddToCart);
   } else {
     buttonElement.addEventListener("click", handleRemoveFromCart);
@@ -126,14 +126,9 @@ function removeProductCardEventlisteners(shadow) {
   }
 }
 
-function getBtnTextContent(productId) {
-  const isProductInCart = checkCurrentCart(productId);
-
-  if (!isProductInCart) {
-    return "Add to Cart";
-  } else {
-    return "Remove from Cart";
-  }
+function getBtnTextContent() {
+  if (path == "/cart.html") return "Remove from Cart"
+  else return "Add to cart"
 }
 
 export function createStyle() {
