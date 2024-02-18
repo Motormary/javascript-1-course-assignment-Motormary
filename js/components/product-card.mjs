@@ -143,9 +143,13 @@ function AddBtnEventListener(buttonElement) {
 
 function removeProductCardEventlisteners(shadow) {
   const buttonElement = shadow.querySelector("button.add_btn");
+  const labelElements = shadow.querySelectorAll("label");
   if (buttonElement) {
     buttonElement.removeEventListener("click", handleAddToCart);
     buttonElement.removeEventListener("click", handleRemoveFromCart);
+  }
+  if (labelElements) {
+    labelElements.forEach((label) => label.removeEventListener("keydown"));
   }
 }
 
@@ -183,11 +187,26 @@ function createSizesButton(sizes) {
 
     labelElement.setAttribute("for", size);
     labelElement.textContent = size;
+    labelElement.tabIndex = "0";
+
+    labelElement.addEventListener("keydown", handleChangeLabels);
 
     container.append(inputElement, labelElement);
   });
 
   return container;
+}
+
+function handleChangeLabels(event) {
+  const labelElement = event.target;
+  const inputElement = labelElement.previousElementSibling;
+  if (event.code === "Space" || event.code === "Enter") {
+    inputElement.checked = true;
+
+    const allLabels = document.querySelectorAll(".size-label");
+    allLabels.forEach((label) => label.classList.remove("selected"));
+    labelElement.classList.add("selected");
+  }
 }
 
 function createCard() {
@@ -258,17 +277,17 @@ function createButton(productId) {
 }
 
 function createPrice(price, quantity, onsale, discountedPrice) {
-  const checkedPrice = getPrice(price, discountedPrice, onsale)
+  const checkedPrice = getPrice(price, discountedPrice, onsale);
   const priceElement = document.createElement("p");
-  priceElement.textContent = checkedPrice * quantity + "$";
+  priceElement.textContent = (checkedPrice * quantity).toFixed(2) + "$";
   priceElement.classList.add("price");
 
   return priceElement;
 }
 
 export function getPrice(price, discountedPrice, onsale) {
-  if (onsale) return discountedPrice
-  else return price
+  if (onsale) return discountedPrice;
+  else return price;
 }
 
 function createColors(color) {
@@ -318,7 +337,7 @@ export function createProductCard(product) {
   card.setAttribute("gender", product.gender);
   card.setAttribute("onsale", product.onSale);
   card.setAttribute("price", product.price);
-  card.setAttribute("discount", product.discountedPrice)
+  card.setAttribute("discount", product.discountedPrice);
   card.setAttribute("colors", product.baseColor);
   card.setAttribute("add_btn", product.id);
   card.setAttribute("quantity", product?.quantity || "1");

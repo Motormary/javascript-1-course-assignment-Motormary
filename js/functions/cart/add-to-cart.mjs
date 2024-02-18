@@ -5,9 +5,7 @@ import {
   getCurrentCart,
   getPrice,
 } from "../../components/product-card.mjs";
-import { setFormTotalValue } from "../../pages/cart-page.mjs";
 import { showToast } from "../toast.mjs";
-import { handleRemoveFromCart } from "./remove-from-cart.mjs";
 /**
  * @param {event} - Click event containing product ID in "data-product-id"
  * @returns - Adds selected product to cart
@@ -17,14 +15,16 @@ export function handleAddToCart(event) {
   const productId = event.currentTarget.getAttribute("product-id");
   const currentCard = event.currentTarget.parentElement;
   const quantity = currentCard.querySelector("input#quantity").value;
-  const sizes = currentCard.querySelector(".sizes");
+  const radioButtons = currentCard.querySelectorAll("input[name=size]");
+  const size = isSelectedSize(radioButtons);
 
-  checkAndAddToCart(productId, quantity);
-  // setButtonValues(event);
-  showToast("Go to Cart", "/cart.html", 8000);
+  if (size) {
+    checkAndAddToCart(productId, quantity);
+    showToast("Go to Cart", "/cart.html", 8000);
+  } else {
+    setMissingSize(currentCard);
+  }
 }
-
-
 
 async function checkAndAddToCart(productId, quantity = "1") {
   const product = await superFetch(URL_PRODUCTS, productId);
@@ -46,9 +46,12 @@ async function checkAndAddToCart(productId, quantity = "1") {
 function updateProductInCart(product, quantity) {
   const current_cart = getCurrentCart();
   const index = current_cart.findIndex((item) => item.id === product.id);
-  const price = getPrice(product.price, product.discountedPrice, product.onSale)
+  const price = getPrice(
+    product.price,
+    product.discountedPrice,
+    product.onSale
+  );
 
-  console.log(price)
   current_cart[index] = {
     ...current_cart[index],
     quantity: parseFloat(current_cart[index].quantity) + parseFloat(quantity),
@@ -57,10 +60,10 @@ function updateProductInCart(product, quantity) {
   localStorage.cart = JSON.stringify(current_cart);
 }
 
-function findSelectedRadioButton() {
-  const radioButtons = document.querySelectorAll("[name=size]");
-
-  console.log(radioButtons);
+function isSelectedSize(buttons) {
+  const button = Array.from(buttons).find((button) => button.checked);
+  if (button) return button.id;
+  else return false;
 }
 
 // findSelectedRadioButton()
@@ -75,11 +78,22 @@ export function updateNavBarCartIcon() {
   window.dispatchEvent(updateCartEvent);
 }
 
+function setMissingSize(container) {
+  const radioGroup = container.querySelector(".radio-grp");
+  radioGroup.style = `
+  border: 1px solid red;
+  padding: 0.25rem 0;
+`;
 
-// function setButtonValues(event) {
-//   event.currentTarget.textContent = "Remove from Cart";
-//   event.currentTarget.classList.add("bg-green");
-//   event.currentTarget.setAttribute("aria-selected", true);
-//   event.currentTarget.removeEventListener("click", handleAddToCart);
-//   event.currentTarget.addEventListener("click", handleRemoveFromCart);
-// }
+  const errorMessage = document.createElement("p");
+  errorMessage.textContent = "Size required*";
+  errorMessage.style = "color: red;"
+
+
+  radioGroup.after(errorMessage);
+
+  setTimeout(() => {
+    errorMessage.remove()
+    radioGroup.style = ""
+  }, 5000)
+}
