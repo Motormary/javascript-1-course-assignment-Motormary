@@ -1,6 +1,7 @@
 import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
 import removeFilterEventListeners from "../functions/filter/remove-filter-listeners.mjs";
+import { cardCartStyle, cardRadioStyle, cardStyle } from "./styles.mjs";
 
 const path = window.location.pathname;
 
@@ -66,23 +67,6 @@ customElements.define("product-card", ProductCard);
 
 /* -----------------------FUNCTIONS---------------------------- */
 
-export function createProductCard(product) {
-  const card = document.createElement("product-card");
-
-  card.setAttribute("product-id", product.id);
-  card.setAttribute("title", product.title);
-  card.setAttribute("image", product.image);
-  card.setAttribute("description", product.description);
-  card.setAttribute("sizes", product.sizes);
-  card.setAttribute("gender", product.gender);
-  card.setAttribute("onsale", product.onSale);
-  card.setAttribute("price", product.price);
-  card.setAttribute("colors", product.baseColor);
-  card.setAttribute("add_btn", product.id);
-
-  return card;
-}
-
 function AddBtnEventListener(buttonElement, isProductInCart) {
   if (!isProductInCart) {
     buttonElement.addEventListener("click", handleAddToCart);
@@ -100,15 +84,6 @@ function removeProductCardEventlisteners(shadow) {
   }
 }
 
-export function checkCurrentCart(productId) {
-  const current_cart = getCurrentCart();
-
-  if (current_cart) {
-    return current_cart.find((item) => item.id === productId);
-  }
-  return false;
-}
-
 function getBtnTextContent(productId) {
   const isProductInCart = checkCurrentCart(productId);
 
@@ -122,95 +97,8 @@ function getBtnTextContent(productId) {
 export function createStyle() {
   const style = document.createElement("style");
 
-  if (path !== "/cart.html") {
-    style.textContent = `
-    .card {
-      position: relative;
-      min-width: 245px;
-      max-width: 600px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 35rem;
-      background-color: #fff;
-      padding: 1rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .card > * {
-      margin: 0;
-    }
-    .image {
-      width: auto;
-      max-height: 250px;
-      object-fit: contain;
-      border-radius: 4px;
-    }
-    .onsale {
-      position: absolute;
-      top: 0px;
-      right: -40px;
-      font-size: 26px;
-      font-family: "helvetica";
-      font-weight: bold;
-      color: green;
-      transform: rotate(30deg);
-      z-index: 1;
-    }
-    .bg-green {
-      color: white;
-      background-color: green;
-    }
-    .hover:hover {
-      cursor: pointer;
-    }
-  `;
-  } else if (path === "/cart.html") {
-    style.textContent = `
-    .card {
-      position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #fff;
-      padding: 1rem 2rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      text-align: center;
-      margin: 0.5rem 0;
-    }
-    .card > * {
-      flex: 1;
-    }
-    .image {
-      width: auto;
-      max-height: 100px;
-      object-fit: contain;
-      border-radius: 4px;
-    }
-    .onsale {
-      font-family: "helvetica";
-      font-weight: bold;
-      color: green;
-    }
-    .bg-green {
-      color: white;
-      background-color: green;
-    }
-    .hover:hover {
-      cursor: pointer;
-    }
-    .description {
-      display: none;
-    }
-    .sizes {
-      display: none;
-    }
-    `;
-  }
+  if (path !== "/cart.html") style.textContent = cardStyle;
+  else if (path === "/cart.html") style.textContent = cardCartStyle;
 
   return style;
 }
@@ -218,7 +106,9 @@ export function createStyle() {
 function createSizesButton(sizes) {
   const container = document.createElement("div");
   container.classList.add("radio-grp");
+  
   const style = document.createElement("style");
+  style.textContent = cardRadioStyle;
 
   container.appendChild(style);
 
@@ -236,35 +126,6 @@ function createSizesButton(sizes) {
 
     container.append(inputElement, labelElement);
   });
-
-  style.textContent = `
-  .radio-grp {
-    display: flex;
-    gap: 5px;
-    justify-content: center;
-  }
-  
-  input[type="radio"] {
-    display:none;
-  }
-  
-  label {
-    width: 43px;
-    display: inline-block;
-    border: 1px solid gray;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .blank-label {
-    display: none;
-  }
-  
-  input[type="radio"]:checked + label {
-    background: green;
-    color: #fff;
-  }
-  `;
 
   return container;
 }
@@ -369,4 +230,30 @@ export function getCurrentCart() {
   const current_cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   return current_cart;
+}
+
+export function checkCurrentCart(productId) {
+  const current_cart = getCurrentCart();
+
+  if (current_cart) {
+    return current_cart.find((item) => item.id === productId);
+  }
+  return false;
+}
+
+export function createProductCard(product) {
+  const card = document.createElement("product-card");
+
+  card.setAttribute("product-id", product.id);
+  card.setAttribute("title", product.title);
+  card.setAttribute("image", product.image);
+  card.setAttribute("description", product.description);
+  card.setAttribute("sizes", product.sizes);
+  card.setAttribute("gender", product.gender);
+  card.setAttribute("onsale", product.onSale);
+  card.setAttribute("price", product.price);
+  card.setAttribute("colors", product.baseColor);
+  card.setAttribute("add_btn", product.id);
+
+  return card;
 }
