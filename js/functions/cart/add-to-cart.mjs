@@ -3,6 +3,7 @@ import { URL_PRODUCTS } from "../../api/urls.mjs";
 import {
   checkCurrentCart,
   getCurrentCart,
+  getPrice,
 } from "../../components/product-card.mjs";
 import { setFormTotalValue } from "../../pages/cart-page.mjs";
 import { showToast } from "../toast.mjs";
@@ -23,13 +24,7 @@ export function handleAddToCart(event) {
   showToast("Go to Cart", "/cart.html", 8000);
 }
 
-function setButtonValues(event) {
-  event.currentTarget.textContent = "Remove from Cart";
-  event.currentTarget.classList.add("bg-green");
-  event.currentTarget.setAttribute("aria-selected", true);
-  event.currentTarget.removeEventListener("click", handleAddToCart);
-  event.currentTarget.addEventListener("click", handleRemoveFromCart);
-}
+
 
 async function checkAndAddToCart(productId, quantity = "1") {
   const product = await superFetch(URL_PRODUCTS, productId);
@@ -51,7 +46,9 @@ async function checkAndAddToCart(productId, quantity = "1") {
 function updateProductInCart(product, quantity) {
   const current_cart = getCurrentCart();
   const index = current_cart.findIndex((item) => item.id === product.id);
+  const price = getPrice(product.price, product.discountedPrice, product.onSale)
 
+  console.log(price)
   current_cart[index] = {
     ...current_cart[index],
     quantity: parseFloat(current_cart[index].quantity) + parseFloat(quantity),
@@ -77,3 +74,12 @@ export function updateNavBarCartIcon() {
   });
   window.dispatchEvent(updateCartEvent);
 }
+
+
+// function setButtonValues(event) {
+//   event.currentTarget.textContent = "Remove from Cart";
+//   event.currentTarget.classList.add("bg-green");
+//   event.currentTarget.setAttribute("aria-selected", true);
+//   event.currentTarget.removeEventListener("click", handleAddToCart);
+//   event.currentTarget.addEventListener("click", handleRemoveFromCart);
+// }

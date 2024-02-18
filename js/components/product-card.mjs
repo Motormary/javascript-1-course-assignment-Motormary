@@ -1,5 +1,6 @@
 import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
+import { setFormTotalValue } from "../pages/cart-page.mjs";
 import {
   cardCartStyle,
   cardRadioStyle,
@@ -37,7 +38,12 @@ class ProductCard extends HTMLElement {
 
     const onSaleElement = createOnSale(this.getAttribute("onsale"));
 
-    const priceElement = createPrice(this.getAttribute("price"), this.getAttribute("quantity"));
+    const priceElement = createPrice(
+      this.getAttribute("price"),
+      this.getAttribute("quantity"),
+      this.getAttribute("onsale"),
+      this.getAttribute("discount")
+    );
 
     const buttonElement = createButton(this.getAttribute("product-id"));
 
@@ -72,9 +78,11 @@ class ProductCard extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    const price = this.getAttribute("price");
-    const priceElement = this.shadowRoot.querySelector(".price");
-    priceElement.textContent = (price * newValue).toFixed(2) + "$";
+    if (this.shadowRoot) {
+      const price = this.getAttribute("price");
+      const priceElement = this.shadowRoot.querySelector(".price");
+      priceElement.textContent = (price * newValue).toFixed(2) + "$";
+    }
   }
 }
 customElements.define("product-card", ProductCard);
@@ -107,6 +115,7 @@ function createQuantity(quantity, card) {
   function addQuantity() {
     inputElement.value++;
     card.setAttribute("quantity", inputElement.value);
+    if (path === "/cart.html") setFormTotalValue();
   }
 
   function subtractQuantity() {
@@ -115,6 +124,7 @@ function createQuantity(quantity, card) {
       inputElement.value = 1;
     } else inputElement.value--;
     card.setAttribute("quantity", inputElement.value);
+    if (path === "/cart.html") setFormTotalValue();
   }
 
   container.append(style, minusElement, inputElement, plusELement);
@@ -247,12 +257,18 @@ function createButton(productId) {
   return buttonElement;
 }
 
-function createPrice(price, quantity) {
+function createPrice(price, quantity, onsale, discountedPrice) {
+  const checkedPrice = getPrice(price, discountedPrice, onsale)
   const priceElement = document.createElement("p");
-  priceElement.textContent = price * quantity + "$";
+  priceElement.textContent = checkedPrice * quantity + "$";
   priceElement.classList.add("price");
 
   return priceElement;
+}
+
+export function getPrice(price, discountedPrice, onsale) {
+  if (onsale) return discountedPrice
+  else return price
 }
 
 function createColors(color) {
@@ -302,6 +318,7 @@ export function createProductCard(product) {
   card.setAttribute("gender", product.gender);
   card.setAttribute("onsale", product.onSale);
   card.setAttribute("price", product.price);
+  card.setAttribute("discount", product.discountedPrice)
   card.setAttribute("colors", product.baseColor);
   card.setAttribute("add_btn", product.id);
   card.setAttribute("quantity", product?.quantity || "1");
