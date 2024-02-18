@@ -1,11 +1,8 @@
-import superFetch from "../api/super-fetch.mjs";
-import { URL_PRODUCTS } from "../api/urls.mjs";
 import {
   createProductCard,
   getCurrentCart,
 } from "../components/product-card.mjs";
 import setProductLoading from "../functions/error/loading.mjs";
-import handleNoResponse from "../functions/error/no-response.mjs";
 
 const path = window.location.pathname;
 
@@ -44,19 +41,19 @@ function createCartItem(product) {
 export function createEmptyCart() {
   const container = document.querySelector("ul.cart-list");
   const checkoutForm = document.getElementById("checkout")
+
   const emptyContainer = document.createElement("div");
-
   const emptyCart = document.createElement("p");
-  const pls = document.createElement("a");
+  const plsBuy = document.createElement("a");
 
-  pls.textContent = "pls buy";
-  pls.style = "text-decoration: underline; display: inline; color: black;";
-  pls.href = "/";
+  plsBuy.textContent = "Special price for you, my friend.";
+  plsBuy.style = "text-decoration: underline; display: inline; color: black;";
+  plsBuy.href = "/";
 
   emptyCart.style = "font-size: 24px; color: black;";
-  emptyCart.textContent = "You have no items in cart, ";
+  emptyCart.textContent = "You have no items in cart. ";
 
-  emptyCart.appendChild(pls);
+  emptyCart.appendChild(plsBuy);
   emptyContainer.appendChild(emptyCart);
   container.replaceWith(emptyContainer);
   checkoutForm.remove()
