@@ -1,6 +1,5 @@
 import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
-import removeFilterEventListeners from "../functions/filter/remove-filter-listeners.mjs";
 import {
   cardCartStyle,
   cardRadioStyle,
@@ -38,7 +37,7 @@ class ProductCard extends HTMLElement {
 
     const onSaleElement = createOnSale(this.getAttribute("onsale"));
 
-    const priceElement = createPrice(this.getAttribute("price"));
+    const priceElement = createPrice(this.getAttribute("price"), this.getAttribute("quantity"));
 
     const buttonElement = createButton(this.getAttribute("product-id"));
 
@@ -108,7 +107,6 @@ function createQuantity(quantity, card) {
   function addQuantity() {
     inputElement.value++;
     card.setAttribute("quantity", inputElement.value);
-    console.log(inputElement.value)
   }
 
   function subtractQuantity() {
@@ -249,9 +247,9 @@ function createButton(productId) {
   return buttonElement;
 }
 
-function createPrice(price) {
+function createPrice(price, quantity) {
   const priceElement = document.createElement("p");
-  priceElement.textContent = price + "$";
+  priceElement.textContent = price * quantity + "$";
   priceElement.classList.add("price");
 
   return priceElement;

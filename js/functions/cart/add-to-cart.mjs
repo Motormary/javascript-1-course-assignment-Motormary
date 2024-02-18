@@ -35,7 +35,7 @@ async function checkAndAddToCart(productId, quantity = "1") {
   const product = await superFetch(URL_PRODUCTS, productId);
   const current_cart = getCurrentCart();
   const isProductInCart = checkCurrentCart(productId);
-  const newProduct = { ...product, quantity: quantity, price: product.price * quantity };
+  const newProduct = { ...product, quantity: quantity };
 
   if (isProductInCart) {
     updateProductInCart(product, quantity); // Produt in cart, update object.
