@@ -1,6 +1,10 @@
 import superFetch from "../../api/super-fetch.mjs";
 import { URL_PRODUCTS } from "../../api/urls.mjs";
-import { getCurrentCart } from "../../components/product-card.mjs";
+import {
+  checkCurrentCart,
+  getCurrentCart,
+} from "../../components/product-card.mjs";
+import { setFormTotalValue } from "../../pages/cart-page.mjs";
 import { showToast } from "../toast.mjs";
 import { handleRemoveFromCart } from "./remove-from-cart.mjs";
 /**
@@ -10,10 +14,13 @@ import { handleRemoveFromCart } from "./remove-from-cart.mjs";
 
 export function handleAddToCart(event) {
   const productId = event.currentTarget.getAttribute("product-id");
-  checkAndAddToCart(productId);
-  setButtonValues(event)
-  showToast("Go to Cart", "/cart.html", 8000)
+  const currentCard = event.currentTarget.parentElement;
+  const quantity = currentCard.querySelector("input#quantity").value;
+  const sizes = currentCard.querySelector(".sizes");
 
+  checkAndAddToCart(productId, quantity);
+  setButtonValues(event);
+  showToast("Go to Cart", "/cart.html", 8000);
 }
 
 function setButtonValues(event) {
@@ -24,17 +31,42 @@ function setButtonValues(event) {
   event.currentTarget.addEventListener("click", handleRemoveFromCart);
 }
 
-async function checkAndAddToCart(productId) {
+async function checkAndAddToCart(productId, quantity = "1") {
+  const product = await superFetch(URL_PRODUCTS, productId);
   const current_cart = getCurrentCart();
-  const product = await superFetch(URL_PRODUCTS, productId)
+  const isProductInCart = checkCurrentCart();
+  const newProduct = { ...product, quantity: quantity, price: product.price * quantity };
 
-  if (current_cart) {
-    localStorage.cart = JSON.stringify([...current_cart, product]);
+  if (isProductInCart) {
+    updateProductInCart(product, quantity);
+  } else if (!isProductInCart && current_cart) {
+    localStorage.cart = JSON.stringify([...current_cart, newProduct]);
   } else {
-    localStorage.cart = JSON.stringify([product]);
+    localStorage.cart = JSON.stringify([newProduct]);
   }
-  updateNavBarCartIcon()
+
+  updateNavBarCartIcon();
 }
+
+function updateProductInCart(product, quantity) {
+  const current_cart = getCurrentCart();
+  const index = current_cart.indexOf(product.id);
+
+  current_cart[index] = {
+    ...current_cart[index],
+    quantity: current_cart[index].quantity + quantity,
+  };
+
+  localStorage.cart = JSON.stringify([current_cart]);
+}
+
+function findSelectedRadioButton() {
+  const radioButtons = document.querySelectorAll("[name=size]");
+
+  console.log(radioButtons);
+}
+
+// findSelectedRadioButton()
 
 export function updateNavBarCartIcon() {
   const current_cart = getCurrentCart();

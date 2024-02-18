@@ -42,9 +42,9 @@ class ProductCard extends HTMLElement {
 
     const style = createStyle();
 
-    const quantityElement = createQuantity();
+    const quantityElement = createQuantity(this.getAttribute("quantity"));
 
-    function createQuantity() {
+    function createQuantity(quantity) {
       const container = document.createElement("div");
       const inputElement = document.createElement("input");
       const minusElement = document.createElement("button");
@@ -59,7 +59,7 @@ class ProductCard extends HTMLElement {
 
       inputElement.id = "quantity";
       inputElement.type = "number";
-      inputElement.value = "1";
+      inputElement.value = quantity ? quantity : "1";
       inputElement.readOnly = true
       minusElement.textContent = "-";
       plusELement.textContent = "+";
@@ -296,6 +296,8 @@ export function createProductCard(product) {
   card.setAttribute("price", product.price);
   card.setAttribute("colors", product.baseColor);
   card.setAttribute("add_btn", product.id);
+  card.setAttribute("quantity", product?.quantity || "1")
+  card.setAttribute("selectedSize", product?.selectedSize || "")
 
   return card;
 }
