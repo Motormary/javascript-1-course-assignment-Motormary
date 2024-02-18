@@ -63,8 +63,9 @@ export function createEmptyCart() {
   checkoutForm.remove();
 }
 
-function setFormItemsIncart(products) {
-  document.getElementById("items_in_cart").value = JSON.stringify(products);
+function setFormItemsIncart() {
+  const data = getCheckoutData()
+  document.getElementById("items_in_cart").value = JSON.stringify(data);
 }
 
 export function setFormTotalValue() {
@@ -74,23 +75,34 @@ export function setFormTotalValue() {
 }
 
 function getTotal() {
-  const cards = Array.from(document.getElementsByTagName("product-card"));
+  const prices = Array.from(document.getElementsByTagName("product-card")).map((product) => {
+    const price = getPrice(
+      product.getAttribute("price"),
+      product.getAttribute("discount"),
+      product.getAttribute("onsale")
+    );
 
-  const prices = Array.from(
-    cards.map((product) => {
-      const price = getPrice(
-        product.getAttribute("price"),
-        product.getAttribute("discount"),
-        product.getAttribute("onsale")
-      );
-
-      return parseFloat(price) * parseFloat(product.getAttribute("quantity"));
-    })
-  );
+    return parseFloat(price) * parseFloat(product.getAttribute("quantity"));
+  });
 
   const total = prices.reduce(
     (totalValue, productValue) => totalValue + productValue,
     0
   );
+
   return total;
+}
+
+function getCheckoutData() {
+  const data = Array.from(document.getElementsByTagName("product-card")).map((product) => {
+    return {
+      id: product.getAttribute("product-id"),
+      color: product.getAttribute("colors"),
+      size: product.getAttribute("selectedSize"),
+      quantity: product.getAttribute("quantity"),
+      price: getPrice(product.getAttribute("price"), product.getAttribute("discount"), product.getAttribute("onsale"))
+    }
+  })
+
+  return data
 }
