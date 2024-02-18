@@ -1,4 +1,4 @@
-import { getCurrentCart } from "../../components/product-card.mjs";
+import { getCurrentCard, getCurrentCart } from "../../components/product-card.mjs";
 import { createEmptyCart, setFormTotalValue } from "../../pages/cart-page.mjs";
 import { handleAddToCart, updateNavBarCartIcon } from "./add-to-cart.mjs";
 
@@ -14,11 +14,12 @@ export function handleRemoveFromCart(event) {
   setButtonValues(event);
   checkAndRemoveFromCart(productId);
   updateNavBarCartIcon();
+  const currentCard = getCurrentCard(productId)
 
   if (path === "/cart.html") {
-    event.currentTarget.parentElement.remove();
+    currentCard.remove();
     const current_cart = getCurrentCart();
-    setFormTotalValue();
+    if (current_cart.length > 0) setFormTotalValue();
     if (current_cart.length === 0) createEmptyCart();
   }
 }

@@ -90,6 +90,7 @@ function getTotal() {
     0
   );
 
+
   return total;
 }
 

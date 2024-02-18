@@ -66,8 +66,6 @@ function isSelectedSize(buttons) {
   else return false;
 }
 
-// findSelectedRadioButton()
-
 export function updateNavBarCartIcon() {
   const current_cart = getCurrentCart();
 

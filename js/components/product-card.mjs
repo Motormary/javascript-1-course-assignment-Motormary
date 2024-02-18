@@ -16,6 +16,10 @@ class ProductCard extends HTMLElement {
     super();
   }
 
+  updateQuantity(newValue) {
+    this.setAttribute("quantity", newValue);
+  }
+
   connectedCallback() {
     this.attachShadow({ mode: "open" });
 
@@ -79,7 +83,11 @@ class ProductCard extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shadowRoot) {
-      const price = this.getAttribute("price");
+      const price = getPrice(
+        this.getAttribute("price"),
+        this.getAttribute("discount"),
+        this.getAttribute("onsale")
+      );
       const priceElement = this.shadowRoot.querySelector(".price");
       priceElement.textContent = (price * newValue).toFixed(2) + "$";
     }
@@ -89,7 +97,11 @@ customElements.define("product-card", ProductCard);
 
 /* -----------------------FUNCTIONS---------------------------- */
 
-function createQuantity(quantity, card) {
+ProductCard.prototype.updateQuantity = function (newValue) {
+  this.setAttribute("quantity", newValue);
+};
+
+function createQuantity(quantity) {
   const container = document.createElement("div");
   const inputElement = document.createElement("input");
   const minusElement = document.createElement("button");
@@ -97,8 +109,8 @@ function createQuantity(quantity, card) {
   const style = document.createElement("style");
 
   container.classList.add("quantity-container");
-  minusElement.classList.add("quantify");
-  plusELement.classList.add("quantify");
+  minusElement.classList.add("sub-quantity");
+  plusELement.classList.add("add-quantity");
 
   style.textContent = quantityStyle;
 
@@ -112,24 +124,48 @@ function createQuantity(quantity, card) {
   plusELement.addEventListener("click", addQuantity);
   minusElement.addEventListener("click", subtractQuantity);
 
-  function addQuantity() {
-    inputElement.value++;
-    card.setAttribute("quantity", inputElement.value);
-    if (path === "/cart.html") setFormTotalValue();
-  }
-
-  function subtractQuantity() {
-    const quantity = inputElement.value;
-    if (isNaN(quantity) || quantity <= 1) {
-      inputElement.value = 1;
-    } else inputElement.value--;
-    card.setAttribute("quantity", inputElement.value);
-    if (path === "/cart.html") setFormTotalValue();
-  }
-
   container.append(style, minusElement, inputElement, plusELement);
 
   return container;
+}
+
+function subtractQuantity(event) {
+  const container = event.target.parentElement;
+  const card = container.parentElement;
+  const inputElement = event.target.nextElementSibling;
+  const productId = card
+    .querySelector("[product-id]")
+    .getAttribute("product-id");
+  const currentCard = getCurrentCard(productId);
+
+  const quantity = inputElement.value;
+  if (isNaN(quantity) || quantity <= 1) {
+    inputElement.value = 1;
+  } else inputElement.value--;
+  currentCard.updateQuantity(inputElement.value);
+  if (path === "/cart.html") setFormTotalValue();
+}
+
+function addQuantity(event) {
+  const container = event.target.parentElement;
+  const card = container.parentElement;
+  const inputElement = event.target.previousElementSibling;
+  const productId = card
+    .querySelector("[product-id]")
+    .getAttribute("product-id");
+  const currentCard = getCurrentCard(productId);
+
+  inputElement.value++;
+  currentCard.updateQuantity(inputElement.value);
+  if (path === "/cart.html") setFormTotalValue();
+}
+
+export function getCurrentCard(productId) {
+  const currentCard = Array.from(
+    document.querySelectorAll("product-card")
+  ).find((item) => item.getAttribute("product-id") === productId);
+
+  return currentCard;
 }
 
 function AddBtnEventListener(buttonElement) {
@@ -144,12 +180,20 @@ function AddBtnEventListener(buttonElement) {
 function removeProductCardEventlisteners(shadow) {
   const buttonElement = shadow.querySelector("button.add_btn");
   const labelElements = shadow.querySelectorAll("label");
+  const addElement = shadow.querySelector(".add-quantity");
+  const minusElement = shadow.querySelector(".sub-quantity");
   if (buttonElement) {
     buttonElement.removeEventListener("click", handleAddToCart);
     buttonElement.removeEventListener("click", handleRemoveFromCart);
   }
   if (labelElements) {
-    labelElements.forEach((label) => label.removeEventListener("keydown"));
+    labelElements.forEach((label) =>
+      label.removeEventListener("keydown", handleChangeLabels)
+    );
+  }
+  if (addElement) {
+    addElement.removeEventListener("click", addQuantity); //TODO
+    minusElement.removeEventListener("click", subtractQuantity); //TODO
   }
 }
 
