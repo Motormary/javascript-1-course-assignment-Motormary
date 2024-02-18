@@ -1,5 +1,5 @@
 /**
- *@description Calls the filter function onChange
+ *@description - Refetches the product list with filter params
  */
 
 import { fetchProducts, getFilteredProducts } from "../../../app.mjs";

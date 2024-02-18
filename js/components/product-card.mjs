@@ -25,8 +25,6 @@ class ProductCard extends HTMLElement {
       this.getAttribute("description")
     );
 
-    const sizesElement = createSizes(this.getAttribute("sizes"));
-
     const colorsElement = createColors(this.getAttribute("colors"));
 
     const genderElement = createGender(this.getAttribute("gender"));
@@ -37,6 +35,10 @@ class ProductCard extends HTMLElement {
 
     const buttonElement = createButton(this.getAttribute("product-id"));
 
+    const sizesButton = createSizesButton(
+      this.getAttribute("sizes").split(",")
+    );
+
     const style = createStyle();
 
     cardContainer.append(
@@ -45,7 +47,7 @@ class ProductCard extends HTMLElement {
       descriptionElement,
       genderElement,
       colorsElement,
-      sizesElement,
+      sizesButton,
       onSaleElement,
       priceElement,
       buttonElement
@@ -124,14 +126,14 @@ export function createStyle() {
     style.textContent = `
     .card {
       position: relative;
-      min-width: 250px;
+      min-width: 245px;
       max-width: 600px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 35rem;
       background-color: #fff;
-      padding: 1rem 2rem;
+      padding: 1rem 1rem;
       border: 1px solid #ccc;
       border-radius: 8px;
       text-align: center;
@@ -154,6 +156,7 @@ export function createStyle() {
       font-weight: bold;
       color: green;
       transform: rotate(30deg);
+      z-index: 1;
     }
     .bg-green {
       color: white;
@@ -188,6 +191,11 @@ export function createStyle() {
       object-fit: contain;
       border-radius: 4px;
     }
+    .onsale {
+      font-family: "helvetica";
+      font-weight: bold;
+      color: green;
+    }
     .bg-green {
       color: white;
       background-color: green;
@@ -205,6 +213,60 @@ export function createStyle() {
   }
 
   return style;
+}
+
+function createSizesButton(sizes) {
+  const container = document.createElement("div");
+  container.classList.add("radio-grp");
+  const style = document.createElement("style");
+
+  container.appendChild(style);
+
+  sizes.forEach((size) => {
+    const inputElement = document.createElement("input");
+    const labelElement = document.createElement("label");
+
+    inputElement.type = "radio";
+    inputElement.id = size;
+    inputElement.name = "size";
+    inputElement.value = size;
+
+    labelElement.setAttribute("for", size);
+    labelElement.textContent = size;
+
+    container.append(inputElement, labelElement);
+  });
+
+  style.textContent = `
+  .radio-grp {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+  }
+  
+  input[type="radio"] {
+    display:none;
+  }
+  
+  label {
+    width: 43px;
+    display: inline-block;
+    border: 1px solid gray;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .blank-label {
+    display: none;
+  }
+  
+  input[type="radio"]:checked + label {
+    background: green;
+    color: #fff;
+  }
+  `;
+
+  return container;
 }
 
 function createCard() {
@@ -253,14 +315,6 @@ function createGender(gender) {
   genderElement.classList.add("gender");
 
   return genderElement;
-}
-
-function createSizes(sizes) {
-  const sizesElement = document.createElement("p");
-  sizesElement.textContent = formatSizes(sizes);
-  sizesElement.classList.add("sizes");
-
-  return sizesElement;
 }
 
 function createOnSale(isOnSale) {

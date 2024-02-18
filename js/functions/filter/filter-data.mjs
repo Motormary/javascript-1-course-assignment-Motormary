@@ -2,7 +2,7 @@
  * @description - For every object a filter button will be generated.
  * key = key to filter
  * btn-value = value to filter.
- * Options: [btn-label, btn-value]
+ * Options: [select-label, select-value]
  */
 
 export const filter_data = [
