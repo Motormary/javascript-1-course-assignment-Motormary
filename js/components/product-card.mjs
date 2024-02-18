@@ -1,11 +1,17 @@
 import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
 import removeFilterEventListeners from "../functions/filter/remove-filter-listeners.mjs";
-import { cardCartStyle, cardRadioStyle, cardStyle, quantityStyle } from "./styles.mjs";
+import {
+  cardCartStyle,
+  cardRadioStyle,
+  cardStyle,
+  quantityStyle,
+} from "./styles.mjs";
 
 const path = window.location.pathname;
 
 class ProductCard extends HTMLElement {
+  static observedAttributes = ["quantity"];
   constructor() {
     super();
   }
@@ -42,46 +48,7 @@ class ProductCard extends HTMLElement {
 
     const style = createStyle();
 
-    const quantityElement = createQuantity(this.getAttribute("quantity"));
-
-    function createQuantity(quantity) {
-      const container = document.createElement("div");
-      const inputElement = document.createElement("input");
-      const minusElement = document.createElement("button");
-      const plusELement = document.createElement("button");
-      const style = document.createElement("style");
-
-      container.classList.add("quantity-container");
-      minusElement.classList.add("quantify");
-      plusELement.classList.add("quantify");
-
-      style.textContent = quantityStyle;
-
-      inputElement.id = "quantity";
-      inputElement.type = "number";
-      inputElement.value = quantity ? quantity : 1;
-      inputElement.readOnly = true
-      minusElement.textContent = "-";
-      plusELement.textContent = "+";
-
-      plusELement.addEventListener("click", addQuantity);
-      minusElement.addEventListener("click", subtractQuantity);
-
-      function addQuantity() {
-        inputElement.value++;
-      }
-
-      function subtractQuantity() {
-        const quantity = inputElement.value;
-        if (isNaN(quantity) || quantity <= 1) {
-          inputElement.value = 1;
-        } else inputElement.value--;
-      }
-
-      container.append(style, minusElement, inputElement, plusELement);
-
-      return container;
-    }
+    const quantityElement = createQuantity(this.getAttribute("quantity"), this);
 
     cardContainer.append(
       titleElement,
@@ -104,10 +71,58 @@ class ProductCard extends HTMLElement {
     removeProductCardEventlisteners(this.shadowRoot);
     // console.log("disconnected");
   }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    const price = this.getAttribute("price");
+    const priceElement = this.shadowRoot.querySelector(".price");
+    priceElement.textContent = (price * newValue).toFixed(2) + "$";
+  }
 }
 customElements.define("product-card", ProductCard);
 
 /* -----------------------FUNCTIONS---------------------------- */
+
+function createQuantity(quantity, card) {
+  const container = document.createElement("div");
+  const inputElement = document.createElement("input");
+  const minusElement = document.createElement("button");
+  const plusELement = document.createElement("button");
+  const style = document.createElement("style");
+
+  container.classList.add("quantity-container");
+  minusElement.classList.add("quantify");
+  plusELement.classList.add("quantify");
+
+  style.textContent = quantityStyle;
+
+  inputElement.id = "quantity";
+  inputElement.type = "number";
+  inputElement.value = quantity ? quantity : 1;
+  inputElement.readOnly = true;
+  minusElement.textContent = "-";
+  plusELement.textContent = "+";
+
+  plusELement.addEventListener("click", addQuantity);
+  minusElement.addEventListener("click", subtractQuantity);
+
+  function addQuantity() {
+    inputElement.value++;
+    card.setAttribute("quantity", inputElement.value);
+    console.log(inputElement.value)
+  }
+
+  function subtractQuantity() {
+    const quantity = inputElement.value;
+    if (isNaN(quantity) || quantity <= 1) {
+      inputElement.value = 1;
+    } else inputElement.value--;
+    card.setAttribute("quantity", inputElement.value);
+  }
+
+  container.append(style, minusElement, inputElement, plusELement);
+
+  return container;
+}
 
 function AddBtnEventListener(buttonElement) {
   if (path !== "/cart.html") {
@@ -127,8 +142,8 @@ function removeProductCardEventlisteners(shadow) {
 }
 
 function getBtnTextContent() {
-  if (path == "/cart.html") return "Remove from Cart"
-  else return "Add to cart"
+  if (path == "/cart.html") return "Remove from Cart";
+  else return "Add to cart";
 }
 
 export function createStyle() {
@@ -291,8 +306,8 @@ export function createProductCard(product) {
   card.setAttribute("price", product.price);
   card.setAttribute("colors", product.baseColor);
   card.setAttribute("add_btn", product.id);
-  card.setAttribute("quantity", product?.quantity || "1")
-  card.setAttribute("selectedSize", product?.selectedSize || "")
+  card.setAttribute("quantity", product?.quantity || "1");
+  card.setAttribute("selectedSize", product?.selectedSize || "");
 
   return card;
 }
