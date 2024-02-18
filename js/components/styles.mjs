@@ -114,3 +114,37 @@ input[type="radio"]:checked + label {
   color: #fff;
 }
 `;
+
+
+export const quantityStyle = `
+.quantity-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+input, #quantity {
+  height: fit-content;
+  width: 25px;
+  text-align: center;
+  -webkit-appearance: none; 
+  -moz-appearance: textfield;
+  margin: 0; 
+  user-select: none;
+}
+input, #quantity:hover {
+  cursor: default;
+}
+input, #quantity:focus-within {
+  outline: none;
+}
+.quantity-container > button {
+  background-color: transparent;
+  padding: 0 0.5rem;
+  border: none;
+}
+.quantity-container > button:hover {
+  cursor: pointer;
+}
+`

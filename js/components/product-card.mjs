@@ -1,7 +1,7 @@
 import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
 import removeFilterEventListeners from "../functions/filter/remove-filter-listeners.mjs";
-import { cardCartStyle, cardRadioStyle, cardStyle } from "./styles.mjs";
+import { cardCartStyle, cardRadioStyle, cardStyle, quantityStyle } from "./styles.mjs";
 
 const path = window.location.pathname;
 
@@ -42,6 +42,47 @@ class ProductCard extends HTMLElement {
 
     const style = createStyle();
 
+    const quantityElement = createQuantity();
+
+    function createQuantity() {
+      const container = document.createElement("div");
+      const inputElement = document.createElement("input");
+      const minusElement = document.createElement("button");
+      const plusELement = document.createElement("button");
+      const style = document.createElement("style");
+
+      container.classList.add("quantity-container");
+      minusElement.classList.add("quantify");
+      plusELement.classList.add("quantify");
+
+      style.textContent = quantityStyle;
+
+      inputElement.id = "quantity";
+      inputElement.type = "number";
+      inputElement.value = "1";
+      inputElement.readOnly = true
+      minusElement.textContent = "-";
+      plusELement.textContent = "+";
+
+      plusELement.addEventListener("click", addQuantity);
+      minusElement.addEventListener("click", subtractQuantity);
+
+      function addQuantity() {
+        inputElement.value++;
+      }
+
+      function subtractQuantity() {
+        const quantity = inputElement.value;
+        if (isNaN(quantity) || quantity <= 1) {
+          inputElement.value = 1;
+        } else inputElement.value--;
+      }
+
+      container.append(style, minusElement, inputElement, plusELement);
+
+      return container;
+    }
+
     cardContainer.append(
       titleElement,
       imageElement,
@@ -50,6 +91,7 @@ class ProductCard extends HTMLElement {
       colorsElement,
       sizesButton,
       onSaleElement,
+      quantityElement,
       priceElement,
       buttonElement
     );
@@ -106,7 +148,7 @@ export function createStyle() {
 function createSizesButton(sizes) {
   const container = document.createElement("div");
   container.classList.add("radio-grp");
-  
+
   const style = document.createElement("style");
   style.textContent = cardRadioStyle;
 
