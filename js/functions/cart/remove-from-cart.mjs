@@ -11,7 +11,6 @@ const path = window.location.pathname;
 
 export function handleRemoveFromCart(event) {
   const productId = event.currentTarget.getAttribute("product-id");
-  setButtonValues(event);
   checkAndRemoveFromCart(productId);
   updateNavBarCartIcon();
   const currentCard = getCurrentCard(productId)
@@ -22,14 +21,6 @@ export function handleRemoveFromCart(event) {
     if (current_cart.length > 0) setFormTotalValue();
     if (current_cart.length === 0) createEmptyCart();
   }
-}
-
-function setButtonValues(event) {
-  event.currentTarget.textContent = "Add to Cart";
-  event.currentTarget.classList.remove("bg-green");
-  event.currentTarget.setAttribute("aria-selected", false);
-  event.currentTarget.removeEventListener("click", handleRemoveFromCart);
-  event.currentTarget.addEventListener("click", handleAddToCart);
 }
 
 function checkAndRemoveFromCart(productId) {

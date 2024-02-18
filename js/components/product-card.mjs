@@ -52,7 +52,8 @@ class ProductCard extends HTMLElement {
     const buttonElement = createButton(this.getAttribute("product-id"));
 
     const sizesButton = createSizesButton(
-      this.getAttribute("sizes").split(",")
+      this.getAttribute("sizes").split(","),
+      this.getAttribute("selectedSize")
     );
 
     const style = createStyle();
@@ -211,7 +212,7 @@ export function createStyle() {
   return style;
 }
 
-function createSizesButton(sizes) {
+function createSizesButton(sizes, selectedSize) {
   const container = document.createElement("div");
   container.classList.add("radio-grp");
 
@@ -228,6 +229,7 @@ function createSizesButton(sizes) {
     inputElement.id = size;
     inputElement.name = "size";
     inputElement.value = size;
+    inputElement.checked = selectedSize === inputElement.id ? true : false
 
     labelElement.setAttribute("for", size);
     labelElement.textContent = size;
