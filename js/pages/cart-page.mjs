@@ -1,7 +1,7 @@
 import {
   createProductCard,
   getCurrentCart,
-  getPrice,
+  getCorrectPrice,
 } from "../components/product-card.mjs";
 import setProductLoading from "../functions/error/loading.mjs";
 
@@ -76,7 +76,7 @@ export function setFormTotalValue() {
 
 function getTotal() {
   const prices = Array.from(document.getElementsByTagName("product-card")).map((product) => {
-    const price = getPrice(
+    const price = getCorrectPrice(
       product.getAttribute("price"),
       product.getAttribute("discount"),
       product.getAttribute("onsale")
@@ -101,7 +101,7 @@ function getCheckoutData() {
       color: product.getAttribute("colors"),
       size: product.getAttribute("selectedSize"),
       quantity: product.getAttribute("quantity"),
-      price: getPrice(product.getAttribute("price"), product.getAttribute("discount"), product.getAttribute("onsale"))
+      price: getCorrectPrice(product.getAttribute("price"), product.getAttribute("discount"), product.getAttribute("onsale"))
     }
   })
 

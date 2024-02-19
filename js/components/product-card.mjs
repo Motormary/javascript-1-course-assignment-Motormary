@@ -17,51 +17,30 @@ class ProductCard extends HTMLElement {
   static observedAttributes = ["quantity"];
   constructor() {
     super();
-  }
 
-  updateQuantity(newValue) {
-    this.setAttribute("quantity", newValue);
-  }
-
-  connectedCallback() {
     this.attachShadow({ mode: "open" });
 
     const cardContainer = createCard();
 
-    const titleElement = createTitle(this.getAttribute("title"));
+    const titleElement = createTitle();
 
-    const imageElement = createImage(
-      this.getAttribute("image"),
-      this.getAttribute("product-id")
-    );
+    const imageElement = createImage();
 
-    const descriptionElement = createDescription(
-      this.getAttribute("description")
-    );
+    const descriptionElement = createDescription();
 
-    const colorsElement = createColors(this.getAttribute("colors"));
+    const colorsElement = createColors();
 
-    const genderElement = createGender(this.getAttribute("gender"));
+    const genderElement = createGender();
 
-    const onSaleElement = createOnSale(this.getAttribute("onsale"));
+    const onSaleElement = createOnSale();
 
-    const priceElement = createPrice(
-      this.getAttribute("price"),
-      this.getAttribute("quantity"),
-      this.getAttribute("onsale"),
-      this.getAttribute("discount")
-    );
+    const priceElement = createPrice();
 
-    const buttonElement = createButton(this.getAttribute("product-id"));
-
-    const sizesButton = createSizesButton(
-      this.getAttribute("sizes").split(","),
-      this.getAttribute("selectedsize")
-    );
+    const buttonElement = createButton();
 
     const style = createStyle();
 
-    const quantityElement = createQuantity(this.getAttribute("quantity"), this);
+    const quantityElement = createQuantity();
 
     cardContainer.append(
       titleElement,
@@ -69,7 +48,6 @@ class ProductCard extends HTMLElement {
       descriptionElement,
       genderElement,
       colorsElement,
-      sizesButton,
       onSaleElement,
       quantityElement,
       priceElement,
@@ -77,6 +55,68 @@ class ProductCard extends HTMLElement {
     );
 
     this.shadowRoot.append(style, cardContainer);
+  }
+
+  updateQuantity(newValue) {
+    this.setAttribute("quantity", newValue);
+  }
+
+  getComponentId() {
+    return this.getAttribute("id");
+  }
+  getProductId() {
+    return this.getAttribute("product-id");
+  }
+  getTitle() {
+    return this.getAttribute("title");
+  }
+  getDescription() {
+    return this.getAttribute("description");
+  }
+  getImage() {
+    return this.getAttribute("image");
+  }
+  getGender() {
+    return this.getAttribute("gender");
+  }
+  getColor() {
+    return this.getAttribute("colors");
+  }
+  getSizes() {
+    return this.getAttribute("sizes");
+  }
+  getSelectedSize() {
+    return this.getAttribute("selectedSize");
+  }
+  getOnsale() {
+    return this.getAttribute("onsale");
+  }
+  getQuantity() {
+    return this.getAttribute("quantity");
+  }
+  getPrice() {
+    return this.getAttribute("price");
+  }
+  getDiscount() {
+    return this.getAttribute("discount");
+  }
+
+  connectedCallback() {
+    setCardAttributes(this);
+    setTitleAttributes(this);
+    setDescriptionAttributes(this);
+    setImageAttributes(this);
+    setGenderAttributes(this);
+    const colorElement = setColorAttributes(this);
+    const sizesElement = setSizesAttributes(this);
+    setSizesAttributes(this);
+    setOnsaleAttributes(this);
+    setQuantityAttributes(this);
+    setPriceAttributes(this);
+    setButtonAttributes(this)
+
+    colorElement.after(sizesElement);
+
     // console.log("connected")
   }
 
@@ -87,10 +127,10 @@ class ProductCard extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shadowRoot) {
-      const price = getPrice(
-        this.getAttribute("price"),
-        this.getAttribute("discount"),
-        this.getAttribute("onsale")
+      const price = getCorrectPrice(
+        this.getPrice(),
+        this.getDiscount(),
+        this.getOnsale()
       );
       const priceElement = this.shadowRoot.querySelector(".price");
       priceElement.textContent = (price * newValue).toFixed(2) + "$";
@@ -105,7 +145,80 @@ ProductCard.prototype.updateQuantity = function (newValue) {
   this.setAttribute("quantity", newValue);
 };
 
-function createQuantity(quantity) {
+function setCardAttributes(productcard) {
+  const CardElement = productcard.shadowRoot.querySelector(".card");
+  CardElement.setAttribute("id", productcard.getComponentId());
+}
+
+function setTitleAttributes(productcard) {
+  const titleElement = productcard.shadowRoot.querySelector(".title");
+  titleElement.textContent = productcard.getTitle();
+}
+function setDescriptionAttributes(productcard) {
+  const descriptionElement =
+    productcard.shadowRoot.querySelector(".description");
+  descriptionElement.textContent = productcard.getDescription();
+}
+function setImageAttributes(productcard) {
+  const imageContainerElement = productcard.shadowRoot.querySelector("a");
+  const imageElement = productcard.shadowRoot.querySelector(".image");
+  imageElement.setAttribute("src", productcard.getImage());
+  imageElement.setAttribute("product-id", productcard.getProductId());
+  if (path !== "/product.html") {
+    imageContainerElement.href = `/product.html?product=${productcard.getProductId()}`;
+    imageElement.classList.add("hover");
+  }
+}
+
+function setGenderAttributes(productcard) {
+  const genderElement = productcard.shadowRoot.querySelector(".gender");
+  genderElement.textContent = formatGenders(productcard.getGender());
+}
+function setColorAttributes(productcard) {
+  const colorElement = productcard.shadowRoot.querySelector(".colors");
+  colorElement.textContent = productcard.getColor();
+  return colorElement;
+}
+function setSizesAttributes(productcard) {
+  const sizesElement = createSizesButton(
+    productcard.getSizes().split(","),
+    productcard.getSelectedSize()
+  );
+  return sizesElement;
+}
+
+function setOnsaleAttributes(productcard) {
+  const onsaleElement = productcard.shadowRoot.querySelector(".onsale");
+  onsaleElement.textContent =
+    productcard.getOnsale() === "true" ? "ON SALE!" : "";
+}
+function setQuantityAttributes(productcard) {
+  const quantityContainer = productcard.shadowRoot.querySelector(
+    ".quantity-container"
+  );
+  quantityContainer.setAttribute("id", productcard.getComponentId());
+
+  const quantityElement = productcard.shadowRoot.querySelector("#quantity");
+  quantityElement.value = productcard.getQuantity();
+}
+
+function setPriceAttributes(productcard) {
+  const priceElement = productcard.shadowRoot.querySelector(".price");
+  priceElement.textContent =
+    (
+      getCorrectPrice(
+        productcard.getPrice(),
+        productcard.getDiscount(),
+        productcard.getOnsale()
+      ) * productcard.getQuantity()
+    ).toFixed(2) + "$";
+}
+function setButtonAttributes(productcard) {
+  const buttonElement = productcard.shadowRoot.querySelector("button.add_btn");
+  buttonElement.setAttribute("product-id", productcard.getProductId());
+}
+
+function createQuantity() {
   const container = document.createElement("div");
   const inputElement = document.createElement("input");
   const minusElement = document.createElement("button");
@@ -120,7 +233,7 @@ function createQuantity(quantity) {
 
   inputElement.id = "quantity";
   inputElement.type = "number";
-  inputElement.value = quantity ? quantity : 1;
+  inputElement.value = 1;
   inputElement.readOnly = true;
   minusElement.textContent = "-";
   plusELement.textContent = "+";
@@ -134,15 +247,7 @@ function createQuantity(quantity) {
 }
 
 function subtractQuantity(event) {
-  const container = event.target.parentElement;
-  const card = container.parentElement;
-  const inputElement = event.target.nextElementSibling;
-  const productId = card
-    .querySelector("[product-id]")
-    .getAttribute("product-id");
-  const radioButtons = card.querySelectorAll("input[name=size]");
-  const size = isSelectedSize(radioButtons);
-  const currentCard = getCurrentCard(productId, size);
+  const { inputElement, currentCard } = getInputAndCurrentComponent(event);
 
   const quantity = inputElement.value;
   if (isNaN(quantity) || quantity <= 1) {
@@ -157,15 +262,7 @@ function subtractQuantity(event) {
 }
 
 function addQuantity(event) {
-  const container = event.target.parentElement;
-  const card = container.parentElement;
-  const inputElement = event.target.previousElementSibling;
-  const productId = card
-    .querySelector("[product-id]")
-    .getAttribute("product-id");
-  const radioButtons = card.querySelectorAll("input[name=size]");
-  const size = isSelectedSize(radioButtons);
-  const currentCard = getCurrentCard(productId, size);
+  const { inputElement, currentCard } = getInputAndCurrentComponent(event);
 
   inputElement.value++;
   currentCard.updateQuantity(inputElement.value);
@@ -176,18 +273,19 @@ function addQuantity(event) {
   }
 }
 
-export function getCurrentCard(productId, size) {
-  if (path !== "/cart.html") {
-    return Array.from(document.querySelectorAll("product-card")).find(
-      (item) => item.getAttribute("product-id") === productId
-    );
-  } else if (path === "/cart.html") {
-    return Array.from(document.querySelectorAll("product-card")).find(
-      (item) =>
-        item.getAttribute("product-id") === productId &&
-        item.getAttribute("selectedsize") === size
-    );
-  }
+function getInputAndCurrentComponent(event) {
+  const componentId = event.target.parentElement.getAttribute("id");
+  const currentCard = getCurrentCard(componentId);
+  const inputElement = currentCard.shadowRoot.querySelector("input#quantity");
+
+  return { inputElement, currentCard };
+}
+
+export function getCurrentCard(componentId) {
+  const card = Array.from(document.querySelectorAll("product-card")).find(
+    (item) => item.getAttribute("id") === componentId
+  );
+  return card;
 }
 
 function AddBtnEventListener(buttonElement) {
@@ -204,6 +302,7 @@ function removeProductCardEventlisteners(shadow) {
   const labelElements = shadow.querySelectorAll("label#labelsize");
   const addElement = shadow.querySelector(".add-quantity");
   const minusElement = shadow.querySelector(".sub-quantity");
+
   if (buttonElement) {
     buttonElement.removeEventListener("click", handleAddToCart);
     buttonElement.removeEventListener("click", handleRemoveFromCart);
@@ -214,15 +313,14 @@ function removeProductCardEventlisteners(shadow) {
     );
   }
   if (addElement && minusElement) {
-    addElement.removeEventListener("click", addQuantity); //TODO
-    minusElement.removeEventListener("click", subtractQuantity); //TODO
+    addElement.removeEventListener("click", addQuantity);
+    minusElement.removeEventListener("click", subtractQuantity);
   }
-
 }
 
 function getBtnTextContent() {
   if (path == "/cart.html") return "Remove from Cart";
-  else return "Add to cart";
+  else return "Add to Cart";
 }
 
 export function createStyle() {
@@ -244,30 +342,45 @@ function createSizesButton(sizes, selectedSize) {
   container.appendChild(style);
 
   sizes.forEach((size) => {
-    const inputElement = document.createElement("input");
-    const labelElement = document.createElement("label");
+    const inputElement = createInputElement(size, selectedSize);
+    const labelElement = createLabelElement(size);
 
-    inputElement.type = "radio";
-    inputElement.id = size;
-    inputElement.name = "size";
-    inputElement.value = size;
-    inputElement.checked = selectedSize === inputElement.id ? true : false;
-    inputElement.disabled = path === "/cart.html" ? true : false;
-
-    labelElement.setAttribute("for", size);
-    labelElement.id = "labelsize"
-    labelElement.textContent = size;
-    labelElement.tabIndex = "0";
     if (path === "/cart.html") {
-      labelElement.style = `cursor: default; user-select: none; ${!inputElement.checked && "display: none;"}`;
+      labelElement.style = `cursor: default; user-select: none; ${
+        !inputElement.checked && "display: none;"
+      }`;
     }
-
-    labelElement.addEventListener("keydown", handleChangeLabels);
 
     container.append(inputElement, labelElement);
   });
 
   return container;
+}
+
+function createLabelElement(size) {
+  const labelElement = document.createElement("label");
+
+  labelElement.setAttribute("for", size);
+  labelElement.id = "labelsize";
+  labelElement.textContent = size;
+  labelElement.tabIndex = "0";
+
+  labelElement.addEventListener("keydown", handleChangeLabels);
+
+  return labelElement;
+}
+
+function createInputElement(size, selectedSize) {
+  const inputElement = document.createElement("input");
+
+  inputElement.type = "radio";
+  inputElement.id = size;
+  inputElement.name = "size";
+  inputElement.value = size;
+  inputElement.checked = selectedSize === inputElement.id ? true : false;
+  inputElement.disabled = path === "/cart.html" ? true : false;
+
+  return inputElement;
 }
 
 function handleChangeLabels(event) {
@@ -289,50 +402,39 @@ function createCard() {
   return cardContainer;
 }
 
-function createTitle(title) {
+function createTitle() {
   const titleElement = document.createElement("h2");
-  titleElement.textContent = title;
   titleElement.classList.add("title");
 
   return titleElement;
 }
 
-function createImage(src, productId) {
+function createImage() {
   const imageContainer = document.createElement("a");
 
   const imageElement = document.createElement("img");
-  imageElement.setAttribute("src", src);
-  imageElement.setAttribute("product-id", productId);
   imageElement.classList.add("image");
-
-  if (path !== "/product.html") {
-    imageElement.classList.add("hover");
-    imageContainer.href = `/product.html?product=${productId}`;
-  }
 
   imageContainer.appendChild(imageElement);
   return imageContainer;
 }
 
-function createDescription(description) {
+function createDescription() {
   const descriptionElement = document.createElement("p");
-  descriptionElement.textContent = description;
   descriptionElement.classList.add("description");
 
   return descriptionElement;
 }
 
-function createGender(gender) {
+function createGender() {
   const genderElement = document.createElement("p");
-  genderElement.textContent = formatGenders(gender);
   genderElement.classList.add("gender");
 
   return genderElement;
 }
 
-function createOnSale(isOnSale) {
+function createOnSale() {
   const onSaleElement = document.createElement("p");
-  onSaleElement.textContent = isOnSale === "true" ? "ON SALE!" : "";
   onSaleElement.classList.add("onsale");
 
   return onSaleElement;
@@ -349,16 +451,14 @@ function createButton(productId) {
   return buttonElement;
 }
 
-function createPrice(price, quantity, onsale, discountedPrice) {
-  const checkedPrice = getPrice(price, discountedPrice, onsale);
+function createPrice() {
   const priceElement = document.createElement("p");
-  priceElement.textContent = (checkedPrice * quantity).toFixed(2) + "$";
   priceElement.classList.add("price");
 
   return priceElement;
 }
 
-export function getPrice(price, discountedPrice, onsale) {
+export function getCorrectPrice(price, discountedPrice, onsale) {
   if (onsale) return discountedPrice;
   else return price;
 }
@@ -404,6 +504,7 @@ export function checkCurrentCart(productId, size) {
 export function createProductCard(product) {
   const card = document.createElement("product-card");
 
+  card.setAttribute("id", self.crypto.randomUUID());
   card.setAttribute("product-id", product.id);
   card.setAttribute("title", product.title);
   card.setAttribute("image", product.image);

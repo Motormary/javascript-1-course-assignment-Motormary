@@ -2,35 +2,33 @@ import {
   getCurrentCard,
   getCurrentCart,
 } from "../../components/product-card.mjs";
-import { createEmptyCart, fetchCartItems, setFormItemsIncart, setFormTotalValue } from "../../pages/cart-page.mjs";
 import {
-  handleAddToCart,
+  createEmptyCart, setFormItemsIncart,
+  setFormTotalValue
+} from "../../pages/cart-page.mjs";
+import {
   isSelectedSize,
-  updateNavBarCartIcon,
+  updateNavBarCartIcon
 } from "./add-to-cart.mjs";
 
 /**
- * @param {event} - Click event containing product ID in "data-product-id"
- * @returns - Removes selected product from cart
+ * @param {event}
+ * @description - Removes selected product from cart / and from cart list.
  */
 
 const path = window.location.pathname;
 
 export function handleRemoveFromCart(event) {
-  const productId = event.currentTarget.getAttribute("product-id");
-  const radioButtons =
-    event.currentTarget.parentElement.querySelectorAll("input[name=size]");
-  const size = isSelectedSize(radioButtons);
+  const { productId, size, currentCard } = getDataToCheck(event);
   checkAndRemoveFromCart(productId, size);
   updateNavBarCartIcon();
-  const currentCard = getCurrentCard(productId, size);
 
   if (path === "/cart.html") {
-    currentCard.remove()
+    currentCard.remove();
     const current_cart = getCurrentCart();
     if (current_cart.length > 0) {
       setFormTotalValue();
-      setFormItemsIncart()
+      setFormItemsIncart();
     }
     if (current_cart.length === 0) createEmptyCart();
   }
@@ -47,4 +45,15 @@ function checkAndRemoveFromCart(productId, size) {
   } else {
     localStorage.removeItem("cart");
   }
+}
+
+function getDataToCheck(event) {
+  const componentId = event.currentTarget.parentElement.getAttribute("id");
+  const productId = event.currentTarget.getAttribute("product-id");
+  const radioButtons =
+    event.currentTarget.parentElement.querySelectorAll("input[name=size]");
+  const size = isSelectedSize(radioButtons);
+  const currentCard = getCurrentCard(componentId);
+
+  return { productId, size, currentCard };
 }
