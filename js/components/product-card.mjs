@@ -1,6 +1,9 @@
-import { handleAddToCart } from "../functions/cart/add-to-cart.mjs";
+import {
+  handleAddToCart,
+  isSelectedSize,
+} from "../functions/cart/add-to-cart.mjs";
 import { handleRemoveFromCart } from "../functions/cart/remove-from-cart.mjs";
-import { setFormTotalValue } from "../pages/cart-page.mjs";
+import { setFormItemsIncart, setFormTotalValue } from "../pages/cart-page.mjs";
 import {
   cardCartStyle,
   cardRadioStyle,
@@ -53,7 +56,7 @@ class ProductCard extends HTMLElement {
 
     const sizesButton = createSizesButton(
       this.getAttribute("sizes").split(","),
-      this.getAttribute("selectedSize")
+      this.getAttribute("selectedsize")
     );
 
     const style = createStyle();
@@ -137,14 +140,20 @@ function subtractQuantity(event) {
   const productId = card
     .querySelector("[product-id]")
     .getAttribute("product-id");
-  const currentCard = getCurrentCard(productId);
+  const radioButtons = card.querySelectorAll("input[name=size]");
+  const size = isSelectedSize(radioButtons);
+  const currentCard = getCurrentCard(productId, size);
 
   const quantity = inputElement.value;
   if (isNaN(quantity) || quantity <= 1) {
     inputElement.value = 1;
   } else inputElement.value--;
   currentCard.updateQuantity(inputElement.value);
-  if (path === "/cart.html") setFormTotalValue();
+
+  if (path === "/cart.html") {
+    setFormTotalValue();
+    setFormItemsIncart();
+  }
 }
 
 function addQuantity(event) {
@@ -154,19 +163,31 @@ function addQuantity(event) {
   const productId = card
     .querySelector("[product-id]")
     .getAttribute("product-id");
-  const currentCard = getCurrentCard(productId);
+  const radioButtons = card.querySelectorAll("input[name=size]");
+  const size = isSelectedSize(radioButtons);
+  const currentCard = getCurrentCard(productId, size);
 
   inputElement.value++;
   currentCard.updateQuantity(inputElement.value);
-  if (path === "/cart.html") setFormTotalValue();
+
+  if (path === "/cart.html") {
+    setFormTotalValue();
+    setFormItemsIncart();
+  }
 }
 
-export function getCurrentCard(productId) {
-  const currentCard = Array.from(
-    document.querySelectorAll("product-card")
-  ).find((item) => item.getAttribute("product-id") === productId);
-
-  return currentCard;
+export function getCurrentCard(productId, size) {
+  if (path !== "/cart.html") {
+    return Array.from(document.querySelectorAll("product-card")).find(
+      (item) => item.getAttribute("product-id") === productId
+    );
+  } else if (path === "/cart.html") {
+    return Array.from(document.querySelectorAll("product-card")).find(
+      (item) =>
+        item.getAttribute("product-id") === productId &&
+        item.getAttribute("selectedsize") === size
+    );
+  }
 }
 
 function AddBtnEventListener(buttonElement) {
@@ -229,11 +250,14 @@ function createSizesButton(sizes, selectedSize) {
     inputElement.id = size;
     inputElement.name = "size";
     inputElement.value = size;
-    inputElement.checked = selectedSize === inputElement.id ? true : false
+    inputElement.checked = selectedSize === inputElement.id ? true : false;
+    inputElement.disabled = path === "/cart.html" ? true : false;
 
     labelElement.setAttribute("for", size);
     labelElement.textContent = size;
     labelElement.tabIndex = "0";
+    if (path === "/cart.html")
+      labelElement.style = "cursor: default; user-select: none;";
 
     labelElement.addEventListener("keydown", handleChangeLabels);
 
@@ -363,11 +387,13 @@ export function getCurrentCart() {
   return current_cart;
 }
 
-export function checkCurrentCart(productId) {
+export function checkCurrentCart(productId, size) {
   const current_cart = getCurrentCart();
 
   if (current_cart) {
-    return current_cart.find((item) => item.id === productId);
+    return current_cart.find(
+      (item) => item.id === productId && item.selectedSize === size
+    );
   }
   return false;
 }
@@ -387,7 +413,7 @@ export function createProductCard(product) {
   card.setAttribute("colors", product.baseColor);
   card.setAttribute("add_btn", product.id);
   card.setAttribute("quantity", product?.quantity || "1");
-  card.setAttribute("selectedSize", product?.selectedSize || "");
+  card.setAttribute("selectedsize", product?.selectedSize || "");
 
   return card;
 }

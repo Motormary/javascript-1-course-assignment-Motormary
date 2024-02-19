@@ -17,7 +17,6 @@ export function handleAddToCart(event) {
   const quantity = currentCard.querySelector("input#quantity").value;
   const radioButtons = currentCard.querySelectorAll("input[name=size]");
   const size = isSelectedSize(radioButtons);
-  console.log(size)
 
   if (size) {
     checkAndAddToCart(productId, quantity, size);
@@ -30,7 +29,7 @@ export function handleAddToCart(event) {
 async function checkAndAddToCart(productId, quantity = "1", size) {
   const product = await superFetch(URL_PRODUCTS, productId);
   const current_cart = getCurrentCart();
-  const isProductInCart = checkCurrentCart(productId);
+  const isProductInCart = checkCurrentCart(productId, size);
   const newProduct = { ...product, quantity: quantity, selectedSize: size };
 
   if (isProductInCart) {
@@ -46,7 +45,7 @@ async function checkAndAddToCart(productId, quantity = "1", size) {
 
 function updateProductInCart(product, quantity, size) {
   const current_cart = getCurrentCart();
-  const index = current_cart.findIndex((item) => item.id === product.id);
+  const index = current_cart.findIndex((item) => item.id === product.id && item.selectedSize === size);
 
   current_cart[index] = {
     ...current_cart[index],
@@ -57,7 +56,7 @@ function updateProductInCart(product, quantity, size) {
   localStorage.cart = JSON.stringify(current_cart);
 }
 
-function isSelectedSize(buttons) {
+export function isSelectedSize(buttons) {
   const button = Array.from(buttons).find((button) => button.checked);
   if (button) return button.id;
   else return false;

@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-async function fetchCartItems() {
+export function fetchCartItems() {
   const current_cart = getCurrentCart();
 
   if (current_cart.length > 0) {
@@ -63,7 +63,7 @@ export function createEmptyCart() {
   checkoutForm.remove();
 }
 
-function setFormItemsIncart() {
+export function setFormItemsIncart() {
   const data = getCheckoutData()
   document.getElementById("items_in_cart").value = JSON.stringify(data);
 }
