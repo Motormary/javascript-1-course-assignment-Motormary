@@ -201,7 +201,7 @@ function AddBtnEventListener(buttonElement) {
 
 function removeProductCardEventlisteners(shadow) {
   const buttonElement = shadow.querySelector("button.add_btn");
-  const labelElements = shadow.querySelectorAll("label");
+  const labelElements = shadow.querySelectorAll("label#labelsize");
   const addElement = shadow.querySelector(".add-quantity");
   const minusElement = shadow.querySelector(".sub-quantity");
   if (buttonElement) {
@@ -213,10 +213,11 @@ function removeProductCardEventlisteners(shadow) {
       label.removeEventListener("keydown", handleChangeLabels)
     );
   }
-  if (addElement) {
+  if (addElement && minusElement) {
     addElement.removeEventListener("click", addQuantity); //TODO
     minusElement.removeEventListener("click", subtractQuantity); //TODO
   }
+
 }
 
 function getBtnTextContent() {
@@ -254,10 +255,12 @@ function createSizesButton(sizes, selectedSize) {
     inputElement.disabled = path === "/cart.html" ? true : false;
 
     labelElement.setAttribute("for", size);
+    labelElement.id = "labelsize"
     labelElement.textContent = size;
     labelElement.tabIndex = "0";
-    if (path === "/cart.html")
-      labelElement.style = "cursor: default; user-select: none;";
+    if (path === "/cart.html") {
+      labelElement.style = `cursor: default; user-select: none; ${!inputElement.checked && "display: none;"}`;
+    }
 
     labelElement.addEventListener("keydown", handleChangeLabels);
 
