@@ -13,8 +13,9 @@ class CustomNav extends HTMLElement {
 
     const cartLink = createCartLink()
 
-    container.appendChild(homeLink);
-    container.appendChild(cartLink);
+    const floater = createFloatingLength()
+
+    container.append(homeLink, cartLink, floater);
 
     const style = document.createElement("style");
     style.textContent = navStyle;
@@ -29,10 +30,15 @@ class CustomNav extends HTMLElement {
   updateCartLength() {
     const cart = getCurrentCart();
     const cartLength = cart?.length;
+    const floater = this.shadowRoot.querySelector("div.floater")
+    floater.style = ""
 
-    this.shadowRoot.querySelector("a.cart").textContent = `Cart ${
-      cartLength > 0 ? `(${cartLength})` : ""
+    floater.textContent = `${
+      cartLength > 0 ? `${cartLength}` : ""
     }`;
+    if (cartLength === 0) {
+      floater.style = "display: none;"
+    }
   }
 
   diconnectedCallback() {
@@ -43,6 +49,14 @@ class CustomNav extends HTMLElement {
 customElements.define("nav-bar", CustomNav);
 
 /* -------------------------------------------------- */
+
+function createFloatingLength() {
+  const floatingElement = document.createElement("div")
+  floatingElement.classList.add("floater")
+
+  return floatingElement
+
+}
 
 function createContainer() {
   const container = document.createElement("div");

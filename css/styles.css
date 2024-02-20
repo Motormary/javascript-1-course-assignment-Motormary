@@ -1,8 +1,10 @@
 @import url("./reset.css");
 
 body {
-  background-color: #dfdddd;
+  /* background-color: #dfdddd; */
   max-width: 100vw;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* font-family: cursive; */
 }
 
 main {
@@ -44,9 +46,11 @@ header {
 }
 
 .filter-btn {
-  width: 100px;
-  height: 30px;
   font-size: inherit;
+  border-style: solid;
+  border-radius: 8px;
+  padding: 0.5rem 0.25rem;
+  background-color: #fff;
 }
 
 .hidden {
@@ -85,9 +89,19 @@ header {
 }
 
 .cart-list {
+  padding: 1rem 0;
+  margin: 0;
+}
+.cart-list ul {
+  list-style: none;
+  padding: 0;
+  scrollbar-color: #164196 #eee;
+  scrollbar-width: thin;
+}
+
+.cart-box {
   max-height: 37.25rem;
   overflow: auto;
-  padding: 1rem 0;
 }
 
 #checkout {
@@ -114,7 +128,7 @@ header {
 #toast {
   visibility: hidden;
   min-width: 250px;
-  background-color: green;
+  background-color: #164196;
   color: #fff;
   font-size: 20px;
   text-align: center;

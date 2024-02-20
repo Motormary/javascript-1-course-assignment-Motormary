@@ -80,6 +80,8 @@ export function createDescription() {
   const descriptionElement = document.createElement("p");
   descriptionElement.classList.add("description");
 
+  if (path === "/") descriptionElement.style = "display: none;"
+
   return descriptionElement;
 }
 
@@ -98,12 +100,18 @@ export function createGender() {
   const genderElement = document.createElement("p");
   genderElement.classList.add("gender");
 
+  if (path === "/") genderElement.style = "display: none;"
+
+
   return genderElement;
 }
 
 export function setGenderAttributes(productcard) {
   const genderElement = productcard.shadowRoot.querySelector(".gender");
   genderElement.textContent = formatGenders(productcard.getGender());
+
+  if (path === "/") genderElement.style = "display: none;"
+
 }
 
 export function formatGenders(gender) {
@@ -121,6 +129,9 @@ export function createColors(color) {
   const colorsElement = document.createElement("p");
   colorsElement.textContent = color;
   colorsElement.classList.add("colors");
+
+  if (path === "/") colorsElement.style = "display: none;"
+
 
   return colorsElement;
 }
@@ -141,6 +152,8 @@ export function setColorAttributes(productcard) {
 export function createSizesButton(sizes, selectedSize) {
   const container = document.createElement("div");
   container.classList.add("radio-grp");
+  if (path === "/") container.style = "display: none;"
+
 
   const style = document.createElement("style");
   style.textContent = cardRadioStyle;
@@ -238,6 +251,7 @@ export function setOnsaleAttributes(productcard) {
 export function createPrice() {
   const priceElement = document.createElement("p");
   priceElement.classList.add("price");
+  priceElement.style = "font-weight: bold;"
 
   return priceElement;
 }
@@ -268,8 +282,11 @@ export function getCorrectPrice(price, discountedPrice, onsale) {
  */
 export function createButton() {
   const buttonElement = document.createElement("button");
-
   buttonElement.classList.add("add_btn");
+
+  if (path === "/") buttonElement.style = "display: none;"
+
+  
   return buttonElement;
 }
 
@@ -327,6 +344,9 @@ export function createQuantity() {
   const minusElement = document.createElement("button");
   const plusELement = document.createElement("button");
   const style = document.createElement("style");
+
+  if (path === "/") container.style = "display: none;"
+
 
   container.classList.add("quantity-container");
   minusElement.classList.add("sub-quantity");

@@ -1,27 +1,51 @@
 export const cardStyle = `
 .card {
   position: relative;
-  min-width: 245px;
+  max-width: 300px;
   max-width: 600px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 35rem;
-  background-color: #fff;
-  padding: 1rem 1rem;
+  min-height: 25rem;
+  padding: 1rem 3rem;
+  box-shadow: 0px 0px 10px #ccc;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  background-color: #fff;
+  border-radius: 10px;
   text-align: center;
 }
+.add-quantity, .sub-quantity {
+  font-size: 1rem;
+}
 .card > * {
-  margin: 0;
+  margin: 0.25rem;
 }
 .image {
   width: auto;
   max-height: 250px;
+  max-width: 250px;
   object-fit: contain;
   border-radius: 4px;
 }
+button.add_btn {
+  // font-family: cursive;
+  padding: 0.5rem;
+  background-color: #164196;
+  box-shadow: none;
+  outline: none;
+  border: solid 1px;
+  border-radius: 6px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  }
+  button.add_btn:hover {
+    background-color: #3864bb;
+  }
+  button.add_btn:focus {
+    background-color: #3864bb;
+  }
 .onsale {
   position: absolute;
   top: 0px;
@@ -52,10 +76,13 @@ export const cardCartStyle = `
   align-items: center;
   background-color: #fff;
   padding: 1rem 2rem;
-  border: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   border-radius: 8px;
   text-align: center;
   margin: 0.5rem 0;
+}
+.add-quantity, .sub-quantity {
+  font-size: 1rem;
 }
 .card > * {
   flex: 1;
@@ -71,9 +98,9 @@ export const cardCartStyle = `
   font-weight: bold;
   color: green;
 }
-.bg-green {
-  color: white;
-  background-color: green;
+button.add_btn {
+  background-color: #164196;
+  color: #fff;
 }
 .hover:hover {
   cursor: pointer;
@@ -110,7 +137,7 @@ label {
 }
 
 input[type="radio"]:checked + label {
-  background: green;
+  background: #164196;
   color: #fff;
 }
 `;
@@ -160,6 +187,7 @@ input, #quantity:focus-within {
 
 export const navStyle = `
 .nav-content {
+  position: relative;
   box-sizing: border-box;
   display: flex;
   height: 5rem;
@@ -168,11 +196,26 @@ export const navStyle = `
   gap: 1rem;
   align-items: center;
   justify-content: right;
-  background-color: green;
+  background-color: #164196;
   color: #fff;
 }
 a {
   text-decoration: none;
   color: #fff;
   font-size: 20px;
-}`;
+}
+.floater {
+  position: absolute;
+  top: calc(1.9rem - 12px);
+  right: calc(2.2rem - 12px);
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  aspect-ratio: 1/1;
+}
+`;

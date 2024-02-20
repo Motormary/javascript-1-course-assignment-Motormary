@@ -38,7 +38,7 @@ export const filter_data = [
   },
   {
     key: "onSale",
-    label: "On sale",
+    label: "Discount",
     default: {
       text: "All",
       value: "",

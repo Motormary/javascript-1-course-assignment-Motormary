@@ -28,7 +28,7 @@ export function fetchCartItems() {
 }
 
 function createCartItem(product) {
-  const container = document.querySelector("ul.cart-list");
+  const container = document.querySelector("ul.cart-box");
 
   const card = createProductCard(product);
 
