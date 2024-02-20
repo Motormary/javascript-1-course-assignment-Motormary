@@ -41,7 +41,7 @@ class ProductCard extends HTMLElement {
     const descriptionElement = createDescription();
 
     const genderElement = createGender();
-    
+
     const colorsElement = createColors();
 
     const onSaleElement = createOnSale();
@@ -128,7 +128,6 @@ class ProductCard extends HTMLElement {
     setButtonAttributes(this);
 
     colorElement.after(sizesElement);
-
     // console.log("connected")
   }
 
@@ -138,13 +137,13 @@ class ProductCard extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (this.shadowRoot) {
+    if (name === "quantity") {
       const price = getCorrectPrice(
         this.getPrice(),
         this.getDiscount(),
         this.getOnsale()
       );
-      
+
       const priceElement = this.shadowRoot.querySelector(".price");
       priceElement.textContent = (price * newValue).toFixed(2) + "$";
     }
@@ -152,4 +151,4 @@ class ProductCard extends HTMLElement {
 }
 customElements.define("product-card", ProductCard);
 
-export default ProductCard
+export default ProductCard;

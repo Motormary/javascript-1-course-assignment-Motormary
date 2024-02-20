@@ -45,16 +45,16 @@ export function createEmptyCart() {
 
   const emptyContainer = document.createElement("div");
   const emptyCart = document.createElement("p");
-  const plsBuy = document.createElement("a");
+  const specialPrice = document.createElement("a");
 
-  plsBuy.textContent = "Special price for you, my friend.";
-  plsBuy.style = "text-decoration: underline; display: inline; color: black;";
-  plsBuy.href = "/";
+  specialPrice.textContent = "Special price for you, my friend.";
+  specialPrice.style = "text-decoration: underline; text-underline-offset: 3px; display: inline; color: black;";
+  specialPrice.href = "/";
 
   emptyCart.style = "font-size: 24px; color: black;";
   emptyCart.textContent = "You have no items in cart. ";
 
-  emptyCart.appendChild(plsBuy);
+  emptyCart.appendChild(specialPrice);
   emptyContainer.appendChild(emptyCart);
   container.replaceWith(emptyContainer);
   checkoutForm.remove();

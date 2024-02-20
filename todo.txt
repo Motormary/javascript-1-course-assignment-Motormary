@@ -12,3 +12,4 @@
 10. Relocate functions and export from productCard. ✅
 11. Get data for cart from component instead of fetching.
 12. Clean up pages.js
+13. disabled add to cart button until size is selected.

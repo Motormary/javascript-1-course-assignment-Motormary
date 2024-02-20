@@ -127,11 +127,21 @@ input, #quantity {
   height: fit-content;
   width: 25px;
   text-align: center;
-  -webkit-appearance: none; 
+  -webkit-text-align: center;
+  -moz-text-align: center;
+  -webkit-appearance: textfield; 
   -moz-appearance: textfield;
   margin: 0; 
   user-select: none;
 }
+
+/* Remove Chrome spinner */
+input, #quantity::-webkit-inner-spin-button, 
+input, #quantity::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 input, #quantity:hover {
   cursor: default;
 }

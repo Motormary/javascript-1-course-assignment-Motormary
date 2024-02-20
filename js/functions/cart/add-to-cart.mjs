@@ -69,9 +69,12 @@ export function updateNavBarCartIcon() {
   window.dispatchEvent(updateCartEvent);
 }
 
-function setMissingSize(container, event) {
+function setMissingSize(currentCard, event) {
+  const isErrorVisible = currentCard.querySelector("p.missing-size") // Checks and prevents duplicate error messages
+  if (isErrorVisible) return
+
   const button = event
-  const radioGroup = container.querySelector(".radio-grp");
+  const radioGroup = currentCard.querySelector(".radio-grp");
   const style = document.createElement("style")
 
   style.textContent = `
@@ -82,6 +85,7 @@ function setMissingSize(container, event) {
   radioGroup.appendChild(style)
 
   const errorMessage = document.createElement("p");
+  errorMessage.classList.add("missing-size")
   errorMessage.textContent = "Size required*";
   errorMessage.style = "color: red;"
 
