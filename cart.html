@@ -9,17 +9,18 @@
     <script defer type="module" src="./js/components/nav.mjs"></script>
     <script type="module" src="./js/pages/cart-page.mjs"></script>
 </head>
-<header>
-    <nav-bar></nav-bar>
-</header>
 
 <body>
+    <header>
+        <nav-bar></nav-bar>
+    </header>
     <main>
         <section id="cart">
             <h1>Cart</h1>
             <img id="loading-spinner" src="assets/svg/spinner.svg" alt="Loading...">
             <ul class="cart-list">
-                <li style="display: flex; justify-content: space-around; text-align: center; padding-left: 1rem; padding-right: 2rem;">
+                <li
+                    style="display: flex; justify-content: space-around; text-align: center; padding-left: 1rem; padding-right: 2rem;">
                     <p style="flex: 1;">Product</p>
                     <p style="flex: 1;">Image</p>
                     <p style="flex: 1;">Gender</p>
@@ -32,7 +33,8 @@
                 </li>
             </ul>
             <div class="info-container">
-                <form id="checkout" action="/checkout.html" method="GET"> <!-- GET because checkout can't handle POST yet -->
+                <form id="checkout" action="/checkout.html" method="GET">
+                    <!-- GET because checkout can't handle POST yet -->
                     <div class="form-container">
                         <label for="total">Total:</label>
                         <input type="text" id="total" name="total" readonly />

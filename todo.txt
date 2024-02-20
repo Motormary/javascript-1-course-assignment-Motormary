@@ -10,6 +10,6 @@
 8. "Form" check the size value before adding to cart. If no size, create error message. Absolute/set timeout?✅
 9. Find and remove eventListeners. ✅
 10. Relocate functions and export from productCard. ✅
-11. Get data for cart from component instead of fetching.
+11. Get data for cart from component instead of fetching. 
 12. Clean up pages.js
-13. disabled add to cart button until size is selected.
+13. disabled add to cart button until size is selected. ✅
