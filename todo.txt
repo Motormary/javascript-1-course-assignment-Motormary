@@ -8,4 +8,7 @@
 6. Create - + element for product-card. ✅
 7. Get sizes and quantity values and place them into the product object. ✅
 8. "Form" check the size value before adding to cart. If no size, create error message. Absolute/set timeout?✅
-9. Find and remove eventListeners.
+9. Find and remove eventListeners. ✅
+10. Relocate functions and export from productCard. ✅
+11. Get data for cart from component instead of fetching.
+12. Clean up pages.js

@@ -1,11 +1,9 @@
-import {
-  getCurrentCard,
-  getCurrentCart,
-} from "../../components/product-card.mjs";
+
 import {
   createEmptyCart, setFormItemsIncart,
   setFormTotalValue
 } from "../../pages/cart-page.mjs";
+import { getCurrentCard, getCurrentCart } from "../product-card-functions.mjs";
 import {
   isSelectedSize,
   updateNavBarCartIcon

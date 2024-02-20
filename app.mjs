@@ -4,8 +4,8 @@ import { filter_data } from "./js/functions/filter/filter-data.mjs";
 import { createFilterButtons } from "./js/functions/filter/create-filter-buttons.mjs";
 import setProductLoading from "./js/functions/error/loading.mjs";
 import handleNoResponse from "./js/functions/error/no-response.mjs";
-import { createProductCard } from "./js/components/product-card.mjs";
 import emptySearchResult from "./js/functions/filter/empty-search-result.mjs";
+import { createProductCard } from "./js/functions/product-card-functions.mjs";
 
 const path = window.location.pathname;
 if (path === "/" || path === "/index.html") {

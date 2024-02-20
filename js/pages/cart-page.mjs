@@ -1,9 +1,6 @@
-import {
-  createProductCard,
-  getCurrentCart,
-  getCorrectPrice,
-} from "../components/product-card.mjs";
+
 import setProductLoading from "../functions/error/loading.mjs";
+import { createProductCard, getCorrectPrice, getCurrentCart } from "../functions/product-card-functions.mjs";
 
 const path = window.location.pathname;
 

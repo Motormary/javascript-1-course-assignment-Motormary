@@ -115,7 +115,6 @@ input[type="radio"]:checked + label {
 }
 `;
 
-
 export const quantityStyle = `
 .quantity-container {
   display: flex;
@@ -147,4 +146,23 @@ input, #quantity:focus-within {
 .quantity-container > button:hover {
   cursor: pointer;
 }
-`
+`;
+
+export const navStyle = `
+.nav-content {
+  box-sizing: border-box;
+  display: flex;
+  height: 5rem;
+  width: 100%;
+  padding: 0 3rem;
+  gap: 1rem;
+  align-items: center;
+  justify-content: right;
+  background-color: green;
+  color: #fff;
+}
+a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 20px;
+}`;

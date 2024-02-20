@@ -1,10 +1,6 @@
 import superFetch from "../../api/super-fetch.mjs";
 import { URL_PRODUCTS } from "../../api/urls.mjs";
-import {
-  checkCurrentCart,
-  getCurrentCart,
-  getCorrectPrice,
-} from "../../components/product-card.mjs";
+import { checkCurrentCart, getCurrentCart } from "../product-card-functions.mjs";
 import { showToast } from "../toast.mjs";
 /**
  * @param {event} - Click event containing product ID in "data-product-id"
