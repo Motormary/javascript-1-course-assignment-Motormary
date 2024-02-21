@@ -14,6 +14,9 @@ export const cardStyle = `
   border-radius: 10px;
   text-align: center;
 }
+.border-hover:hover {
+  border-color: #3864bb;
+}
 .add-quantity, .sub-quantity {
   font-size: 1rem;
 }

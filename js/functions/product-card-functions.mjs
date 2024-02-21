@@ -27,8 +27,10 @@ export function createCard() {
 }
 
 export function setCardAttributes(productcard) {
-  const CardElement = productcard.shadowRoot.querySelector(".card");
-  CardElement.setAttribute("id", productcard.getComponentId());
+  const cardElement = productcard.shadowRoot.querySelector(".card");
+  cardElement.setAttribute("id", productcard.getComponentId());
+  
+  if (path === "/") cardElement.classList.add("border-hover")
 }
 
 /**
