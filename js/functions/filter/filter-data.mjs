@@ -1,8 +1,7 @@
 /**
  * @description - For every object a filter button will be generated.
  * key = key to filter
- * btn-value = value to filter.
- * Options: [select-label, select-value]
+ * value = value to filter.
  */
 
 export const filter_data = [
@@ -14,8 +13,14 @@ export const filter_data = [
       value: "",
     },
     options: [
-      ["Men", "Male"],
-      ["Women", "Female"],
+      {
+        label: "Men",
+        value: "Male",
+      },
+      {
+        label: "Women",
+        value: "Female",
+      },
     ],
   },
   {
@@ -26,14 +31,38 @@ export const filter_data = [
       value: "",
     },
     options: [
-      ["Red", "Red"],
-      ["Orange", "Orange"],
-      ["Green", "Green"],
-      ["Yellow", "Yellow"],
-      ["Blue", "Blue"],
-      ["Purple", "Purple"],
-      ["Black", "Black"],
-      ["Gray", "Gray"],
+      {
+        label: "Red",
+        value: "Red",
+      },
+      {
+        label: "Orange",
+        value: "Orange",
+      },
+      {
+        label: "Green",
+        value: "Green",
+      },
+      {
+        label: "Yellow",
+        value: "Yellow",
+      },
+      {
+        label: "Blue",
+        value: "Blue",
+      },
+      {
+        label: "Purple",
+        value: "Purple",
+      },
+      {
+        label: "Black",
+        value: "Black",
+      },
+      {
+        label: "Gray",
+        value: "Gray",
+      },
     ],
   },
   {
@@ -43,6 +72,11 @@ export const filter_data = [
       text: "All",
       value: "",
     },
-    options: [["On Sale", true]],
+    options: [
+      {
+        label: "On Sale",
+        value: true,
+      },
+    ],
   },
 ];
