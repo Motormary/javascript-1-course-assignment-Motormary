@@ -31,8 +31,9 @@ export function createCard() {
 export function setCardAttributes(productcard) {
   const cardElement = productcard.shadowRoot.querySelector(".card");
   cardElement.setAttribute("id", productcard.getComponentId());
-  
-  if (path === "/") cardElement.classList.add("border-hover")
+
+  if (path === "/product.html") cardElement.style = "border: none;";
+  if (path === "/") cardElement.classList.add("border-hover");
 }
 //-----------------------------------------------------------------------
 
@@ -87,7 +88,7 @@ export function createDescription() {
   const descriptionElement = document.createElement("p");
   descriptionElement.classList.add("description");
 
-  if (path === "/") descriptionElement.style = "display: none;"
+  if (path === "/") descriptionElement.style = "display: none;";
 
   return descriptionElement;
 }
@@ -102,14 +103,13 @@ export function setDescriptionAttributes(productcard) {
 /**
  *
  * @description - Product gender
- * 
+ *
  */
 export function createGender() {
   const genderElement = document.createElement("p");
   genderElement.classList.add("gender");
 
-  if (path === "/") genderElement.style = "display: none;"
-
+  if (path === "/") genderElement.style = "display: none;";
 
   return genderElement;
 }
@@ -118,8 +118,7 @@ export function setGenderAttributes(productcard) {
   const genderElement = productcard.shadowRoot.querySelector(".gender");
   genderElement.textContent = formatGenders(productcard.getGender());
 
-  if (path === "/") genderElement.style = "display: none;"
-
+  if (path === "/") genderElement.style = "display: none;";
 }
 
 export function formatGenders(gender) {
@@ -139,8 +138,7 @@ export function createColors(color) {
   colorsElement.textContent = color;
   colorsElement.classList.add("colors");
 
-  if (path === "/") colorsElement.style = "display: none;"
-
+  if (path === "/") colorsElement.style = "display: none;";
 
   return colorsElement;
 }
@@ -162,8 +160,7 @@ export function setColorAttributes(productcard) {
 export function createSizesButton(sizes, selectedSize) {
   const container = document.createElement("div");
   container.classList.add("radio-grp");
-  if (path === "/") container.style = "display: none;"
-
+  if (path === "/") container.style = "display: none;";
 
   const style = document.createElement("style");
   style.textContent = cardRadioStyle;
@@ -263,7 +260,7 @@ export function setOnsaleAttributes(productcard) {
 export function createPrice() {
   const priceElement = document.createElement("p");
   priceElement.classList.add("price");
-  priceElement.style = "font-weight: bold;"
+  priceElement.style = "font-weight: bold;";
 
   return priceElement;
 }
@@ -297,9 +294,8 @@ export function createButton() {
   const buttonElement = document.createElement("button");
   buttonElement.classList.add("add_btn");
 
-  if (path === "/") buttonElement.style = "display: none;"
+  if (path === "/") buttonElement.style = "display: none;";
 
-  
   return buttonElement;
 }
 
@@ -360,8 +356,7 @@ export function createQuantity() {
   const plusELement = document.createElement("button");
   const style = document.createElement("style");
 
-  if (path === "/") container.style = "display: none;"
-
+  if (path === "/") container.style = "display: none;";
 
   container.classList.add("quantity-container");
   minusElement.classList.add("sub-quantity");
@@ -403,7 +398,8 @@ export function subtractQuantity(event) {
   } else inputElement.value--;
   currentCard.updateQuantity(inputElement.value);
 
-  if (path === "/cart.html") { // Updates the hidden form input + total value @checkout
+  if (path === "/cart.html") {
+    // Updates the hidden form input + total value @checkout
     setFormTotalValue();
     setFormItemsIncart();
   }
@@ -415,7 +411,8 @@ export function addQuantity(event) {
   inputElement.value++;
   currentCard.updateQuantity(inputElement.value);
 
-  if (path === "/cart.html") { // Updates the hidden form input + total value @checkout
+  if (path === "/cart.html") {
+    // Updates the hidden form input + total value @checkout
     setFormTotalValue();
     setFormItemsIncart();
   }
@@ -471,9 +468,9 @@ export function removeProductCardEventlisteners(shadow) {
 //-----------------------------------------------------------------------
 
 /**
- * 
+ *
  * @returns localStorage "cart"
- * 
+ *
  */
 export function getCurrentCart() {
   const current_cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -483,9 +480,9 @@ export function getCurrentCart() {
 //-----------------------------------------------------------------------
 
 /**
- * 
+ *
  * @description - Checks if currently added product is already in cart.
- * 
+ *
  */
 export function checkCurrentCart(productId, size) {
   const current_cart = getCurrentCart();
@@ -500,10 +497,10 @@ export function checkCurrentCart(productId, size) {
 //-----------------------------------------------------------------------
 
 /**
- * 
+ *
  * @description - Sets Product Card attributes
  * @returns Card component
- * 
+ *
  */
 export function createProductCard(product) {
   const card = document.createElement("product-card");

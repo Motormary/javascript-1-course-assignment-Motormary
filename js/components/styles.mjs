@@ -8,7 +8,6 @@ export const cardStyle = `
   justify-content: space-between;
   min-height: 25rem;
   padding: 1rem 3rem;
-  box-shadow: 0px 0px 10px #ccc;
   border: 1px solid #ccc;
   background-color: #fff;
   border-radius: 10px;
@@ -16,6 +15,7 @@ export const cardStyle = `
 }
 .border-hover:hover {
   border-color: #3864bb;
+  scale: 1.01
 }
 .add-quantity, .sub-quantity {
   font-size: 1rem;
