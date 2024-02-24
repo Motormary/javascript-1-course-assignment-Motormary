@@ -11,9 +11,11 @@ import { handleRemoveFromCart } from "./cart/remove-from-cart.mjs";
 
 const path = window.location.pathname;
 
+// Updates the quantity inside the card component, which then updates the price.
 ProductCard.prototype.updateQuantity = function (newValue) {
   this.setAttribute("quantity", newValue);
 };
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -32,6 +34,7 @@ export function setCardAttributes(productcard) {
   
   if (path === "/") cardElement.classList.add("border-hover")
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -48,6 +51,7 @@ export function setTitleAttributes(productcard) {
   const titleElement = productcard.shadowRoot.querySelector(".title");
   titleElement.textContent = productcard.getTitle();
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -73,6 +77,7 @@ export function setImageAttributes(productcard) {
     imageElement.classList.add("hover");
   }
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -92,6 +97,7 @@ export function setDescriptionAttributes(productcard) {
     productcard.shadowRoot.querySelector(".description");
   descriptionElement.textContent = productcard.getDescription();
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -122,6 +128,7 @@ export function formatGenders(gender) {
 
   return formattedGender;
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -143,6 +150,7 @@ export function setColorAttributes(productcard) {
   colorElement.textContent = productcard.getColor();
   return colorElement;
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -223,6 +231,7 @@ function createInputElement(size, selectedSize) {
 
   return inputElement;
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -242,6 +251,7 @@ export function setOnsaleAttributes(productcard) {
   onsaleElement.textContent =
     productcard.getOnsale() === "true" ? "ON SALE!" : "";
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -274,6 +284,7 @@ export function getCorrectPrice(price, discountedPrice, onsale) {
   if (onsale) return discountedPrice;
   else return price;
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -315,6 +326,7 @@ function AddBtnEventListener(buttonElement) {
     buttonElement.classList.add("bg-green");
   }
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -331,6 +343,7 @@ export function createStyle() {
 
   return style;
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -407,7 +420,7 @@ export function addQuantity(event) {
     setFormItemsIncart();
   }
 }
-
+//Finds the input element + current card component to update quantity
 function getInputAndCurrentComponent(event) {
   const componentId = event.target.parentElement.getAttribute("id");
   const currentCard = getCurrentCard(componentId);
@@ -415,6 +428,7 @@ function getInputAndCurrentComponent(event) {
 
   return { inputElement, currentCard };
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -427,6 +441,7 @@ export function getCurrentCard(componentId) {
   );
   return card;
 }
+//-----------------------------------------------------------------------
 
 /**
  *
@@ -453,6 +468,7 @@ export function removeProductCardEventlisteners(shadow) {
     minusElement.removeEventListener("click", subtractQuantity);
   }
 }
+//-----------------------------------------------------------------------
 
 /**
  * 
@@ -464,6 +480,7 @@ export function getCurrentCart() {
 
   return current_cart;
 }
+//-----------------------------------------------------------------------
 
 /**
  * 
@@ -480,6 +497,7 @@ export function checkCurrentCart(productId, size) {
   }
   return false;
 }
+//-----------------------------------------------------------------------
 
 /**
  * 

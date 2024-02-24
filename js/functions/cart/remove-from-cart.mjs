@@ -9,13 +9,12 @@ import {
   updateNavBarCartIcon
 } from "./add-to-cart.mjs";
 
-/**
- * @param {event}
- * @description - Removes selected product from cart / and from cart list.
- */
-
 const path = window.location.pathname;
 
+/**
+ * @param {event}
+ * @description - Removes selected product from cart / cart list.
+ */
 export function handleRemoveFromCart(event) {
   const { productId, size, currentCard } = getDataToCheck(event);
   checkAndRemoveFromCart(productId, size);
@@ -31,7 +30,14 @@ export function handleRemoveFromCart(event) {
     if (current_cart.length === 0) createEmptyCart();
   }
 }
+//-----------------------------------------------------------------------
 
+/**
+ * 
+ * @param {*} productId 
+ * @param {*} size 
+ * @description - Finds and removes the product by using productId and size
+ */
 function checkAndRemoveFromCart(productId, size) {
   const current_cart = getCurrentCart();
 
@@ -44,7 +50,13 @@ function checkAndRemoveFromCart(productId, size) {
     localStorage.removeItem("cart");
   }
 }
+//-----------------------------------------------------------------------
 
+/**
+ * 
+ * @param {*} event 
+ * @returns values needed to remove item from cart.
+ */
 function getDataToCheck(event) {
   const componentId = event.currentTarget.parentElement.getAttribute("id");
   const productId = event.currentTarget.getAttribute("product-id");

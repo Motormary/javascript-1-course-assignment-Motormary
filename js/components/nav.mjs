@@ -24,14 +24,14 @@ class CustomNav extends HTMLElement {
 
     this.updateCartLength();
 
-    window.addEventListener("updateCart", this.updateCartLength.bind(this));
+    window.addEventListener("updateCart", this.updateCartLength.bind(this)); 
   }
 
-  updateCartLength() {
+  updateCartLength() { // Called whenever a product is added to the cart.
     const cart = getCurrentCart();
     const cartLength = cart?.length;
     const floater = this.shadowRoot.querySelector("div.floater")
-    floater.style = ""
+    floater.style = "" // Removes the "display: none;" if a new product is added after clearing cart.
 
     floater.textContent = `${
       cartLength > 0 ? `${cartLength}` : ""
@@ -48,8 +48,12 @@ class CustomNav extends HTMLElement {
 
 customElements.define("nav-bar", CustomNav);
 
-/* -------------------------------------------------- */
+//-----------------------------------------------------------------------
 
+/**
+ * 
+ * @returns Lil floating red circle with cart length
+ */
 function createFloatingLength() {
   const floatingElement = document.createElement("div")
   floatingElement.classList.add("floater")
@@ -57,6 +61,7 @@ function createFloatingLength() {
   return floatingElement
 
 }
+//-----------------------------------------------------------------------
 
 function createContainer() {
   const container = document.createElement("div");
@@ -64,6 +69,7 @@ function createContainer() {
 
   return container;
 }
+//-----------------------------------------------------------------------
 
 function createHomeLink() {
   const homeLink = document.createElement("a");
@@ -73,6 +79,7 @@ function createHomeLink() {
 
   return homeLink;
 }
+//-----------------------------------------------------------------------
 
 function createCartLink() {
   const cartLink = document.createElement("a");
@@ -82,3 +89,4 @@ function createCartLink() {
 
   return cartLink;
 }
+//-----------------------------------------------------------------------

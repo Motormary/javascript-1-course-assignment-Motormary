@@ -69,6 +69,9 @@ button.add_btn {
 }
 `;
 
+/**
+ * @description - Style of the card @/cart.html
+ */
 export const cardCartStyle = `
 .card {
   position: relative;
@@ -116,6 +119,9 @@ button.add_btn {
 }
 `;
 
+/**
+ * @description - Style for radio buttons (sizes)
+ */
 export const cardRadioStyle = `
 .radio-grp {
   display: flex;
@@ -145,6 +151,9 @@ input[type="radio"]:checked + label {
 }
 `;
 
+/**
+ * @description - Style for quantity elements
+ */
 export const quantityStyle = `
 .quantity-container {
   display: flex;
@@ -187,7 +196,11 @@ input, #quantity:focus-within {
   cursor: pointer;
 }
 `;
+//-----------------------------------------------------------------------
 
+/**
+ * @description - Style for custom navbar
+ */
 export const navStyle = `
 .nav-content {
   position: relative;
