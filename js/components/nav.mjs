@@ -7,6 +7,8 @@ class CustomNav extends HTMLElement {
 
     this.attachShadow({ mode: "open" });
 
+    this.style = "position: fixed; width: 100%; z-index: 50;"
+
     const container = createContainer();
 
     const homeLink = createHomeLink();

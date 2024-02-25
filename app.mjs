@@ -15,19 +15,31 @@ if (path === "/" || path === "/index.html") {
 
 const container = document.querySelector("div.product-list");
 
-
+/**
+ * @description - Fetch all products
+ * Remove loading
+ * if no response:
+ * Create error with retry button
+ */
 export async function fetchProducts() {
   const response = await superFetch(URL_PRODUCTS);
 
   if (response) {
     getFilteredProducts(response);
+    setProductLoading(false);
   } else {
     setProductLoading(false);
     const error = handleNoResponse();
     container.appendChild(error)
   }
 }
+//-----------------------------------------------------------------------
 
+/**
+ * 
+ * @param {*} products 
+ * @description - Iterate through product-array and create card components for the products
+ */
 function createProductList(products) {
 
   removeCurrentProductList();
@@ -38,6 +50,18 @@ function createProductList(products) {
     container.appendChild(card);
   });
 }
+//-----------------------------------------------------------------------
+
+/**
+ * 
+ * @param {*} products 
+ * @returns - Filtered / All products
+ * @description - Get all the filter buttons and create an array of objects with key/value pairs, filter out objects with empty values.
+ * Values set to lowercase for failsafe.
+ * key e.g "gender"
+ * value e.g "male"
+ * Then .filter() the product-list against the newly created filter-array.
+ */
 
 export function getFilteredProducts(products) {
   const filterKeysAndValues = Array.from( 
@@ -49,9 +73,9 @@ export function getFilteredProducts(products) {
   const filteredProducts = products.filter((product) => {
     return filterKeysAndValues.every(({ key, value }) => {
       if (value === "true") {
-        return product[key] === (value === "true"); // Turn boolean-strings into actual booleans before checking
+        return product[key] === (value === "true"); // Turn boolean-strings into actual booleans
       } else {
-        return product[key] === value;
+        return product[key].toLowerCase() === value.toLowerCase();
       }
     });
   });
@@ -59,10 +83,13 @@ export function getFilteredProducts(products) {
   if (filteredProducts) createProductList(filteredProducts);
   if (filteredProducts.length === 0) {
     emptySearchResult()
-  }
-  
+  } 
 }
+//-----------------------------------------------------------------------
 
+/**
+ * @description - Flushes the product-list
+ */
 function removeCurrentProductList() {
   container.replaceChildren("");
 }

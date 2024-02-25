@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <script defer type="module" src="./js/components/nav.mjs"></script>
     <script type="module" src="./js/pages/cart-page.mjs"></script>
+    <script type="module" src="./js/components/nav.mjs"></script>
 </head>
 
 <body>
@@ -17,7 +17,6 @@
     <main>
         <section id="cart">
             <h1>Cart</h1>
-            <img id="loading-spinner" src="assets/svg/spinner.svg" alt="Loading...">
             <ul class="cart-list">
                 <li
                     style="display: flex; justify-content: space-around; text-align: center; padding-left: 1rem; padding-right: 3rem; border-bottom: solid 1px; border-color: #ccc;">
@@ -36,8 +35,8 @@
                 </ul>
             </ul>
             <div class="info-container">
+                <!-- No endpoint to post to, so hidden form values with GET -->
                 <form id="checkout" action="/checkout.html" method="GET">
-                    <!-- GET because checkout can't handle POST yet -->
                     <div class="form-container">
                         <label for="total">Total:</label>
                         <input type="text" id="total" name="total" readonly />
@@ -48,6 +47,7 @@
             </div>
         </section>
     </main>
+    <img id="loading-spinner" src="assets/svg/spinner.svg" alt="Loading...">
 </body>
 
 </html>

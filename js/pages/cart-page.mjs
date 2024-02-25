@@ -11,6 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+/**
+ * @description - Gets products from cart.
+ * Updates the total and sets the products in cart to a hidden input as the value.
+ */
 export function fetchCartItems() {
   const current_cart = getCurrentCart();
 
@@ -26,7 +30,13 @@ export function fetchCartItems() {
     createEmptyCart();
   }
 }
+//-----------------------------------------------------------------------
 
+/**
+ * 
+ * @param {*} product 
+ * @description - Creates productCard component forEach item in cart and puts them into a list.
+ */
 function createCartItem(product) {
   const container = document.querySelector("ul.cart-box");
 
@@ -38,7 +48,11 @@ function createCartItem(product) {
   listElement.appendChild(card);
   container.appendChild(listElement);
 }
+//-----------------------------------------------------------------------
 
+/**
+ * @description - If no items in cart, create some text.
+ */
 export function createEmptyCart() {
   const container = document.querySelector("ul.cart-list");
   const checkoutForm = document.getElementById("checkout");
@@ -59,7 +73,11 @@ export function createEmptyCart() {
   container.replaceWith(emptyContainer);
   checkoutForm.remove();
 }
+//-----------------------------------------------------------------------
 
+/**
+ * @description - Sets value of hidden form input.
+ */
 export function setFormItemsIncart() {
   const data = getCheckoutData()
   document.getElementById("items_in_cart").value = JSON.stringify(data);
@@ -70,7 +88,12 @@ export function setFormTotalValue() {
 
   document.getElementById("total").value = total.toFixed(2);
 }
+//-----------------------------------------------------------------------
 
+/**
+ * @description - Get all prices from products in cart, multiply by quantity.
+ * @returns - total price
+ */
 function getTotal() {
   const prices = Array.from(document.getElementsByTagName("product-card")).map((product) => {
     const price = getCorrectPrice(
@@ -90,7 +113,12 @@ function getTotal() {
 
   return total;
 }
+//-----------------------------------------------------------------------
 
+/**
+ * @description - Formats cart content for hidden input.
+ * @returns - Formatted cart-data
+ */
 function getCheckoutData() {
   const data = Array.from(document.getElementsByTagName("product-card")).map((product) => {
     return {

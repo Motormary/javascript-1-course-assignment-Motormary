@@ -10,6 +10,10 @@ if (path === "/product.html") {
   fetchProduct();
 }
 
+/**
+ * @description - Gets the product ID from the URL-param and fetches the product from server.
+ * Creates a productCard component with new styling based on path.
+ */
 async function fetchProduct() {
   let params = new URLSearchParams(document.location.search);
   let id = params.get("product");

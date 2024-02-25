@@ -15,7 +15,6 @@ export const cardStyle = `
 }
 .border-hover:hover {
   border-color: #3864bb;
-  scale: 1.01
 }
 .add-quantity, .sub-quantity {
   font-size: 1rem;
@@ -43,9 +42,7 @@ button.add_btn {
   font-size: 1rem;
   font-weight: 600;
   }
-  button.add_btn:hover {
-    background-color: #3864bb;
-  }
+  button.add_btn:hover,
   button.add_btn:focus {
     background-color: #3864bb;
   }
@@ -105,8 +102,19 @@ export const cardCartStyle = `
   color: green;
 }
 button.add_btn {
+  // font-family: cursive;
+  padding: 0.125rem 0;
   background-color: #164196;
+  box-shadow: none;
+  outline: none;
+  border: solid 1px;
+  border-radius: 6px;
+  font-family: Arial, Helvetica, sans-serif;
   color: #fff;
+  }
+button.add_btn:hover,
+button.add_btn:focus {
+  background-color: #3864bb;
 }
 .hover:hover {
   cursor: pointer;
